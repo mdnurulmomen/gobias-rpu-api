@@ -12,21 +12,43 @@ class Office extends Model
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
     protected $table = 'offices';
-    protected $fillable = ['id', 'geo_division_id', 'geo_district_id', 'office_ministry_id', 'geo_upazila_id',
-        'geo_union_id', 'office_layer_id', 'custom_layer_id', 'office_origin_id', 'office_name_bng',
-        'office_name_eng', 'office_address', 'office_phone', 'office_mobile', 'office_fax', 'office_email',
-        'office_web', 'digital_nothi_code', 'reference_code', 'parent_office_id', 'date_of_formation',
-        'date_of_close','office_status','actual_strength','office_description','office_details',
-        'created_by', 'modified_by'];
+    protected $fillable = [
+        'geo_division_id',
+        'geo_district_id',
+        'office_ministry_id',
+        'geo_upazila_id',
+        'geo_union_id',
+        'office_layer_id',
+        'custom_layer_id',
+        'office_origin_id',
+        'office_name_bng',
+        'office_name_eng',
+        'office_address',
+        'office_phone',
+        'office_mobile',
+        'office_fax',
+        'office_email',
+        'office_web',
+        'digital_nothi_code',
+        'reference_code',
+        'parent_office_id',
+        'date_of_formation',
+        'date_of_close',
+        'office_status',
+        'actual_strength',
+        'office_description',
+        'office_details',
+        'created_by',
+        'modified_by'];
 
-    protected $appends = ['name_bng', 'name_eng'];
+    protected $appends = ['office_name_bn', 'office_name_en'];
 
-    public function getNameBngAttribute()
+    public function getOfficeNameBnAttribute()
     {
         return $this->office_name_bng;
     }
 
-    public function getNameEngAttribute()
+    public function getOfficeNameEnAttribute()
     {
         return $this->office_name_eng;
     }
