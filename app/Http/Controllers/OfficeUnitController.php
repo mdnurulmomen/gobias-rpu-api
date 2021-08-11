@@ -1,20 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Repository\Eloquent\OfficeRepository;
+use App\Repository\Eloquent\UnitRepository;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreOfficeRequest;
-use App\Services\OfficeServices;
+use App\Http\Requests\UpdateOfficeUnitRequest;
+use App\Services\OfficeUnitServices;
 
-class OfficeController extends Controller
+
+class OfficeUnitController extends Controller
 {
-    public function storeOffice(StoreOfficeRequest $request, OfficeServices $officeServices): \Illuminate\Http\JsonResponse
+    public function updateUnit(UpdateOfficeUnitRequest $request, OfficeUnitServices $unit): \Illuminate\Http\JsonResponse
     {
-        $store_office = $officeServices->storeOffice($request);
-        if (isSuccessResponse($store_office)) {
-            $response = responseFormat('success', $store_office['data']);
+        $update_unit = $unit->updateUnit($request);
+        if (isSuccessResponse($update_unit)) {
+            $response = responseFormat('success', $update_unit['data']);
         } else {
-            $response = responseFormat('error', $store_office['data']);
+            $response = responseFormat('error', $update_unit['data']);
         }
         return response()->json($response);
     }

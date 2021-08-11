@@ -38,4 +38,13 @@ class OfficeRepository implements OfficeRepositoryInterface
         $office->modified_by = $cdesk->officer_id;
         $office->save();
     }
+
+    public function get_office_info($office_id){
+        try {
+            $office_info = Office::where('id',$office_id)->get()->toArray();
+	        return response(['status' => 'success', 'data' => $office_info]);
+        } catch (\Exception $e) {
+            return response(['status' => 'error', 'data' => $e]);
+        }
+    }
 }
