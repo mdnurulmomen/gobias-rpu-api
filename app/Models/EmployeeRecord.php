@@ -13,7 +13,6 @@ class EmployeeRecord extends Model
     const UPDATED_AT = 'modified';
     protected $table = 'employee_records';
     protected $fillable = [
-        'id',
         'name_eng',
         'name_bng',
         'father_name_bng',

@@ -27,7 +27,6 @@ class UpdateOfficeUnitRequest extends FormRequest
             'cdesk' => 'required|json',
             'unit_name_bng' => 'required|string',
             'unit_name_eng' => 'required|string',
-
         ];
     }
 }

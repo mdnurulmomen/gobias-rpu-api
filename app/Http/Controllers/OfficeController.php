@@ -1,27 +1,38 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Repository\Eloquent\OfficeRepository;
+use App\Http\Requests\UpdateOfficeRequest;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreOfficeRequest;
-use App\Services\OfficeServices;
+use App\Services\OfficeService;
 
 class OfficeController extends Controller
 {
-    public function storeOffice(StoreOfficeRequest $request, OfficeServices $officeServices): \Illuminate\Http\JsonResponse
+    public function store(StoreOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
-        $store_office = $officeServices->storeOffice($request);
-        if (isSuccessResponse($store_office)) {
-            $response = responseFormat('success', $store_office['data']);
+        $storeOffice = $officeServices->store($request);
+        if (isSuccessResponse($storeOffice)) {
+            $response = responseFormat('success', $storeOffice['data']);
         } else {
-            $response = responseFormat('error', $store_office['data']);
+            $response = responseFormat('error', $storeOffice['data']);
         }
         return response()->json($response);
     }
 
-    public function getOfficeInfo(Request $request,OfficeRepository $officeRepository): \Illuminate\Http\JsonResponse
+    public function update(UpdateOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
-        $office_info = $officeRepository->get_office_info($request->office_id);
+        $storeOffice = $officeServices->update($request);
+        if (isSuccessResponse($storeOffice)) {
+            $response = responseFormat('success', $storeOffice['data']);
+        } else {
+            $response = responseFormat('error', $storeOffice['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function show(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $office_info = $officeServices->show($request->office_id);
         if (isSuccessResponse($office_info)) {
             $response = responseFormat('success', $office_info['data']);
         } else {

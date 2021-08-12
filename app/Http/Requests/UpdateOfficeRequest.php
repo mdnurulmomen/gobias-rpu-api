@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOfficeRequest extends FormRequest
+class UpdateOfficeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -42,11 +42,11 @@ class StoreOfficeRequest extends FormRequest
             'office_mobile' => 'nullable|numeric',
             'office_fax' => 'nullable|numeric',
             'office_email' => 'nullable|string',
-            'office_web' => 'required|string|unique:App\Models\Office,office_web',
+            'office_web' => 'required|string|unique:App\Models\Office,office_web,{$request->id}',
             'office_status' => 'nullable|numeric',
             'date_of_close' => 'nullable',
             'date_of_formation' => 'nullable',
-            'actual_strength' => 'nullable',
+            'actule_strenth' => 'nullable',
             'office_description' => 'nullable',
             'office_details' => 'nullable',
             'office_document' => 'nullable',

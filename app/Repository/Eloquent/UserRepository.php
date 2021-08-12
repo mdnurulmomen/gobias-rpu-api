@@ -3,11 +3,11 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\User;
-use App\Repository\Contracts\UserRepositoryInterface;
+use App\Repository\Contracts\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository implements BaseRepositoryInterface
 {
 
     public function create(Request $request, $cdesk)
@@ -25,5 +25,24 @@ class UserRepository implements UserRepositoryInterface
         $user->force_password_change = 0;
         $user->created_by = $cdesk->officer_id;
         $user->save();
+
+        $lastInsertId = $user->id;
+        return $lastInsertId;
+
+    }
+
+    public function update(Request $request, $cdesk)
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function show(Request $request)
+    {
+        // TODO: Implement show() method.
+    }
+
+    public function delete(Request $request, $cdesk)
+    {
+        // TODO: Implement delete() method.
     }
 }
