@@ -26,8 +26,13 @@ class UpdateOfficeUnitRequest extends FormRequest
         return [
             'cdesk' => 'required|json',
             'id' => 'required|numeric',
+            'office_ministry_id' => 'required|numeric',
+            'office_layer_id' => 'required|numeric',
+            'office_id' => 'required|numeric',
+            'parent_unit_id' => 'numeric',
             'unit_name_bng' => 'required|string',
             'unit_name_eng' => 'required|string',
+
         ];
     }
 }
