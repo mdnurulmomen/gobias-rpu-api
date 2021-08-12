@@ -7,3 +7,6 @@ Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'sto
 Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, 'getOfficeInfo']);
 Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::class, 'storeEmployee']);
 Route::post('/update-employee', [App\Http\Controllers\EmployeeRecordController::class, 'updateEmployee']);
+
+//office unit
+Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'updateOfficeUnit']);

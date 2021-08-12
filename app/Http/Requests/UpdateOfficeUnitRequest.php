@@ -25,6 +25,7 @@ class UpdateOfficeUnitRequest extends FormRequest
     {
         return [
             'cdesk' => 'required|json',
+            'id' => 'required|numeric',
             'unit_name_bng' => 'required|string',
             'unit_name_eng' => 'required|string',
 
