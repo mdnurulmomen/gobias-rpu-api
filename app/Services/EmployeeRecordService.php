@@ -8,7 +8,6 @@ use Illuminate\Validation\ValidationException;
 
 class EmployeeRecordService
 {
-    private $employeeRecordRepository;
 
     public function __construct(EmployeeRecordRepository $employeeRecordRepository)
     {

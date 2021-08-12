@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class OfficeLayerService
 {
-    private $officeLayerRepository;
-
     public function __construct(OfficeLayerRepository $officeLayerRepository)
     {
         $this->officeLayerRepository = $officeLayerRepository;
@@ -18,13 +16,13 @@ class OfficeLayerService
     {
         $cdesk = json_decode($request->cdesk, false);
         try {
-            $this->officeLayerRepository->create($request, $cdesk);
-            $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
+            $this->officeLayerRepository->store($request, $cdesk);
+            $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         }
         catch (\Exception $exception) {
-            $return_data = ['status' => 'error', 'data' => $exception];
+            $returnData = ['status' => 'error', 'data' => $exception];
         }
-        return $return_data;
+        return $returnData;
     }
 
     public function update(Request $request): array
@@ -32,12 +30,12 @@ class OfficeLayerService
         $cdesk = json_decode($request->cdesk, false);
         try {
             $this->officeLayerRepository->update($request, $cdesk);
-            $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে হালনাগাদ করা হয়েছে।'];
+            $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে হালনাগাদ করা হয়েছে।'];
         }
         catch (\Exception $exception) {
-            $return_data = ['status' => 'error', 'data' => $exception];
+            $returnData = ['status' => 'error', 'data' => $exception];
         }
-        return $return_data;
+        return $returnData;
     }
 
 
@@ -49,5 +47,11 @@ class OfficeLayerService
         catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }
+    }
+
+
+    public function delete(Request $request,$cdesk)
+    {
+        // TODO: Implement delete() method.
     }
 }

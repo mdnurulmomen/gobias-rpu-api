@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository implements BaseRepositoryInterface
 {
 
-    public function create(Request $request, $cdesk)
+    public function store(Request $request, $cdesk)
     {
         $user = new User();
         $user->username = $request->office_web;

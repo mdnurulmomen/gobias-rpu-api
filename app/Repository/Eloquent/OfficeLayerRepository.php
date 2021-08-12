@@ -10,7 +10,7 @@ class OfficeLayerRepository implements BaseRepositoryInterface
 {
 
     //create
-    public function create(Request $request, $cdesk)
+    public function store(Request $request, $cdesk)
     {
         $officeLayer = new OfficeLayer();
         $officeLayer->office_ministry_id = $request->office_ministry_id;

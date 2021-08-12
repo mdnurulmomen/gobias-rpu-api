@@ -13,9 +13,9 @@ Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'sto
 Route::post('/update-office', [App\Http\Controllers\OfficeController::class, 'update']);
 Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, 'show']);
 
+//office unit
+Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
+
 //for employee
 Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::class, 'store']);
 Route::post('/update-employee', [App\Http\Controllers\EmployeeRecordController::class, 'update']);
-
-//office unit
-Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);

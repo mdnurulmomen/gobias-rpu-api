@@ -26,13 +26,14 @@ class OfficeService
         DB::beginTransaction();
 
         try {
-            $officeId = $this->officeRepository->create($request, $cdesk);
+            //for office
+            $officeId = $this->officeRepository->store($request, $cdesk);
 
             //for user
-            $userId = $this->userRepository->create($request, $cdesk);
+            $userId = $this->userRepository->store($request, $cdesk);
 
             //for user office
-            $this->userOfficeRepository->create($request, $userId, $officeId, $cdesk);
+            $this->userOfficeRepository->storeUserOffice($request, $userId, $officeId, $cdesk);
 
             //for insert attachment
             if ($request->hasFile('attachments')) {

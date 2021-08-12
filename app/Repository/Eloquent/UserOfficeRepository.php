@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserOfficeRepository implements UserOfficeRepositoryInterface
 {
 
-    public function create(Request $request, $userId, $officeId, $cdesk)
+    public function storeUserOffice(Request $request, $userId, $officeId, $cdesk)
     {
         $userOffice = new UserOffice();
         $userOffice->user_id = $userId;

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class OfficeRepository implements BaseRepositoryInterface
 {
 
-    public function create(Request $request, $cdesk)
+    public function store(Request $request, $cdesk)
     {
         $office = new Office;
         $office->office_ministry_id = $request->office_ministry_id;

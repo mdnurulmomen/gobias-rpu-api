@@ -7,9 +7,9 @@ use App\Services\OfficeUnitService;
 
 class OfficeUnitController extends Controller
 {
-    public function updateOfficeUnit(UpdateOfficeUnitRequest $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
+    public function update(UpdateOfficeUnitRequest $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
     {
-        $update_unit = $unit->updateOfficeUnit($request);
+        $update_unit = $unit->update($request);
         if (isSuccessResponse($update_unit)) {
             $response = responseFormat('success', $update_unit['data']);
         } else {

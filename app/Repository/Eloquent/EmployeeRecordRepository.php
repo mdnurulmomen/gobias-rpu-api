@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EmployeeRecordRepository implements BaseRepositoryInterface
 {
 
-    public function create(Request $request, $cdesk)
+    public function store(Request $request, $cdesk)
     {
         $employeeRecord = new EmployeeRecord();
         $employeeRecord->name_bng = $request->name_bng;
@@ -62,7 +62,7 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
 
     public function update(Request $request, $cdesk)
     {
-        $employeeRecord = EmployeeRecord::find($request->employee_id);
+        $employeeRecord = EmployeeRecord::find($request->id);
         $employeeRecord->name_bng = $request->name_bng;
         $employeeRecord->name_eng = $request->name_eng;
         $employeeRecord->identification_number = $request->identification_number;

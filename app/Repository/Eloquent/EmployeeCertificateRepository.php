@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class EmployeeCertificateRepository implements BaseRepositoryInterface
 {
 
-    public function create(Request $request, $cdesk)
+    public function store(Request $request, $cdesk)
     {
         $employeeCertificateDetail = new EmployeeCertificateDetail();
         $employeeCertificateDetail->employee_record_id = $request->employee_record_id;
