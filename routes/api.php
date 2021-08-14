@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//office ministry
+Route::post('/get-office-ministry-list', [App\Http\Controllers\OfficeMinistryController::class, 'list']);
+
 //office layer
 Route::post('/store-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'store']);
 Route::post('/update-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'update']);
