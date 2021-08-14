@@ -49,7 +49,7 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     //get layer ministry wise
     public function getLayerMinistryWise($ministryId)
     {
-        return OfficeLayer::where('office_ministry_id', $ministryId)->get()->toArray();
+        return OfficeLayer::with(['parent'])->where('office_ministry_id', $ministryId)->get()->toArray();
     }
 
 
@@ -57,5 +57,10 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     public function delete(Request $request, $cdesk)
     {
         // TODO: Implement delete() method.
+    }
+
+    public function list(Request $request)
+    {
+        // TODO: Implement list() method.
     }
 }
