@@ -39,9 +39,19 @@ class OfficeLayerService
     }
 
 
-    public function show($office_layer_id){
+    public function show($officeLayerId){
         try {
-            $officeLayerInfo = $this->officeLayerRepository->show($office_layer_id);
+            $officeLayerInfo = $this->officeLayerRepository->show($officeLayerId);
+            return ['status' => 'success', 'data' => $officeLayerInfo];
+        }
+        catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function getLayerMinistryWise($ministryId){
+        try {
+            $officeLayerInfo = $this->officeLayerRepository->getLayerMinistryWise($ministryId);
             return ['status' => 'success', 'data' => $officeLayerInfo];
         }
         catch (\Exception $e) {

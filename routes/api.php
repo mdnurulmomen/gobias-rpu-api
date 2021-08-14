@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/store-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'store']);
 Route::post('/update-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'update']);
 Route::post('/get-office-layer-info', [App\Http\Controllers\OfficeLayerController::class, 'show']);
+Route::post('/get-office-layer-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getLayerMinistryWise']);
 
 //for office
 Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'store']);

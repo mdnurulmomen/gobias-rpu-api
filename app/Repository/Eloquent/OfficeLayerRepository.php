@@ -42,9 +42,16 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     }
 
     //show
-    public function show($office_id){
-        return OfficeLayer::where('id',$office_id)->get()->toArray();
+    public function show($officeLayerId){
+        return OfficeLayer::where('id',$officeLayerId)->get()->toArray();
     }
+
+    //get layer ministry wise
+    public function getLayerMinistryWise($ministryId)
+    {
+        return OfficeLayer::where('office_ministry_id', $ministryId)->get()->toArray();
+    }
+
 
     //delete
     public function delete(Request $request, $cdesk)
