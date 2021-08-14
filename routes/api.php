@@ -15,6 +15,9 @@ Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, '
 
 //office unit
 Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
+Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
+Route::post('/get-office-unit-info', [App\Http\Controllers\OfficeUnitController::class, 'show']);
+Route::post('/get-office-unit-list', [App\Http\Controllers\OfficeUnitController::class, 'list']);
 
 //for employee
 Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::class, 'store']);
@@ -45,3 +48,9 @@ Route::post('/update-lookup', [App\Http\Controllers\LookupController::class, 'up
 Route::post('/store-lookup-type', [App\Http\Controllers\LookupController::class, 'store']);
 Route::post('/get-lookup-type-info', [App\Http\Controllers\LookupController::class, 'show']);
 Route::post('/update-lookup-type', [App\Http\Controllers\LookupController::class, 'update']);
+
+//responsible party
+Route::post('/store-responsible-party', [App\Http\Controllers\ResponsiblePartyController::class, 'store']);
+Route::post('/update-responsible-party', [App\Http\Controllers\ResponsiblePartyController::class, 'update']);
+Route::post('/get-responsible-party-info', [App\Http\Controllers\ResponsiblePartyController::class, 'show']);
+Route::post('/get-responsible-party-list', [App\Http\Controllers\ResponsiblePartyController::class, 'list']);
