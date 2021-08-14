@@ -84,4 +84,9 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         // TODO: Implement delete() method.
     }
+
+    public function list(Request $request)
+    {
+        // TODO: Implement list() method.
+    }
 }
