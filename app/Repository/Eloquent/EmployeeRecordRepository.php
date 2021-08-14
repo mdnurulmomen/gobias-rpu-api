@@ -55,8 +55,8 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
         $employeeRecord->correspondence_address = $request->correspondence_address;
         $employeeRecord->mother_tongue_id = $request->mother_tongue_id;
         $employeeRecord->status = $request->status;
-        $employeeRecord->modified_by = $cdesk->officer_id;
-        $employeeRecord->created_by = $cdesk->officer_id;
+        $employeeRecord->modified_by = $cdesk->user_primary_id;
+        $employeeRecord->created_by = $cdesk->user_primary_id;
         $employeeRecord->save();
     }
 
@@ -106,14 +106,14 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
         $employeeRecord->correspondence_address = $request->correspondence_address;
         $employeeRecord->mother_tongue_id = $request->mother_tongue_id;
         $employeeRecord->status = $request->status;
-        $employeeRecord->modified_by = $cdesk->officer_id;
-        $employeeRecord->created_by = $cdesk->officer_id;
+        $employeeRecord->modified_by = $cdesk->user_primary_id;
+        $employeeRecord->created_by = $cdesk->user_primary_id;
         $employeeRecord->save();
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        // TODO: Implement show() method.
+        return EmployeeRecord::where('id',$id)->first()->toArray();
     }
 
     public function delete(Request $request, $cdesk)

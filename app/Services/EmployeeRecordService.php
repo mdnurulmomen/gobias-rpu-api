@@ -45,4 +45,13 @@ class EmployeeRecordService
         }
         return $returnData;
     }
+
+    public function show(Request $request){
+        try {
+            $employeeInfo = $this->employeeRecordRepository->show($request->id);
+            return ['status' => 'success', 'data' => $employeeInfo];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

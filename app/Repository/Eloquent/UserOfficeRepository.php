@@ -17,7 +17,7 @@ class UserOfficeRepository implements UserOfficeRepositoryInterface
         $userOffice->office_name_bn = $request->office_name_eng;
         $userOffice->office_name_en = $request->office_name_eng;
         $userOffice->status = 1;
-        $userOffice->created_by = $cdesk->officer_id;
+        $userOffice->created_by = $cdesk->user_primary_id;
         $userOffice->save();
     }
 }

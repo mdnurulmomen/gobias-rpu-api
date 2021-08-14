@@ -23,7 +23,7 @@ class UserRepository implements BaseRepositoryInterface
         $user->modified_by = $cdesk->officer_id;
         $user->is_email_verified = 0;
         $user->force_password_change = 0;
-        $user->created_by = $cdesk->officer_id;
+        $user->created_by = $cdesk->user_primary_id;
         $user->save();
 
         $lastInsertId = $user->id;

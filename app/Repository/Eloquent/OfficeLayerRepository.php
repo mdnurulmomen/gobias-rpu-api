@@ -16,12 +16,12 @@ class OfficeLayerRepository implements BaseRepositoryInterface
         $officeLayer->office_ministry_id = $request->office_ministry_id;
         $officeLayer->custom_layer_id = $request->custom_layer_id;
         $officeLayer->parent_layer_id = $request->parent_layer_id;
-        $officeLayer->layer_level = $request->layer_level;
+        $officeLayer->layer_level = trim($request->layer_level);
         $officeLayer->layer_sequence = $request->layer_sequence;
-        $officeLayer->layer_name_bng = $request->layer_name_bng;
-        $officeLayer->layer_name_eng = $request->layer_name_eng;
-        $officeLayer->created_by = $cdesk->officer_id;
-        $officeLayer->modified_by = $cdesk->officer_id;
+        $officeLayer->layer_name_bng = trim($request->layer_name_bng);
+        $officeLayer->layer_name_eng = trim($request->layer_name_eng);
+        $officeLayer->created_by = $cdesk->user_primary_id;
+        $officeLayer->modified_by = $cdesk->user_primary_id;
         $officeLayer->save();
     }
 
@@ -36,8 +36,8 @@ class OfficeLayerRepository implements BaseRepositoryInterface
         $officeLayer->layer_sequence = $request->layer_sequence;
         $officeLayer->layer_name_bng = $request->layer_name_bng;
         $officeLayer->layer_name_eng = $request->layer_name_eng;
-        $officeLayer->created_by = $cdesk->officer_id;
-        $officeLayer->modified_by = $cdesk->officer_id;
+        $officeLayer->created_by = $cdesk->user_primary_id;
+        $officeLayer->modified_by = $cdesk->user_primary_id;
         $officeLayer->save();
     }
 

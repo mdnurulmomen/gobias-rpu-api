@@ -35,16 +35,16 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->actual_strength = $request->actual_strength;
         $office->office_description = trim($request->office_description);
         $office->office_details = trim($request->office_details);
-        $office->created_by = $cdesk->officer_id;
-        $office->modified_by = $cdesk->officer_id;
+        $office->created_by = $cdesk->user_primary_id;
+        $office->modified_by = $cdesk->user_primary_id;
         $office->save();
 
         $lastInsertId = $office->id;
         return $lastInsertId;
     }
 
-    public function show($office_id){
-        return Office::where('id',$office_id)->get()->toArray();
+    public function show($officeId){
+        return Office::where('id',$officeId)->first()->toArray();
     }
 
     public function update(Request $request, $cdesk)
@@ -72,8 +72,8 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->actual_strength = $request->actual_strength;
         $office->office_description = trim($request->office_description);
         $office->office_details = trim($request->office_details);
-        $office->created_by = $cdesk->officer_id;
-        $office->modified_by = $cdesk->officer_id;
+        $office->created_by = $cdesk->user_primary_id;
+        $office->modified_by = $cdesk->user_primary_id;
         $office->save();
 
         $lastInsertId = $office->id;

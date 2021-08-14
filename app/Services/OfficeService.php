@@ -133,10 +133,10 @@ class OfficeService
     }
 
 
-    public function show($office_id){
+    public function show(Request $request){
         try {
-            $office_info = $this->officeRepository->show($office_id);
-            return ['status' => 'success', 'data' => $office_info];
+            $officeInfo = $this->officeRepository->show($request->office_id);
+            return ['status' => 'success', 'data' => $officeInfo];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

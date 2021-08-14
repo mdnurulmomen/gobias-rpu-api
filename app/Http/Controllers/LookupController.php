@@ -6,7 +6,7 @@ use App\Http\Requests\Office\UpdateOfficeRequest;
 use Illuminate\Http\Request;
 use App\Services\OfficeService;
 
-class OfficeController extends Controller
+class LookupController extends Controller
 {
     public function store(StoreOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOfficeLayerRequest;
+use App\Http\Requests\OfficeLayer\StoreOfficeLayerRequest;
 use App\Services\OfficeLayerService;
 use Illuminate\Http\Request;
 

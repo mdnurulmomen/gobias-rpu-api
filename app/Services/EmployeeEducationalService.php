@@ -2,22 +2,22 @@
 
 namespace App\Services;
 
-use App\Repository\Eloquent\EmployeeCertificateRepository;
+use App\Repository\Eloquent\EmployeeEducationalRepository;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class EmployeeCertificateService
+class EmployeeEducationalService
 {
-    public function __construct(EmployeeCertificateRepository $employeeCertificateRepository)
+    public function __construct(EmployeeEducationalRepository $employeeEducationalRepository)
     {
-        $this->employeeCertificateRepository = $employeeCertificateRepository;
+        $this->employeeEducationalRepository = $employeeEducationalRepository;
     }
 
     public function store(Request $request): array
     {
         $cdesk = json_decode($request->cdesk, false);
         try {
-            $this->employeeCertificateRepository->store($request, $cdesk);
+            $this->employeeEducationalRepository->store($request, $cdesk);
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         }
         catch (ValidationException $exception) {
@@ -33,7 +33,7 @@ class EmployeeCertificateService
     {
         $cdesk = json_decode($request->cdesk, false);
         try {
-            $this->employeeCertificateRepository->update($request, $cdesk);
+            $this->employeeEducationalRepository->update($request, $cdesk);
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে হালনাগাদ করা হয়েছে।'];
         }
         catch (ValidationException $exception) {
@@ -47,8 +47,8 @@ class EmployeeCertificateService
 
     public function show(Request $request){
         try {
-            $employeeCertificateInfo = $this->employeeCertificateRepository->show($request->id);
-            return ['status' => 'success', 'data' => $employeeCertificateInfo];
+            $employeeEducationalInfo = $this->employeeEducationalRepository->show($request->id);
+            return ['status' => 'success', 'data' => $employeeEducationalInfo];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }
