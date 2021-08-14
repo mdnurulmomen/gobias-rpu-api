@@ -12,6 +12,8 @@ interface BaseRepositoryInterface
 
     public function show(Request $request);
 
+    public function list(Request $request);
+
     public function delete(Request $request, $cdesk);
 
 }

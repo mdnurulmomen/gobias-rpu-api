@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\OfficeUnit;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,13 +26,15 @@ class UpdateOfficeUnitRequest extends FormRequest
         return [
             'cdesk' => 'required|json',
             'id' => 'required|numeric',
+            'directorate_id' => 'required|numeric',
             'office_ministry_id' => 'required|numeric',
-            'office_layer_id' => 'required|numeric',
-            'office_id' => 'required|numeric',
-            'parent_unit_id' => 'numeric',
-            'unit_name_bng' => 'required|string',
-            'unit_name_eng' => 'required|string',
-
+            'controlling_office_layer_id' => 'required|numeric',
+            'controlling_office_id' => 'required|numeric',
+            'parent_office_layer_id' => 'numeric',
+            'parent_office_id' => 'required|numeric',
+            'cost_center_layer_id' => 'required|numeric',
+            'cost_center_id' => 'required|numeric',
+            'cost_center_type' => 'required|string',
         ];
     }
 }

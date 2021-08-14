@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Services;
-use App\Repository\Eloquent\OfficeUnitRepository;
+use App\Repository\Eloquent\ResponsiblePartyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class OfficeUnitService
+class ResponsiblePartyService
 {
-    public function __construct(OfficeUnitRepository $officeUnitRepository)
+    public function __construct(ResponsiblePartyRepository $responsiblePartyRepository)
     {
-        $this->officeUnitRepository = $officeUnitRepository;
+        $this->responsiblePartyRepository = $responsiblePartyRepository;
     }
 
     public function store(Request $request): array
@@ -17,7 +17,7 @@ class OfficeUnitService
         $cdesk = json_decode($request->cdesk, false);
         DB::beginTransaction();
         try {
-            $this->officeUnitRepository->store($request, $cdesk);
+            $this->responsiblePartyRepository->store($request, $cdesk);
             DB::commit();
             $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         } catch (\Exception $exception) {
@@ -33,7 +33,7 @@ class OfficeUnitService
         $cdesk = json_decode($request->cdesk, false);
         DB::beginTransaction();
         try {
-            $this->officeUnitRepository->update($request, $cdesk);
+            $this->responsiblePartyRepository->update($request, $cdesk);
             DB::commit();
             $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে হালনাগাদ করা হয়েছে।'];
         } catch (\Exception $exception) {
@@ -44,10 +44,10 @@ class OfficeUnitService
         return $return_data;
     }
 
-    public function show($unit_id){
+    public function show($responsible_party_id){
         try {
-            $office_unit_info = $this->officeUnitRepository->show($unit_id);
-            return ['status' => 'success', 'data' => $office_unit_info];
+            $responsible_party_info = $this->responsiblePartyRepository->show($responsible_party_id);
+            return ['status' => 'success', 'data' => $responsible_party_info];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }
@@ -55,8 +55,8 @@ class OfficeUnitService
 
     public function list(Request $request){
         try {
-            $office_unit_list = $this->officeUnitRepository->list($request);
-            return ['status' => 'success', 'data' => $office_unit_list];
+            $responsible_party_list = $this->responsiblePartyRepository->list($request);
+            return ['status' => 'success', 'data' => $responsible_party_list];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

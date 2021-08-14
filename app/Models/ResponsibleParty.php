@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ConfigureAuditUnit extends Model
+class ResponsibleParty extends Model
 {
     use HasFactory;
 
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
-    protected $table ='configure_audit_units';
+    protected $table ='responsible_parties';
 
     protected $fillable = ['office_ministry_id','controlling_office_layer_id','controlling_office_id','parent_office_layer_id','parent_office_id','cost_center_layer_id','cost_center_id','cost_center_type','created_by','modified_by'];
 
