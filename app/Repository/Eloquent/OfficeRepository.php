@@ -89,4 +89,9 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         // TODO: Implement list() method.
     }
+
+    public function get_office_ministry_and_layer_wise(Request $request)
+    {
+        return Office::where('office_ministry_id',$request->office_ministry_id)->where('office_layer_id',$request->office_layer_id)->get()->toArray();
+    }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Services;
 use App\Repository\Eloquent\OfficeUnitRepository;
+use App\Repository\Eloquent\OfficeUnitCategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OfficeUnitService
 {
-    public function __construct(OfficeUnitRepository $officeUnitRepository)
+    public function __construct(OfficeUnitRepository $officeUnitRepository,OfficeUnitCategoryRepository $officeUnitCategoryRepository)
     {
         $this->officeUnitRepository = $officeUnitRepository;
+        $this->officeUnitCategoryRepository = $officeUnitCategoryRepository;
     }
 
     public function store(Request $request): array
@@ -57,6 +59,15 @@ class OfficeUnitService
         try {
             $office_unit_list = $this->officeUnitRepository->list($request);
             return ['status' => 'success', 'data' => $office_unit_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function get_unit_category_list(Request $request){
+        try {
+            $office_unit_category_list = $this->officeUnitCategoryRepository->list($request);
+            return ['status' => 'success', 'data' => $office_unit_category_list];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

@@ -141,4 +141,13 @@ class OfficeService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function get_office_ministry_and_layer_wise(Request $request){
+        try {
+            $get_office_list = $this->officeRepository->get_office_ministry_and_layer_wise($request);
+            return ['status' => 'success', 'data' => $get_office_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

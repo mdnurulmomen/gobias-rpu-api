@@ -40,4 +40,17 @@ class OfficeController extends Controller
         }
         return response()->json($response);
     }
+
+    public function get_office_ministry_and_layer_wise(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $office_info = $officeServices->get_office_ministry_and_layer_wise($request);
+        if (isSuccessResponse($office_info)) {
+            $response = responseFormat('success', $office_info['data']);
+        } else {
+            $response = responseFormat('error', $office_info['data']);
+        }
+        return response()->json($response);
+    }
+
+
 }

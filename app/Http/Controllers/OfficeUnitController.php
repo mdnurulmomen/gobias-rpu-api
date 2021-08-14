@@ -52,4 +52,15 @@ class OfficeUnitController extends Controller
         return response()->json($response);
     }
 
+    public function get_unit_category_list(Request $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
+    {
+        $unit_category_list = $unit->get_unit_category_list($request);
+        if (isSuccessResponse($unit_category_list)) {
+            $response = responseFormat('success', $unit_category_list['data']);
+        } else {
+            $response = responseFormat('error', $unit_category_list['data']);
+        }
+        return response()->json($response);
+    }
+
 }
