@@ -28,8 +28,6 @@ class StoreOfficeRequest extends FormRequest
             'office_ministry_id' => 'nullable|numeric',
             'office_layer_id' => 'nullable|numeric',
             'parent_office_id' => 'nullable|numeric',
-            'office_level' => 'required|numeric',
-            'office_sequence' => 'nullable|numeric',
             'active_status' => 'nullable|numeric',
             'geo_division_id' => 'nullable|numeric',
             'geo_district_id' => 'nullable|numeric',

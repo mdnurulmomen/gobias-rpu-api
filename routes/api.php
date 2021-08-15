@@ -15,7 +15,6 @@ Route::post('/get-office-layer-ministry-wise', [App\Http\Controllers\OfficeLayer
 //office custom layer
 Route::post('/list-office-custom-layer', [App\Http\Controllers\OfficeCustomLayerController::class, 'list']);
 
-
 //for office
 Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'store']);
 Route::post('/update-office', [App\Http\Controllers\OfficeController::class, 'update']);
