@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Mail\PasswordResetMail;
+use App\Mail\UserLoginMail;
 use App\Models\Document;
 use App\Repository\Eloquent\OfficeRepository;
 use App\Repository\Eloquent\UserOfficeRepository;
 use App\Repository\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class OfficeService
@@ -65,6 +68,14 @@ class OfficeService
                     Document::insert($attachments);
                 }
             }
+
+            $details = [
+                'username' => $request->office_web,
+                'password' => '123456',
+            ];
+            $email = new UserLoginMail($details);
+            Mail::to($request->office_email)->send($email);
+
             DB::commit();
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         }

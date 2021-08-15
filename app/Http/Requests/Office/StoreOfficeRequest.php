@@ -39,7 +39,7 @@ class StoreOfficeRequest extends FormRequest
             'office_phone' => 'nullable|string',
             'office_mobile' => 'nullable|numeric',
             'office_fax' => 'nullable|numeric',
-            'office_email' => 'nullable|string',
+            'office_email' => 'required|string',
             'office_web' => 'required|string|unique:App\Models\Office,office_web',
             'office_status' => 'nullable|numeric',
             'date_of_close' => 'nullable',
