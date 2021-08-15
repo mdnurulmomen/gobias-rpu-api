@@ -51,9 +51,10 @@
                                     <span
                                         style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                     <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                        Username: {{$details['username']}}
+                                        Username: {{$details['username']}} <br>
+                                        Email: {{$details['userEmail']}}
                                     </p>
-                                    <a href="https://cag-rpu-app.tappware.com"
+                                    <a href="https://cag-rpu-app.tappware.com/password/reset"
                                        style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Click</a>
                                 </td>
                             </tr>
@@ -68,7 +69,8 @@
                 <tr>
                     <td style="text-align:center;">
                         <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
-                            &copy; <strong>{{env('APP_URL')}}</strong></p>
+                            &copy; <strong>CAG</strong>
+                        </p>
                     </td>
                 </tr>
                 <tr>

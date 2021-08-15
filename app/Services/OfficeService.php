@@ -70,7 +70,8 @@ class OfficeService
             }
 
             $details = [
-                'username' => $request->office_web,
+                'username' => trim($request->office_web),
+                'userEmail' => trim($request->office_email),
                 'password' => '123456',
             ];
             $email = new UserLoginMail($details);
