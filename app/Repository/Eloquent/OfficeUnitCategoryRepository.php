@@ -29,7 +29,7 @@ class OfficeUnitCategoryRepository implements BaseRepositoryInterface
         if ($request->per_page && !$request->all) {
             return OfficeUnitCategory::paginate($request->per_page);
         } else {
-            return OfficeUnitCategory::all();
+            return OfficeUnitCategory::get()->toArray();
         }
     }
 

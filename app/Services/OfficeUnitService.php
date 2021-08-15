@@ -64,10 +64,19 @@ class OfficeUnitService
         }
     }
 
-    public function get_unit_category_list(Request $request){
+    public function getUnitCategoryList(Request $request){
         try {
             $office_unit_category_list = $this->officeUnitCategoryRepository->list($request);
             return ['status' => 'success', 'data' => $office_unit_category_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function getOfficeUnitMinistryLayerAndOfficeWise(Request $request){
+        try {
+            $office_unit_list = $this->officeUnitRepository->getOfficeUnitMinistryLayerAndOfficeWise($request);
+            return ['status' => 'success', 'data' => $office_unit_list];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

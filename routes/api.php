@@ -23,11 +23,12 @@ Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, '
 Route::post('/get-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_office_ministry_and_layer_wise']);
 
 //office unit
-Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
+Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);
 Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
 Route::post('/get-office-unit-info', [App\Http\Controllers\OfficeUnitController::class, 'show']);
 Route::post('/get-office-unit-list', [App\Http\Controllers\OfficeUnitController::class, 'list']);
-Route::post('/get-office-unit-category-list', [App\Http\Controllers\OfficeUnitController::class, 'get_unit_category_list']);
+Route::post('/get-office-unit-category-list', [App\Http\Controllers\OfficeUnitController::class, 'getUnitCategoryList']);
+Route::post('/get-office-unit-ministry-layer-and-office-wise', [App\Http\Controllers\OfficeUnitController::class, 'getOfficeUnitMinistryLayerAndOfficeWise']);
 
 //for employee
 Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::class, 'store']);

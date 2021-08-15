@@ -19,8 +19,8 @@ class OfficeUnitRepository implements BaseRepositoryInterface
         $office_unit->parent_unit_id = $request->parent_unit_id;
         $office_unit->unit_name_bng = $request->unit_name_bng;
         $office_unit->unit_name_eng = $request->unit_name_eng;
-        $office_unit->created_by = $cdesk->user_id;
-        $office_unit->modified_by = $cdesk->user_id;
+        $office_unit->created_by = $cdesk->user_primary_id;
+        $office_unit->modified_by = $cdesk->user_primary_id;
         $office_unit->save();
     }
 
@@ -34,7 +34,7 @@ class OfficeUnitRepository implements BaseRepositoryInterface
         $office_unit->office_id = $request->office_id;
         $office_unit->unit_name_bng = $request->unit_name_bng;
         $office_unit->unit_name_eng = $request->unit_name_eng;
-        $office_unit->modified_by = $cdesk->user_id;
+        $office_unit->modified_by = $cdesk->user_primary_id;
         $office_unit->save();
     }
 
@@ -50,6 +50,11 @@ class OfficeUnitRepository implements BaseRepositoryInterface
         } else {
             return OfficeUnit::all();
         }
+    }
+
+    public function getOfficeUnitMinistryLayerAndOfficeWise(Request $request)
+    {
+        return OfficeUnit::with(['child'])->where('office_ministry_id', $request->office_ministry_id)->where('office_layer_id', $request->office_layer_id)->where('office_id', $request->office_id)->where('parent_unit_id', 0)->get();
     }
 
     public function delete(Request $request, $cdesk)

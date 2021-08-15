@@ -52,13 +52,24 @@ class OfficeUnitController extends Controller
         return response()->json($response);
     }
 
-    public function get_unit_category_list(Request $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
+    public function getUnitCategoryList(Request $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
     {
-        $unit_category_list = $unit->get_unit_category_list($request);
+        $unit_category_list = $unit->getUnitCategoryList($request);
         if (isSuccessResponse($unit_category_list)) {
             $response = responseFormat('success', $unit_category_list['data']);
         } else {
             $response = responseFormat('error', $unit_category_list['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function getOfficeUnitMinistryLayerAndOfficeWise(Request $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse
+    {
+        $unit_list = $unit->getOfficeUnitMinistryLayerAndOfficeWise($request);
+        if (isSuccessResponse($unit_list)) {
+            $response = responseFormat('success', $unit_list['data']);
+        } else {
+            $response = responseFormat('error', $unit_list['data']);
         }
         return response()->json($response);
     }
