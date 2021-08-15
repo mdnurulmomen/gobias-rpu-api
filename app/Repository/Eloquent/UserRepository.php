@@ -13,16 +13,17 @@ class UserRepository implements BaseRepositoryInterface
     public function store(Request $request, $cdesk)
     {
         $user = new User();
-        $user->username = $request->office_web;
+        $user->username = trim($request->office_web);
+        $user->email = trim($request->office_email);
         $user->password = Hash::make('123456');
-        $user->user_alias = $request->office_web;
+        $user->user_alias = trim($request->office_web);
         $user->active = 1;
         $user->user_role_id = 3;
         $user->is_admin = 1;
         $user->user_status = 1;
-        $user->modified_by = $cdesk->officer_id;
+        $user->modified_by = $cdesk->user_primary_id;
         $user->is_email_verified = 0;
-        $user->force_password_change = 0;
+        $user->force_password_change = 1;
         $user->created_by = $cdesk->user_primary_id;
         $user->save();
 
