@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\OfficeLayer;
 use App\Repository\Contracts\BaseRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class OfficeLayerRepository implements BaseRepositoryInterface
@@ -12,7 +13,12 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     //create
     public function store(Request $request, $cdesk)
     {
-        $officeLayer = new OfficeLayer();
+        if ($request->id !== null) {
+            $officeLayer = OfficeLayer::find($request->id);
+        }
+        else{
+            $officeLayer = new OfficeLayer();
+        }
         $officeLayer->office_ministry_id = $request->office_ministry_id;
         $officeLayer->custom_layer_id = $request->custom_layer_id;
         $officeLayer->parent_layer_id = $request->parent_layer_id;
