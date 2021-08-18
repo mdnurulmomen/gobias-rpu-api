@@ -4,7 +4,7 @@ namespace App\Http\Requests\ResponsibleParty;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOfficeUnitRequest extends FormRequest
+class StoreResponsiblePartyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +30,7 @@ class StoreOfficeUnitRequest extends FormRequest
             'controlling_office_layer_id' => 'required|numeric',
             'controlling_office_id' => 'required|numeric',
             'parent_office_layer_id' => 'numeric',
-            'parent_office_id' => 'required|numeric',
+            'parent_office_id' => 'numeric',
             'cost_center_layer_id' => 'required|numeric',
             'cost_center_id' => 'required|numeric',
             'cost_center_type' => 'required|string',

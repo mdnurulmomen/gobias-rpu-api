@@ -40,7 +40,7 @@ class OfficeUnitRepository implements BaseRepositoryInterface
 
     public function show($unit_id)
     {
-       return OfficeUnit::where('id',$unit_id)->get()->toArray();
+       return OfficeUnit::where('id',$unit_id)->first()->toArray();
     }
 
     public function list(Request $request)

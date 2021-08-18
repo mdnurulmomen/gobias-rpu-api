@@ -16,6 +16,7 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
         $responsible_party->office_ministry_id = $request->office_ministry_id;
         $responsible_party->controlling_office_layer_id = $request->controlling_office_layer_id;
         $responsible_party->controlling_office_id = $request->controlling_office_id;
+        $responsible_party->parent_office_layer_id = $request->parent_office_layer_id;
         $responsible_party->parent_office_id = $request->parent_office_id;
         $responsible_party->cost_center_layer_id = $request->cost_center_layer_id;
         $responsible_party->cost_center_id = $request->cost_center_id;
@@ -32,6 +33,7 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
         $responsible_party->office_ministry_id = $request->office_ministry_id;
         $responsible_party->controlling_office_layer_id = $request->controlling_office_layer_id;
         $responsible_party->controlling_office_id = $request->controlling_office_id;
+        $responsible_party->parent_office_layer_id = $request->parent_office_layer_id;
         $responsible_party->parent_office_id = $request->parent_office_id;
         $responsible_party->cost_center_layer_id = $request->cost_center_layer_id;
         $responsible_party->cost_center_id = $request->cost_center_id;
