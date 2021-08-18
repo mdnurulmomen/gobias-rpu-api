@@ -1,25 +1,15 @@
 <?php
 
 namespace App\Services;
+
 use App\Repository\Eloquent\OfficeMinistryRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class OfficeMinistryService
 {
     public function __construct(OfficeMinistryRepository $officeMinistryRepository)
     {
         $this->officeMinistryRepository = $officeMinistryRepository;
-    }
-
-    public function store(Request $request): array
-    {
-
-    }
-
-    public function update(Request $request): array
-    {
-
     }
 
     public function show($ministry_id){

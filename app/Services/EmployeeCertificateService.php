@@ -53,4 +53,29 @@ class EmployeeCertificateService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function getSingleEmployeeCertificateList(Request $request){
+        try {
+            $employeeCertificateList = $this->employeeCertificateRepository->getSingleEmployeeCertificateList($request);
+            return ['status' => 'success', 'data' => $employeeCertificateList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function delete(Request $request): array
+    {
+        $cdesk = json_decode($request->cdesk, false);
+        try {
+            $this->employeeCertificateRepository->delete($request, $cdesk);
+            $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে মুছে ফেলা হয়েছে।'];
+        }
+        catch (ValidationException $exception) {
+            $returnData = ['status' => 'error', 'data' => $exception->errors()];
+        }
+        catch (\Exception $exception) {
+            $returnData = ['status' => 'error', 'data' => $exception];
+        }
+        return $returnData;
+    }
 }

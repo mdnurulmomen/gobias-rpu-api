@@ -43,4 +43,26 @@ class EmployeeEducationalController extends Controller
         return response()->json($response);
     }
 
+    public function getSingleEmployeeEducationList(Request $request,EmployeeEducationalService $employeeEducationalService): \Illuminate\Http\JsonResponse
+    {
+        $allEducationalDetails = $employeeEducationalService->getSingleEmployeeEducationList($request);
+        if (isSuccessResponse($allEducationalDetails)) {
+            $response = responseFormat('success', $allEducationalDetails['data']);
+        } else {
+            $response = responseFormat('error', $allEducationalDetails['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function delete(Request $request,EmployeeEducationalService $employeeEducationalService): \Illuminate\Http\JsonResponse
+    {
+        $deleteEmpEducationalInfo = $employeeEducationalService->delete($request);
+        if (isSuccessResponse($deleteEmpEducationalInfo)) {
+            $response = responseFormat('success', $deleteEmpEducationalInfo['data']);
+        } else {
+            $response = responseFormat('error', $deleteEmpEducationalInfo['data']);
+        }
+        return response()->json($response);
+    }
+
 }

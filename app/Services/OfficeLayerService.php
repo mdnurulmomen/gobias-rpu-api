@@ -49,9 +49,9 @@ class OfficeLayerService
         }
     }
 
-    public function getLayerMinistryWise($ministryId){
+    public function getOfficeLayerMinistryWise($ministryId){
         try {
-            $officeLayerInfo = $this->officeLayerRepository->getLayerMinistryWise($ministryId);
+            $officeLayerInfo = $this->officeLayerRepository->getOfficeLayerMinistryWise($ministryId);
             return ['status' => 'success', 'data' => $officeLayerInfo];
         }
         catch (\Exception $e) {
@@ -59,9 +59,13 @@ class OfficeLayerService
         }
     }
 
-
-    public function delete(Request $request,$cdesk)
-    {
-        // TODO: Implement delete() method.
+    public function getOfficeLayerTreeMinistryWise($ministryId){
+        try {
+            $officeLayerInfo = $this->officeLayerRepository->getOfficeLayerTreeMinistryWise($ministryId);
+            return ['status' => 'success', 'data' => $officeLayerInfo];
+        }
+        catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
     }
 }

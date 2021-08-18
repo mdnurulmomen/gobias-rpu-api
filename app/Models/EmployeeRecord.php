@@ -58,16 +58,6 @@ class EmployeeRecord extends Model
         return $this->hasOne(User::class, 'employee_record_id', 'id');
     }
 
-    public function employee_office()
-    {
-        return $this->hasMany(EmployeeOffice::class, 'employee_record_id', 'id')->where('status', 1);
-    }
-
-    public function all_employee_office()
-    {
-        return $this->hasMany(EmployeeOffice::class, 'employee_record_id', 'id');
-    }
-
     public function educational_qualifications(){
         return $this->hasMany(EmployeeEducationalDetail::class, 'employee_record_id','id');
     }

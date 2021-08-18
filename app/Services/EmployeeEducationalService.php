@@ -53,4 +53,29 @@ class EmployeeEducationalService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function getSingleEmployeeEducationList(Request $request){
+        try {
+            $allEducationalDetails = $this->employeeEducationalRepository->getSingleEmployeeEducationList($request);
+            return ['status' => 'success', 'data' => $allEducationalDetails];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function delete(Request $request): array
+    {
+        $cdesk = json_decode($request->cdesk, false);
+        try {
+            $this->employeeEducationalRepository->delete($request, $cdesk);
+            $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে মুছে ফেলা হয়েছে।'];
+        }
+        catch (ValidationException $exception) {
+            $returnData = ['status' => 'error', 'data' => $exception->errors()];
+        }
+        catch (\Exception $exception) {
+            $returnData = ['status' => 'error', 'data' => $exception];
+        }
+        return $returnData;
+    }
 }

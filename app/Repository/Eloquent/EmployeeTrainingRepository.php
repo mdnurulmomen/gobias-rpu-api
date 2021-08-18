@@ -12,10 +12,16 @@ class EmployeeTrainingRepository implements BaseRepositoryInterface
 
     public function store(Request $request, $cdesk)
     {
-        $employeeTrainingDetail = new EmployeeTrainingDetail();
+        if ($request->emp_training_id !== null) {
+            $employeeTrainingDetail = EmployeeTrainingDetail::find($request->emp_training_id);
+        }
+        else{
+            $employeeTrainingDetail = new EmployeeTrainingDetail();
+        }
+
         $employeeTrainingDetail->employee_record_id = $request->employee_record_id;
         $employeeTrainingDetail->subject = trim($request->subject);
-        $employeeTrainingDetail->lookup_id = $request->lookup_id;
+        $employeeTrainingDetail->lookup_id = $request->lookup_training_type_id;
         $employeeTrainingDetail->training_duration = trim($request->training_duration);
         $employeeTrainingDetail->training_institute = trim($request->training_institute);
         $employeeTrainingDetail->training_start_date = empty($request->training_start_date)?null:date('Y-m-d', strtotime($request->training_start_date));
@@ -27,7 +33,7 @@ class EmployeeTrainingRepository implements BaseRepositoryInterface
 
     public function update(Request $request, $cdesk)
     {
-        $employeeTrainingDetail = EmployeeTrainingDetail::find($request->id);;
+        $employeeTrainingDetail = EmployeeTrainingDetail::find($request->id);
         $employeeTrainingDetail->employee_record_id = $request->employee_record_id;
         $employeeTrainingDetail->subject = trim($request->subject);
         $employeeTrainingDetail->lookup_id = $request->lookup_id;
@@ -47,6 +53,19 @@ class EmployeeTrainingRepository implements BaseRepositoryInterface
 
     public function delete(Request $request, $cdesk)
     {
-        // TODO: Implement delete() method.
+        return EmployeeTrainingDetail::where('id',$request->emp_training_id)->delete();
+    }
+
+    public function list(Request $request)
+    {
+        // TODO: Implement list() method.
+    }
+
+    public function getSingleEmployeeTrainingList(Request $request)
+    {
+        return EmployeeTrainingDetail::with(['audit_type','country'])
+            ->where('employee_record_id',$request->employee_record_id)
+            ->get()
+            ->toArray();
     }
 }

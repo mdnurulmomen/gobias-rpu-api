@@ -17,12 +17,12 @@ class CityCorporationWord extends Model
 
     public function zila()
     {
-        return $this->belongsTo(Zila::class,'geo_district_id','id');
+        return $this->belongsTo(GeoDistrict::class,'geo_district_id','id');
     }
 
     public function bivag()
     {
-        return $this->belongsTo(Bivag::class,'geo_division_id','id');
+        return $this->belongsTo(GeoDivision::class,'geo_division_id','id');
     }
 
     public function city_corporation()

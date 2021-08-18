@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Mail\PasswordResetMail;
 use App\Mail\UserLoginMail;
 use App\Models\Document;
 use App\Repository\Eloquent\OfficeRepository;
@@ -98,7 +97,7 @@ class OfficeService
         DB::beginTransaction();
 
         try {
-            $officeId = $this->officeRepository->update($request, $cdesk);
+            $this->officeRepository->update($request, $cdesk);
 
             //for insert attachment
             if ($request->hasFile('attachments')) {
@@ -116,7 +115,7 @@ class OfficeService
 
                         $attachments[] = array(
                             'document_type' => 'office',
-                            'relational_id' => $officeId,
+                            'relational_id' => $request->id,
                             'attachment_type' => $attachmentExtension,
                             'file_custom_name' => $uniqueAttachmentFileName,
                             'file_name' => $uniqueAttachmentFileName,
@@ -147,8 +146,17 @@ class OfficeService
 
     public function show(Request $request){
         try {
-            $officeInfo = $this->officeRepository->show($request->office_id);
+            $officeInfo = $this->officeRepository->show($request->id);
             return ['status' => 'success', 'data' => $officeInfo];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function searchOffice(Request $request){
+        try {
+            $officeSearchList = $this->officeRepository->searchOffice($request);
+            return ['status' => 'success', 'data' => $officeSearchList];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

@@ -1,42 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\Office\StoreOfficeRequest;
-use App\Http\Requests\Office\UpdateOfficeRequest;
+
+use App\Services\LookupService;
 use Illuminate\Http\Request;
-use App\Services\OfficeService;
 
 class LookupController extends Controller
 {
-    public function store(StoreOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function store()
     {
-        $storeOffice = $officeServices->store($request);
-        if (isSuccessResponse($storeOffice)) {
-            $response = responseFormat('success', $storeOffice['data']);
-        } else {
-            $response = responseFormat('error', $storeOffice['data']);
-        }
-        return response()->json($response);
+
     }
 
-    public function update(UpdateOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function show()
     {
-        $storeOffice = $officeServices->update($request);
-        if (isSuccessResponse($storeOffice)) {
-            $response = responseFormat('success', $storeOffice['data']);
-        } else {
-            $response = responseFormat('error', $storeOffice['data']);
-        }
-        return response()->json($response);
+
     }
 
-    public function show(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function update()
     {
-        $office_info = $officeServices->show($request);
-        if (isSuccessResponse($office_info)) {
-            $response = responseFormat('success', $office_info['data']);
+
+    }
+
+    public function getLookupTypeWise(Request $request, LookupService $lookupService): \Illuminate\Http\JsonResponse
+    {
+        $lookupTypes = $lookupService->getLookupTypeWise($request);
+        if (isSuccessResponse($lookupTypes)) {
+            $response = responseFormat('success', $lookupTypes['data']);
         } else {
-            $response = responseFormat('error', $office_info['data']);
+            $response = responseFormat('error', $lookupTypes['data']);
         }
         return response()->json($response);
     }

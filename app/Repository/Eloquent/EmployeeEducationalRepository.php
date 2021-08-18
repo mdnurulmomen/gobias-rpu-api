@@ -12,9 +12,15 @@ class EmployeeEducationalRepository implements BaseRepositoryInterface
 
     public function store(Request $request, $cdesk)
     {
-        $employeeEducationalDetail = new EmployeeEducationalDetail();
+        if ($request->emp_education_id !== null) {
+            $employeeEducationalDetail = EmployeeEducationalDetail::find($request->emp_education_id);
+        }
+        else{
+            $employeeEducationalDetail = new EmployeeEducationalDetail();
+        }
+
         $employeeEducationalDetail->employee_record_id = $request->employee_record_id;
-        $employeeEducationalDetail->lookup_id = $request->lookup_id;
+        $employeeEducationalDetail->lookup_id = $request->lookup_degree_id;
         $employeeEducationalDetail->board_name = trim($request->board_name);
         $employeeEducationalDetail->institute_name = trim($request->institute_name);
         $employeeEducationalDetail->subject_name = trim($request->subject_name);
@@ -25,7 +31,7 @@ class EmployeeEducationalRepository implements BaseRepositoryInterface
 
     public function update(Request $request, $cdesk)
     {
-        $employeeEducationalDetail = EmployeeEducationalDetail::find($request->id);;
+        $employeeEducationalDetail = EmployeeEducationalDetail::find($request->id);
         $employeeEducationalDetail->employee_record_id = $request->employee_record_id;
         $employeeEducationalDetail->lookup_id = $request->lookup_id;
         $employeeEducationalDetail->board_name = trim($request->board_name);
@@ -42,6 +48,19 @@ class EmployeeEducationalRepository implements BaseRepositoryInterface
 
     public function delete(Request $request, $cdesk)
     {
-        // TODO: Implement delete() method.
+        return EmployeeEducationalDetail::where('id',$request->emp_education_id)->delete();
+    }
+
+    public function list(Request $request)
+    {
+        // TODO: Implement list() method.
+    }
+
+    public function getSingleEmployeeEducationList(Request $request)
+    {
+        return EmployeeEducationalDetail::with(['degree'])
+            ->where('employee_record_id',$request->employee_record_id)
+            ->get()
+            ->toArray();
     }
 }

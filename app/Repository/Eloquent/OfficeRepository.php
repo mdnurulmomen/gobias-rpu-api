@@ -75,9 +75,6 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->created_by = $cdesk->user_primary_id;
         $office->modified_by = $cdesk->user_primary_id;
         $office->save();
-
-        $lastInsertId = $office->id;
-        return $lastInsertId;
     }
 
     public function delete(Request $request, $cdesk)
@@ -88,6 +85,90 @@ class OfficeRepository implements BaseRepositoryInterface
     public function list(Request $request)
     {
         // TODO: Implement list() method.
+    }
+
+    public function searchOffice(Request $request)
+    {
+
+        $office_ministry_id  = $request->office_ministry_id;
+        $office_layer_id  = $request->office_layer_id;
+        $custom_layer_id  = $request->custom_layer_id;
+        $office_name_bng = $request->office_name_bng;
+        $office_name_eng = $request->office_name_eng;
+        $geo_division_id = $request->geo_division_id;
+        $geo_district_id = $request->geo_district_id;
+        $geo_upazila_id = $request->geo_upazila_id;
+        $geo_union_id = $request->geo_union_id;
+        $office_code = $request->office_code;
+        $office_phone = $request->office_phone;
+        $office_email = $request->office_email;
+        $office_web = $request->office_web;
+        $parent_office_id = $request->parent_office_id;
+        $active_status = $request->active_status;
+
+        $query = Office::query();
+
+        $query->when($office_ministry_id, function ($q, $office_ministry_id) {
+            return $q->where('office_ministry_id', $office_ministry_id);
+        });
+
+        $query->when($office_layer_id, function ($q, $office_layer_id) {
+            return $q->where('office_layer_id', $office_layer_id);
+        });
+
+        $query->when($custom_layer_id, function ($q, $custom_layer_id) {
+            return $q->where('custom_layer_id', $custom_layer_id);
+        });
+
+        $query->when($office_name_bng, function ($q, $office_name_bng) {
+            return $q->where('office_name_bng', 'LIKE',"%{$office_name_bng}%");
+        });
+
+        $query->when($office_name_eng, function ($q, $office_name_eng) {
+            return $q->where('office_name_eng', 'LIKE',"%{$office_name_eng}%");
+        });
+
+        $query->when($geo_division_id, function ($q, $geo_division_id) {
+            return $q->where('geo_division_id', $geo_division_id);
+        });
+
+        $query->when($geo_district_id, function ($q, $geo_district_id) {
+            return $q->where('geo_district_id', $geo_district_id);
+        });
+
+        $query->when($geo_upazila_id, function ($q, $geo_upazila_id) {
+            return $q->where('geo_upazila_id', $geo_upazila_id);
+        });
+
+        $query->when($geo_union_id, function ($q, $geo_union_id) {
+            return $q->where('geo_union_id', $geo_union_id);
+        });
+
+        $query->when($office_code, function ($q, $office_code) {
+            return $q->where('office_code', $office_code);
+        });
+
+        $query->when($office_phone, function ($q, $office_phone) {
+            return $q->where('office_phone', $office_phone);
+        });
+
+        $query->when($office_email, function ($q, $office_email) {
+            return $q->where('office_email', $office_email);
+        });
+
+        $query->when($office_web, function ($q, $office_web) {
+            return $q->where('office_web', $office_web);
+        });
+
+        $query->when($parent_office_id, function ($q, $parent_office_id) {
+            return $q->where('parent_office_id', $parent_office_id);
+        });
+
+        $query->when($active_status, function ($q, $status) {
+            return $q->where('active_status', $status);
+        });
+
+        return $query->get()->toArray();
     }
 
     public function get_office_ministry_and_layer_wise(Request $request)

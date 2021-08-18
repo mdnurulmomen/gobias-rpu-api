@@ -41,4 +41,26 @@ class EmployeeRecordController extends Controller
         }
         return response()->json($response);
     }
+
+    public function profile(Request $request,EmployeeRecordService $employeeRecordService): \Illuminate\Http\JsonResponse
+    {
+        $employeeInfo = $employeeRecordService->profile($request);
+        if (isSuccessResponse($employeeInfo)) {
+            $response = responseFormat('success', $employeeInfo['data']);
+        } else {
+            $response = responseFormat('error', $employeeInfo['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function employeeDatatable(Request $request,EmployeeRecordService $employeeRecordService): \Illuminate\Http\JsonResponse
+    {
+        $employeeInfo = $employeeRecordService->employeeDatatable($request);
+        if (isSuccessResponse($employeeInfo)) {
+            $response = responseFormat('success', $employeeInfo['data']);
+        } else {
+            $response = responseFormat('error', $employeeInfo['data']);
+        }
+        return response()->json($response);
+    }
 }

@@ -11,12 +11,12 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
 
     public function store(Request $request, $cdesk)
     {
-
+        // TODO: Implement delete() method.
     }
 
     public function update(Request $request, $cdesk)
     {
-
+        // TODO: Implement delete() method.
     }
 
     public function show($ministry_id)

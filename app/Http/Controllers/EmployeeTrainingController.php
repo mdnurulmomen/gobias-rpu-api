@@ -43,4 +43,26 @@ class EmployeeTrainingController extends Controller
         return response()->json($response);
     }
 
+    public function getSingleEmployeeTrainingList(Request $request,EmployeeTrainingService $employeeTrainingService): \Illuminate\Http\JsonResponse
+    {
+        $singleEmployeeTrainingDetails = $employeeTrainingService->getSingleEmployeeTrainingList($request);
+        if (isSuccessResponse($singleEmployeeTrainingDetails)) {
+            $response = responseFormat('success', $singleEmployeeTrainingDetails['data']);
+        } else {
+            $response = responseFormat('error', $singleEmployeeTrainingDetails['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function delete(Request $request,EmployeeTrainingService $employeeTrainingService): \Illuminate\Http\JsonResponse
+    {
+        $deleteEmployeeTraining = $employeeTrainingService->delete($request);
+        if (isSuccessResponse($deleteEmployeeTraining)) {
+            $response = responseFormat('success', $deleteEmployeeTraining['data']);
+        } else {
+            $response = responseFormat('error', $deleteEmployeeTraining['data']);
+        }
+        return response()->json($response);
+    }
+
 }

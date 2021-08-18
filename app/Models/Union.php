@@ -16,6 +16,6 @@ class Union extends Model
 
     public function upozila()
     {
-        return $this->belongsTo(UpoZila::class,'geo_upazila_id','id');
+        return $this->belongsTo(GeoUpozila::class,'geo_upazila_id','id');
     }
 }

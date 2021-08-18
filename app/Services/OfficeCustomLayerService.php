@@ -52,10 +52,4 @@ class OfficeCustomLayerService
             return ['status' => 'error', 'data' => $e];
         }
     }
-
-
-    public function delete(Request $request,$cdesk)
-    {
-        // TODO: Implement delete() method.
-    }
 }

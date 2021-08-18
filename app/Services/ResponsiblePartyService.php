@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use App\Repository\Eloquent\ResponsiblePartyRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

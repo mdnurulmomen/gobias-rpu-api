@@ -18,7 +18,7 @@ class EmployeeRecordService
     {
         $cdesk = json_decode($request->cdesk, false);
         try {
-            $this->employeeRecordRepository->create($request, $cdesk);
+            $this->employeeRecordRepository->store($request, $cdesk);
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         }
         catch (ValidationException $exception) {
@@ -49,6 +49,24 @@ class EmployeeRecordService
     public function show(Request $request){
         try {
             $employeeInfo = $this->employeeRecordRepository->show($request->id);
+            return ['status' => 'success', 'data' => $employeeInfo];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function profile(Request $request){
+        try {
+            $employeeInfo = $this->employeeRecordRepository->profile($request->id);
+            return ['status' => 'success', 'data' => $employeeInfo];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function employeeDatatable(Request $request){
+        try {
+            $employeeInfo = $this->employeeRecordRepository->employeeDatatable($request);
             return ['status' => 'success', 'data' => $employeeInfo];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];

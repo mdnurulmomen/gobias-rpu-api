@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UpoZila extends Model
+class GeoUpozila extends Model
 {
     use HasFactory;
+
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
     protected $table = 'geo_upazilas';
@@ -16,13 +17,11 @@ class UpoZila extends Model
 
     public function zila()
     {
-        return $this->belongsTo(Zila::class,'geo_district_id','id');
+        return $this->belongsTo(GeoDistrict::class,'geo_district_id','id');
     }
 
     public function bivag()
     {
-        return $this->belongsTo(Bivag::class,'geo_division_id','id');
+        return $this->belongsTo(GeoDivision::class,'geo_division_id','id');
     }
-
-
 }

@@ -27,10 +27,10 @@ class StoreEmployeeCertificateRequest extends FormRequest
             'cdesk' => 'required|json',
             'employee_record_id' => 'required|numeric',
             'lookup_certificate_id' => 'required|numeric',
-            'certificate_institute_name' => 'required|string',
+            'institute_name' => 'required|string',
             'achievement_year' => 'required|numeric',
-            'certificate_details' => 'required|string',
-            'certificate_country_id' => 'required|numeric',
+            'description' => 'required|string',
+            'country_id' => 'required|numeric',
             'certificate_file_name' => 'mimes:png,jpg,jpeg,pdf|max:2048'
         ];
     }

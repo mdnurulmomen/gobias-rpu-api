@@ -44,4 +44,26 @@ class EmployeeCertificateController extends Controller
         return response()->json($response);
     }
 
+    public function getSingleEmployeeCertificateList(Request $request,EmployeeCertificateService $employeeCertificateService): \Illuminate\Http\JsonResponse
+    {
+        $employeeCertificateList = $employeeCertificateService->getSingleEmployeeCertificateList($request);
+        if (isSuccessResponse($employeeCertificateList)) {
+            $response = responseFormat('success', $employeeCertificateList['data']);
+        } else {
+            $response = responseFormat('error', $employeeCertificateList['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function delete(Request $request,EmployeeCertificateService $employeeCertificateService): \Illuminate\Http\JsonResponse
+    {
+        $deleteEmployeeCertificate= $employeeCertificateService->delete($request);
+        if (isSuccessResponse($deleteEmployeeCertificate)) {
+            $response = responseFormat('success', $deleteEmployeeCertificate['data']);
+        } else {
+            $response = responseFormat('error', $deleteEmployeeCertificate['data']);
+        }
+        return response()->json($response);
+    }
+
 }

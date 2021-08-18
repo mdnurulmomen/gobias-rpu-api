@@ -49,13 +49,25 @@ class OfficeLayerRepository implements BaseRepositoryInterface
 
     //show
     public function show($officeLayerId){
-        return OfficeLayer::where('id',$officeLayerId)->get()->toArray();
+        return OfficeLayer::where('id',$officeLayerId)->first()->toArray();
     }
 
     //get layer ministry wise
-    public function getLayerMinistryWise($ministryId)
+    public function getOfficeLayerMinistryWise($ministryId)
     {
-        return OfficeLayer::with(['parent'])->where('office_ministry_id', $ministryId)->get()->toArray();
+        return OfficeLayer::with(['parent'])
+            ->where('office_ministry_id', $ministryId)
+            ->get()->toArray();
+    }
+
+    //get layer tree ministry wise
+    public function getOfficeLayerTreeMinistryWise($ministryId)
+    {
+        return OfficeLayer::with(['child'])->where('office_ministry_id',$ministryId)
+            ->select('id', 'layer_name_eng', 'layer_name_bng')
+            ->where('parent_layer_id', 0)
+            ->get()
+            ->toArray();
     }
 
 
