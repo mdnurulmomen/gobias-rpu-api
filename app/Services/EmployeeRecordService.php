@@ -61,6 +61,15 @@ class EmployeeRecordService
         }
     }
 
+    public function search(Request $request){
+        try {
+            $employeeSearchResult = $this->employeeRecordRepository->search($request);
+            return ['status' => 'success', 'data' => $employeeSearchResult];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
     public function profile(Request $request){
         try {
             $employeeInfo = $this->employeeRecordRepository->profile($request->id);

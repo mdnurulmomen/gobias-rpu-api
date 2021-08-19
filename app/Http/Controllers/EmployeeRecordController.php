@@ -42,6 +42,17 @@ class EmployeeRecordController extends Controller
         return response()->json($response);
     }
 
+    public function search(Request $request,EmployeeRecordService $employeeRecordService): \Illuminate\Http\JsonResponse
+    {
+        $employeeSearchResult = $employeeRecordService->search($request);
+        if (isSuccessResponse($employeeSearchResult)) {
+            $response = responseFormat('success', $employeeSearchResult['data']);
+        } else {
+            $response = responseFormat('error', $employeeSearchResult['data']);
+        }
+        return response()->json($response);
+    }
+
     public function profile(Request $request,EmployeeRecordService $employeeRecordService): \Illuminate\Http\JsonResponse
     {
         $employeeInfo = $employeeRecordService->profile($request);

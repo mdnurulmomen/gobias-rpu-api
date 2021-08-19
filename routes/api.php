@@ -37,6 +37,7 @@ Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::c
 Route::post('/get-employee-info', [App\Http\Controllers\EmployeeRecordController::class, 'show']);
 Route::post('/update-employee', [App\Http\Controllers\EmployeeRecordController::class, 'update']);
 Route::post('/profile-employee', [App\Http\Controllers\EmployeeRecordController::class, 'profile']);
+Route::post('/search-employee', [App\Http\Controllers\EmployeeRecordController::class, 'search']);
 Route::post('/get-employee-list-datatable', [App\Http\Controllers\EmployeeRecordController::class, 'employeeDatatable']);
 
 //for employee certificate

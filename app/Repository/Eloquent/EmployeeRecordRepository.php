@@ -115,6 +115,97 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
         // TODO: Implement list() method.
     }
 
+    public function search(Request $request)
+    {
+
+        $name_eng  = trim($request->name_eng);
+        $name_bng = trim($request->name_bng);
+        $personal_email  = trim($request->personal_email);
+        $official_email  = trim($request->official_email);
+        $personal_mobile = trim($request->personal_mobile);
+        $official_mobile = trim($request->official_mobile);
+        $alternative_mobile = trim($request->alternative_mobile);
+        $nid = trim($request->nid);
+        $date_of_birth = $request->date_of_birth;
+        $gender = trim($request->gender);
+        $religion = trim($request->religion);
+        $blood_group = trim($request->blood_group);
+        $marital_status = trim($request->marital_status);
+        $is_cadre = trim($request->is_cadre);
+        $employee_grade = trim($request->employee_grade);
+        $employee_batch_id = trim($request->employee_batch_id);
+        $employee_cadre_id = trim($request->employee_cadre_id);
+        $district_id = trim($request->district_id);
+
+        $query = EmployeeRecord::query();
+
+        $query->when($name_eng, function ($q, $name_eng) {
+            return $q->where('name_eng', $name_eng);
+        });
+
+        $query->when($name_bng, function ($q, $name_bng) {
+            return $q->where('name_bng', $name_bng);
+        });
+
+        $query->when($personal_email, function ($q, $personal_email) {
+            return $q->where('personal_email', $personal_email);
+        });
+
+        $query->when($official_email, function ($q, $official_email) {
+            return $q->where('official_email', $official_email);
+        });
+
+        $query->when($official_mobile, function ($q, $official_mobile) {
+            return $q->where('official_mobile', $official_mobile);
+        });
+
+        $query->when($alternative_mobile, function ($q, $alternative_mobile) {
+            return $q->where('alternative_mobile', $alternative_mobile);
+        });
+
+        $query->when($nid, function ($q, $nid) {
+            return $q->where('nid', $nid);
+        });
+
+        $query->when($gender, function ($q, $gender) {
+            return $q->where('gender', $gender);
+        });
+
+        $query->when($religion, function ($q, $religion) {
+            return $q->where('religion', $religion);
+        });
+
+        $query->when($blood_group, function ($q, $blood_group) {
+            return $q->where('blood_group', $blood_group);
+        });
+
+        $query->when($marital_status, function ($q, $marital_status) {
+            return $q->where('marital_status', $marital_status);
+        });
+
+        $query->when($is_cadre, function ($q, $is_cadre) {
+            return $q->where('is_cadre', $is_cadre);
+        });
+
+        $query->when($employee_grade, function ($q, $employee_grade) {
+            return $q->where('employee_grade', $employee_grade);
+        });
+
+        $query->when($employee_batch_id, function ($q, $employee_batch_id) {
+            return $q->where('employee_batch_id', $employee_batch_id);
+        });
+
+        $query->when($employee_cadre_id, function ($q, $employee_cadre_id) {
+            return $q->where('employee_cadre_id', $employee_cadre_id);
+        });
+
+        $query->when($district_id, function ($q, $district_id) {
+            return $q->where('district_id', $district_id);
+        });
+
+        return $query->get()->toArray();
+    }
+
     //for profile
     public function profile($id)
     {
