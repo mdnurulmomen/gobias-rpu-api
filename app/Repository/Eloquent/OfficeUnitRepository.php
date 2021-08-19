@@ -57,6 +57,11 @@ class OfficeUnitRepository implements BaseRepositoryInterface
         return OfficeUnit::with(['child'])->where('office_ministry_id', $request->office_ministry_id)->where('office_layer_id', $request->office_layer_id)->where('office_id', $request->office_id)->where('parent_unit_id', 0)->get();
     }
 
+    public function getCostCenterUnit(Request $request)
+    {
+       return OfficeUnit::where('office_ministry_id', $request->office_ministry_id)->where('office_id', $request->parent_office_id)->select('id', 'unit_name_bng','unit_name_eng')->get()->toArray();
+    }
+
     public function delete(Request $request, $cdesk)
     {
         // TODO: Implement delete() method.

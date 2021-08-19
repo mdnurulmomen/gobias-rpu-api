@@ -3,14 +3,18 @@
 namespace App\Services;
 
 use App\Repository\Eloquent\ResponsiblePartyRepository;
+use App\Repository\Eloquent\OfficeRepository;
+use App\Repository\Eloquent\OfficeUnitRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ResponsiblePartyService
 {
-    public function __construct(ResponsiblePartyRepository $responsiblePartyRepository)
+    public function __construct(ResponsiblePartyRepository $responsiblePartyRepository,OfficeRepository $officeRepository,OfficeUnitRepository $officeUnitRepository)
     {
         $this->responsiblePartyRepository = $responsiblePartyRepository;
+        $this->OfficeRepository = $officeRepository;
+        $this->OfficeUnitRepository = $officeUnitRepository;
     }
 
     public function store(Request $request): array
@@ -58,6 +62,24 @@ class ResponsiblePartyService
         try {
             $responsible_party_list = $this->responsiblePartyRepository->list($request);
             return ['status' => 'success', 'data' => $responsible_party_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function getCostCenterOffice(Request $request){
+        try {
+            $cost_center_offie_list = $this->OfficeRepository->getCostCenterOffice($request);
+            return ['status' => 'success', 'data' => $cost_center_offie_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function getCostCenterUnit(Request $request){
+        try {
+            $cost_center_unit_list = $this->OfficeUnitRepository->getCostCenterUnit($request);
+            return ['status' => 'success', 'data' => $cost_center_unit_list];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

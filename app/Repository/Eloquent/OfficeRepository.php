@@ -171,6 +171,11 @@ class OfficeRepository implements BaseRepositoryInterface
         return $query->get()->toArray();
     }
 
+    public function getCostCenterOffice(Request $request)
+    {
+       return Office::where('office_ministry_id', $request->office_ministry_id)->where('office_layer_id', $request->cost_center_layer_id)->where('parent_office_id', $request->parent_office_id)->select('id', 'office_name_bng','office_name_eng')->get()->toArray();
+    }
+
     public function get_office_ministry_and_layer_wise(Request $request)
     {
         return Office::where('office_ministry_id',$request->office_ministry_id)

@@ -50,11 +50,60 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
 
     public function list(Request $request)
     {
-        if ($request->per_page && !$request->all) {
-            return ResponsibleParty::paginate($request->per_page);
-        } else {
-            return ResponsibleParty::all();
+        $directorate_id = $request->directorate_id;
+        $office_ministry_id = $request->office_ministry_id;
+        $controlling_office_layer_id = $request->controlling_office_layer_id;
+        $controlling_office_id = $request->controlling_office_id;
+        $parent_office_layer_id = $request->parent_office_layer_id;
+        $parent_office_id = $request->parent_office_id;
+        $cost_center_layer_id = $request->cost_center_layer_id;
+        $cost_center_id = $request->cost_center_id;
+        $cost_center_type = $request->cost_center_type;
+
+        $query = ResponsibleParty::query();
+
+        $query->when($directorate_id, function ($q, $directorate_id) {
+            return $q->where('directorate_id', $directorate_id);
+        });
+
+        $query->when($office_ministry_id, function ($q, $office_ministry_id) {
+            return $q->where('office_ministry_id', $office_ministry_id);
+        });
+
+        $query->when($controlling_office_layer_id, function ($q, $controlling_office_layer_id) {
+            return $q->where('controlling_office_layer_id', $controlling_office_layer_id);
+        });
+
+        $query->when($controlling_office_id, function ($q, $controlling_office_id) {
+            return $q->where('controlling_office_id', $controlling_office_id);
+        });
+
+        $query->when($parent_office_layer_id, function ($q, $parent_office_layer_id) {
+            return $q->where('parent_office_layer_id', $parent_office_layer_id);
+        });
+
+        $query->when($parent_office_id, function ($q, $parent_office_id) {
+            return $q->where('parent_office_id', $parent_office_id);
+        });
+
+        $query->when($cost_center_layer_id, function ($q, $cost_center_layer_id) {
+            return $q->where('cost_center_layer_id', $cost_center_layer_id);
+        });
+
+        $query->when($cost_center_id, function ($q, $cost_center_id) {
+            return $q->where('cost_center_id', $cost_center_id);
+        });
+
+        $query->when($cost_center_type, function ($q, $cost_center_type) {
+            return $q->where('cost_center_type', 'LIKE',"%{$cost_center_type}%");
+        });
+
+        if($request->per_page){
+            return $query->paginate($request->per_page)->toArray();
+        }else{
+            return $query->get()->toArray();
         }
+
     }
 
     public function delete(Request $request, $cdesk)

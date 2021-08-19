@@ -52,4 +52,26 @@ class ResponsiblePartyController extends Controller
         return response()->json($response);
     }
 
+    public function getCostCenterOffice(Request $request, ResponsiblePartyService $responsible_party): \Illuminate\Http\JsonResponse
+    {
+        $cost_center_office_list = $responsible_party->getCostCenterOffice($request);
+        if (isSuccessResponse($cost_center_office_list)) {
+            $response = responseFormat('success', $cost_center_office_list['data']);
+        } else {
+            $response = responseFormat('error', $cost_center_office_list['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function getCostCenterUnit(Request $request, ResponsiblePartyService $responsible_party): \Illuminate\Http\JsonResponse
+    {
+        $cost_center_unit_list = $responsible_party->getCostCenterUnit($request);
+        if (isSuccessResponse($cost_center_unit_list)) {
+            $response = responseFormat('success', $cost_center_unit_list['data']);
+        } else {
+            $response = responseFormat('error', $cost_center_unit_list['data']);
+        }
+        return response()->json($response);
+    }
+
 }

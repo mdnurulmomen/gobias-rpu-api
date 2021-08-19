@@ -77,6 +77,8 @@ Route::post('/store-responsible-party', [App\Http\Controllers\ResponsiblePartyCo
 Route::post('/update-responsible-party', [App\Http\Controllers\ResponsiblePartyController::class, 'update']);
 Route::post('/get-responsible-party-info', [App\Http\Controllers\ResponsiblePartyController::class, 'show']);
 Route::post('/get-responsible-party-list', [App\Http\Controllers\ResponsiblePartyController::class, 'list']);
+Route::post('/get-cost-center-office-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterOffice']);
+Route::post('/get-cost-center-unit-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterunit']);
 
 //for division
 Route::post('/get-geo-division-list', [App\Http\Controllers\GeoDivisionController::class, 'list']);
