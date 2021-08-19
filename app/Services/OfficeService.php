@@ -170,4 +170,13 @@ class OfficeService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function officeDatatable(Request $request){
+        try {
+            $officeList = $this->officeRepository->officeDatatable($request);
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

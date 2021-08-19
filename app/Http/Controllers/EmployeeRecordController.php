@@ -55,11 +55,11 @@ class EmployeeRecordController extends Controller
 
     public function employeeDatatable(Request $request,EmployeeRecordService $employeeRecordService): \Illuminate\Http\JsonResponse
     {
-        $employeeInfo = $employeeRecordService->employeeDatatable($request);
-        if (isSuccessResponse($employeeInfo)) {
-            $response = responseFormat('success', $employeeInfo['data']);
+        $employeeList = $employeeRecordService->employeeDatatable($request);
+        if (isSuccessResponse($employeeList)) {
+            $response = responseFormat('success', $employeeList['data']);
         } else {
-            $response = responseFormat('error', $employeeInfo['data']);
+            $response = responseFormat('error', $employeeList['data']);
         }
         return response()->json($response);
     }

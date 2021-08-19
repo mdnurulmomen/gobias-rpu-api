@@ -57,6 +57,8 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
         $employeeRecord->status = 1;
         $employeeRecord->created_by = $cdesk->user_primary_id;
         $employeeRecord->save();
+
+        return $employeeRecord->id;
     }
 
     public function update(Request $request, $cdesk)

@@ -176,4 +176,44 @@ class OfficeRepository implements BaseRepositoryInterface
         return Office::where('office_ministry_id',$request->office_ministry_id)
             ->where('office_layer_id',$request->office_layer_id)->get()->toArray();
     }
+
+    //for office datatable
+    public function officeDatatable(Request $request){
+        $limit = $request->length;
+        $start = $request->start;
+        $order = $request->order;
+        $dir = $request->dir;
+
+        if (empty($request->search)) {
+            $totalData = Office::count();
+            $offices = Office::with(['parent_office','office_ministry','office_layer'])
+                ->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+        }
+
+        else {
+            $search = $request->search;
+
+            $commonSql = Office::with(['parent_office','office_ministry','office_layer'])
+                ->where('office_name_eng', 'like', '%' .$search . '%')
+                ->orWhere('office_name_bng', 'LIKE',"%{$search}%")
+                ->orWhere('office_email', 'LIKE',"%{$search}%")
+                ->orWhere('office_web', 'LIKE',"%{$search}%");
+
+            $totalData = $commonSql->count();
+            $offices = $commonSql->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+        }
+
+        $response = array(
+            "offices"=> $offices,
+            "totalData"=>$totalData,
+            "totalFiltered"=>$totalData
+        );
+        return $response;
+    }
 }
