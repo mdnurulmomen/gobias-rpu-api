@@ -19,11 +19,20 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
         $responsible_party->parent_office_layer_id = $request->parent_office_layer_id;
         $responsible_party->parent_office_id = $request->parent_office_id;
         $responsible_party->cost_center_layer_id = $request->cost_center_layer_id;
+
+        if (is_numeric($request->cost_center_layer_id)){
+            $responsible_party->cost_center_layer_id = $request->cost_center_layer_id;
+            $responsible_party->cost_center_type = 'OFFICE';
+        }else{
+            $responsible_party->cost_center_layer_id = 0;
+            $responsible_party->cost_center_type = $request->cost_center_layer_id;
+        }
+
         $responsible_party->cost_center_id = $request->cost_center_id;
-        $responsible_party->cost_center_type = $request->cost_center_type;
-        $responsible_party->created_by = $cdesk->user_id;
-        $responsible_party->modified_by = $cdesk->user_id;
+        $responsible_party->created_by = $cdesk->user_primary_id;
+        $responsible_party->modified_by = $cdesk->user_primary_id;
         $responsible_party->save();
+        return $responsible_party->id;
     }
 
     public function update(Request $request, $cdesk)
@@ -38,8 +47,8 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
         $responsible_party->cost_center_layer_id = $request->cost_center_layer_id;
         $responsible_party->cost_center_id = $request->cost_center_id;
         $responsible_party->cost_center_type = $request->cost_center_type;
-        $responsible_party->created_by = $cdesk->user_id;
-        $responsible_party->modified_by = $cdesk->user_id;
+        $responsible_party->created_by = $cdesk->user_primary_id;
+        $responsible_party->modified_by = $cdesk->user_primary_id;
         $responsible_party->save();
     }
 
@@ -101,7 +110,25 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
         if($request->per_page){
             return $query->paginate($request->per_page)->toArray();
         }else{
-            return $query->get()->toArray();
+            return $query->with(array('office_ministry' => function($query) {
+                $query->select('id','name_bng');
+            }))->with(array('controlling_office_layer' => function($query) {
+                $query->select('id','layer_name_bng');
+            }))->with(array('cost_center_layer' => function($query) {
+                $query->select('id','layer_name_bng');
+            }))->with(array('parent_office_layer' => function($query) {
+                $query->select('id','layer_name_bng');
+            }))->with(array('controlling_office' => function($query) {
+                $query->select('id','office_name_bng');
+            }))->with(array('parent' => function($query) {
+                $query->select('id','office_name_bng');
+            }))->with(array('cost_center_office' => function($query) {
+                $query->select('id','office_name_bng');
+            }))->with(array('cost_center_unit' => function($query) {
+                $query->select('id','unit_name_bng');
+            }))->with(array('cost_center_employee' => function($query) {
+                $query->select('id','name_bng');
+            }))->get()->toArray();
         }
 
     }

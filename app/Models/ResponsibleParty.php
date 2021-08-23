@@ -32,22 +32,47 @@ class ResponsibleParty extends Model
 
     public function parent_office_layer()
     {
-      return $this->belongsTo(OfficeLayer::class,'parent_office_layer_id','parent_layer_id')->with('parent_office_layer');
+      return $this->belongsTo(OfficeLayer::class,'parent_office_layer_id','id');
     }
 
     public function controlling_office()
     {
-        return $this->belongsTo(OfficeOrigin::class, 'controlling_office_id', 'id');
+        return $this->belongsTo(Office::class, 'controlling_office_id', 'id');
     }
 
     public function parent()
     {
-        return $this->belongsTo(OfficeOrigin::class,'parent_office_id','id')->with('parent');
+        return $this->belongsTo(Office::class,'parent_office_id','id');
     }
 
-    public function cost_center()
+    public function cost_center_office()
     {
-        return $this->belongsTo(OfficeOrigin::class, 'cost_center_id', 'id');
+        return $this->belongsTo(Office::class,'cost_center_id','id');
+
+    }
+
+    public function cost_center_unit()
+    {
+        return $this->belongsTo(OfficeUnit::class,'cost_center_id','id');
+
+    }
+
+    public function cost_center_employee(){
+        return $this->belongsTo(EmployeeRecord::class,'cost_center_id','id');
+    }
+
+    public function scopeResponsibleParty($query)
+    {
+        return $query
+            ->when($this->cost_center_type === 'OFFICE',function($q){
+                  return $q->with('cost_center_office');
+             })
+             ->when($this->cost_center_type === 'SECTION',function($q){
+                  return $q->with('cost_center_unit');
+             })
+             ->when($this->cost_center_type === 'EMPLOYEE',function($q){
+                  return $q->with('cost_center_employee');
+             });
     }
 
 

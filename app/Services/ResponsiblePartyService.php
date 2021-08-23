@@ -5,16 +5,20 @@ namespace App\Services;
 use App\Repository\Eloquent\ResponsiblePartyRepository;
 use App\Repository\Eloquent\OfficeRepository;
 use App\Repository\Eloquent\OfficeUnitRepository;
+use App\Repository\Eloquent\RpInfoSectionBnRepository;
+use App\Repository\Eloquent\RpInfoSectionEnRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ResponsiblePartyService
 {
-    public function __construct(ResponsiblePartyRepository $responsiblePartyRepository,OfficeRepository $officeRepository,OfficeUnitRepository $officeUnitRepository)
+    public function __construct(ResponsiblePartyRepository $responsiblePartyRepository, OfficeRepository $officeRepository, OfficeUnitRepository $officeUnitRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,RpInfoSectionEnRepository $rpInfoSectionEnRepository)
     {
         $this->responsiblePartyRepository = $responsiblePartyRepository;
         $this->OfficeRepository = $officeRepository;
         $this->OfficeUnitRepository = $officeUnitRepository;
+        $this->rpInfoSectionBnRepository = $rpInfoSectionBnRepository;
+        $this->rpInfoSectionEnRepository = $rpInfoSectionEnRepository;
     }
 
     public function store(Request $request): array
@@ -22,7 +26,12 @@ class ResponsiblePartyService
         $cdesk = json_decode($request->cdesk, false);
         DB::beginTransaction();
         try {
-            $this->responsiblePartyRepository->store($request, $cdesk);
+            $responsible_party_id = $this->responsiblePartyRepository->store($request, $cdesk);
+            if($request->rp_info_section_id){
+                $store_rp_info_section_bn = $this->rpInfoSectionBnRepository->store($request,$responsible_party_id);
+                $store_rp_info_section_en = $this->rpInfoSectionEnRepository->store($request,$responsible_party_id);
+            }
+
             DB::commit();
             $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         } catch (\Exception $exception) {

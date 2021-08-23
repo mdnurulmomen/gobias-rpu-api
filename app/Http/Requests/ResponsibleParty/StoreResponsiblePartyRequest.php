@@ -31,9 +31,8 @@ class StoreResponsiblePartyRequest extends FormRequest
             'controlling_office_id' => 'required|numeric',
             'parent_office_layer_id' => 'numeric',
             'parent_office_id' => 'numeric',
-            'cost_center_layer_id' => 'required|numeric',
+            'cost_center_layer_id' => 'required|string',
             'cost_center_id' => 'required|numeric',
-            'cost_center_type' => 'required|string',
         ];
     }
 }
