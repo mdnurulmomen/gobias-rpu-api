@@ -1,7 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+Route::post('login-in-rpu-amms', [App\Http\Controllers\LoginController::class, 'loginInRpuAmms']);
+
+Route::post('client-login', [App\Http\Controllers\LoginController::class, 'clientLogin']);
 
 //office ministry
 Route::post('/get-office-ministry-list', [App\Http\Controllers\OfficeMinistryController::class, 'list']);
