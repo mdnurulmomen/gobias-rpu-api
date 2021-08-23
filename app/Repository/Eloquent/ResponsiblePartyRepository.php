@@ -13,6 +13,8 @@ class ResponsiblePartyRepository implements BaseRepositoryInterface
     {
         $responsible_party = new ResponsibleParty;
         $responsible_party->directorate_id = $request->directorate_id;
+        $responsible_party->directorate_name_bn = $request->directorate_name_bn;
+        $responsible_party->directorate_name_en = $request->directorate_name_en;
         $responsible_party->office_ministry_id = $request->office_ministry_id;
         $responsible_party->controlling_office_layer_id = $request->controlling_office_layer_id;
         $responsible_party->controlling_office_id = $request->controlling_office_id;

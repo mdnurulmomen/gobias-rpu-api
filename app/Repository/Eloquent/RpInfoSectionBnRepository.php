@@ -12,7 +12,7 @@ class RpInfoSectionBnRepository implements BaseRepositoryInterface
     public function store(Request $request, $rp_id)
     {
         $rp_info_section_data_bn = $request->info_section_data_bn;
-//        dd($rp_info_section_data_bn);
+
         foreach ($request->rp_info_section_id as $key => $value){
             $rp_info_section_bn = new RpInfoSectionBn;
             $rp_info_section_bn->rp_id = $rp_id;

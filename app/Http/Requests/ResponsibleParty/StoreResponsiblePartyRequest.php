@@ -26,6 +26,8 @@ class StoreResponsiblePartyRequest extends FormRequest
         return [
             'cdesk' => 'required|json',
             'directorate_id' => 'required|numeric',
+            'directorate_name_bn' => 'string',
+            'directorate_name_en' => 'string',
             'office_ministry_id' => 'required|numeric',
             'controlling_office_layer_id' => 'required|numeric',
             'controlling_office_id' => 'required|numeric',

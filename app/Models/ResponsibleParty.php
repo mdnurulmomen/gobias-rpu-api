@@ -13,7 +13,7 @@ class ResponsibleParty extends Model
     const UPDATED_AT = 'modified';
     protected $table ='responsible_parties';
 
-    protected $fillable = ['office_ministry_id','controlling_office_layer_id','controlling_office_id','parent_office_layer_id','parent_office_id','cost_center_layer_id','cost_center_id','cost_center_type','created_by','modified_by'];
+    protected $fillable = ['directorate_id','directorate_name_bn','directorate_name_en','office_ministry_id','controlling_office_layer_id','controlling_office_id','parent_office_layer_id','parent_office_id','cost_center_layer_id','cost_center_id','cost_center_type','created_by','modified_by'];
 
     public function office_ministry()
     {
