@@ -28,7 +28,7 @@ class ResponsiblePartyService
         try {
             $responsible_party_id = $this->responsiblePartyRepository->store($request, $cdesk);
 
-            if(!empty($request->rp_info_section_id)){
+            if(!is_null($request->rp_info_section_id[0])){
                 $store_rp_info_section_bn = $this->rpInfoSectionBnRepository->store($request,$responsible_party_id);
                 $store_rp_info_section_en = $this->rpInfoSectionEnRepository->store($request,$responsible_party_id);
             }
