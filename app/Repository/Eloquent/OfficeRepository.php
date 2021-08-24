@@ -173,7 +173,25 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function getCostCenterOffice(Request $request)
     {
-       return Office::where('office_ministry_id', $request->office_ministry_id)->where('office_layer_id', $request->cost_center_layer_id)->where('parent_office_id', $request->parent_office_id)->select('id', 'office_name_bng','office_name_eng')->get()->toArray();
+        $office_ministry_id = $request->office_ministry_id;
+        $office_layer_id = $request->cost_center_layer_id;
+        $parent_office_id = $request->parent_office_id;
+
+        $query = Office::query();
+
+        $query->when($office_ministry_id, function ($q, $office_ministry_id) {
+            return $q->where('office_ministry_id', $office_ministry_id);
+        });
+
+        $query->when($office_layer_id, function ($q, $office_layer_id) {
+            return $q->where('office_layer_id', $office_layer_id);
+        });
+
+        $query->when($parent_office_id, function ($q, $parent_office_id) {
+            return $q->where('parent_office_id', $parent_office_id);
+        });
+
+        return $query->get()->toArray();
     }
 
     public function get_office_ministry_and_layer_wise(Request $request)
