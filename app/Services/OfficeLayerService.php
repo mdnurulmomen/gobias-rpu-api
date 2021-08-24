@@ -49,6 +49,15 @@ class OfficeLayerService
         }
     }
 
+    public function list(Request $request){
+        try {
+            $office_layer_list = $this->officeLayerRepository->list($request);
+            return ['status' => 'success', 'data' => $office_layer_list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
     public function getOfficeLayerMinistryWise($ministryId){
         try {
             $officeLayerInfo = $this->officeLayerRepository->getOfficeLayerMinistryWise($ministryId);

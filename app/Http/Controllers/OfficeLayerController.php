@@ -45,6 +45,18 @@ class OfficeLayerController extends Controller
         return response()->json($response);
     }
 
+    //for list
+    public function list(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    {
+        $office_layer_list = $officeLayerService->list($request);
+        if (isSuccessResponse($office_layer_list)) {
+            $response = responseFormat('success', $office_layer_list['data']);
+        } else {
+            $response = responseFormat('error', $office_layer_list['data']);
+        }
+        return response()->json($response);
+    }
+
     //for get office Layer ministry wise
     public function getOfficeLayerMinistryWise(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
     {

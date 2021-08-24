@@ -34,7 +34,8 @@ class ResponsiblePartyService
             }
 
             DB::commit();
-            $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
+            return $request->rp_info_section_id;
+//            $return_data = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         } catch (\Exception $exception) {
             DB::rollback();
             $return_data = ['status' => 'error', 'data' => $exception];

@@ -13,6 +13,7 @@ Route::post('/get-office-ministry-list', [App\Http\Controllers\OfficeMinistryCon
 Route::post('/store-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'store']);
 Route::post('/update-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'update']);
 Route::post('/get-office-layer-info', [App\Http\Controllers\OfficeLayerController::class, 'show']);
+Route::post('/get-office-layer-list', [App\Http\Controllers\OfficeLayerController::class, 'list']);
 Route::post('/get-office-layer-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeLayerMinistryWise']);
 Route::post('/get-office-layer-tree-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeLayerTreeMinistryWise']);
 
