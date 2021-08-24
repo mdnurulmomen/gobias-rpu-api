@@ -31,8 +31,8 @@ class StoreResponsiblePartyRequest extends FormRequest
             'office_ministry_id' => 'required|numeric',
             'controlling_office_layer_id' => 'required|numeric',
             'controlling_office_id' => 'required|numeric',
-            'parent_office_layer_id' => 'numeric',
-            'parent_office_id' => 'numeric',
+            'parent_office_layer_id' => 'string',
+            'parent_office_id' => 'string',
             'cost_center_layer_id' => 'required|string',
             'cost_center_id' => 'required|numeric',
         ];
