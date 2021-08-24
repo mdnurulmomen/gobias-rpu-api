@@ -11,7 +11,6 @@ class ResponsiblePartyController extends Controller
     public function store(StoreResponsiblePartyRequest $request, ResponsiblePartyService $responsible_party): \Illuminate\Http\JsonResponse
     {
         $store_responsible_party = $responsible_party->store($request);
-//        dd($store_responsible_party);
         if (isSuccessResponse($store_responsible_party)) {
             $response = responseFormat('success', $store_responsible_party['data']);
         } else {

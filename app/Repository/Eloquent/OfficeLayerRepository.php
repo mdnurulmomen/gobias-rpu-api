@@ -106,7 +106,7 @@ class OfficeLayerRepository implements BaseRepositoryInterface
         if($request->per_page){
             return $query->paginate($request->per_page)->toArray();
         }else{
-            return $query->get()->toArray();
+            return $query->with(['parent'])->get()->toArray();
         }
 
     }
