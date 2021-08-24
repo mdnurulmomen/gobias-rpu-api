@@ -9,11 +9,13 @@ use App\Repository\Eloquent\UserOfficeRepository;
 use App\Repository\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use App\Traits\SendNotification;
 
 class OfficeService
 {
+    use SendNotification;
+
     public function __construct(OfficeRepository $officeRepository, UserRepository $userRepository,
                                 UserOfficeRepository $userOfficeRepository)
     {
@@ -73,8 +75,10 @@ class OfficeService
                 'userEmail' => trim($request->office_email),
                 'password' => '123456',
             ];
-            $email = new UserLoginMail($details);
-            Mail::to($request->office_email)->send($email);
+//            $email = new UserLoginMail($details);
+//            Mail::to($request->office_email)->send($email);
+
+            $this->sendMailNotification(config('notifiable_constants.user_create'), $request->office_email, 'লগইনের তথ্য', []);
 
             DB::commit();
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
