@@ -75,9 +75,14 @@ class Office extends Model
         return $this->belongsTo(OfficeMinistry::class, 'office_ministry_id', 'id');
     }
 
-    public function office_origin()
+    public function controlling_office_layer()
     {
-        return $this->belongsTo(OfficeOrigin::class, 'office_origin_id', 'id');
+      return $this->belongsTo(OfficeLayer::class,'controlling_office_layer_id','id');
+    }
+
+    public function controlling_office()
+    {
+        return $this->belongsTo(Office::class, 'controlling_office_id', 'id');
     }
 
     public function office_layer()

@@ -213,7 +213,7 @@ class OfficeRepository implements BaseRepositoryInterface
 
         if (empty($request->search)) {
             $totalData = Office::count();
-            $offices = Office::with(['parent_office','office_ministry','office_layer'])
+            $offices = Office::with(['parent_office','office_ministry','office_layer','controlling_office_layer','controlling_office'])
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
