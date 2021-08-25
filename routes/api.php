@@ -16,6 +16,7 @@ Route::post('/get-office-layer-info', [App\Http\Controllers\OfficeLayerControlle
 Route::post('/get-office-layer-list', [App\Http\Controllers\OfficeLayerController::class, 'list']);
 Route::post('/get-office-layer-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeLayerMinistryWise']);
 Route::post('/get-office-layer-tree-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeLayerTreeMinistryWise']);
+Route::post('/get-office-layer-parent-ministry-wise', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeLayerParentAndMinistryWise']);
 
 //office custom layer
 Route::post('/list-office-custom-layer', [App\Http\Controllers\OfficeCustomLayerController::class, 'list']);
@@ -65,6 +66,15 @@ Route::post('/update-employee-education', [App\Http\Controllers\EmployeeEducatio
 Route::post('/get-single-employee-education-list', [App\Http\Controllers\EmployeeEducationalController::class, 'getSingleEmployeeEducationList']);
 Route::post('/delete-employee-education', [App\Http\Controllers\EmployeeEducationalController::class, 'delete']);
 
+//for cadre
+Route::post('/list-cadre', [App\Http\Controllers\CadreController::class, 'list']);
+
+//for batch
+Route::post('/list-batch', [App\Http\Controllers\BatchController::class, 'list']);
+
+//for language
+Route::post('/list-language', [App\Http\Controllers\LanguageController::class, 'list']);
+
 //for lookup
 Route::post('/store-lookup', [App\Http\Controllers\LookupController::class, 'store']);
 Route::post('/get-lookup-info', [App\Http\Controllers\LookupController::class, 'show']);
@@ -84,10 +94,17 @@ Route::post('/get-responsible-party-list', [App\Http\Controllers\ResponsiblePart
 Route::post('/get-cost-center-office-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterOffice']);
 Route::post('/get-cost-center-unit-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterunit']);
 
+//for language
+Route::post('/list-language', [App\Http\Controllers\LanguageController::class, 'list']);
+
+//for country
+Route::post('/get-geo-country-list', [App\Http\Controllers\GeoCountryController::class, 'list']);
+
 //for division
 Route::post('/get-geo-division-list', [App\Http\Controllers\GeoDivisionController::class, 'list']);
 
 //for district
+Route::post('/get-geo-district-list', [App\Http\Controllers\GeoDistrictController::class, 'list']);
 Route::post('/get-district-division-wise', [App\Http\Controllers\GeoDistrictController::class, 'getDistrictDivisionWise']);
 
 //for upazila

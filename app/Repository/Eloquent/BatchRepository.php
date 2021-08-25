@@ -2,20 +2,18 @@
 
 namespace App\Repository\Eloquent;
 
-use App\Models\GeoDistrict;
+use App\Models\EmployeeBatch;
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class GeoDistrictRepository implements BaseRepositoryInterface
+class BatchRepository implements BaseRepositoryInterface
 {
-    //store
     public function store(Request $request, $cdesk)
     {
         // TODO: Implement store() method.
     }
 
-    //update
     public function update(Request $request, $cdesk)
     {
         // TODO: Implement update() method.
@@ -36,11 +34,6 @@ class GeoDistrictRepository implements BaseRepositoryInterface
     //list
     public function list(Request $request)
     {
-        return GeoDistrict::get()->toArray();
-    }
-
-    public function getDistrictDivisionWise(Request $request)
-    {
-        return GeoDistrict::where('geo_division_id',$request->division_id)->get()->toArray();
+        return EmployeeBatch::all()->toArray();
     }
 }

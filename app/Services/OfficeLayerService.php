@@ -77,4 +77,14 @@ class OfficeLayerService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function getOfficeLayerParentAndMinistryWise(Request $request){
+        try {
+            $officeLayers = $this->officeLayerRepository->getOfficeLayerParentAndMinistryWise($request);
+            return ['status' => 'success', 'data' => $officeLayers];
+        }
+        catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

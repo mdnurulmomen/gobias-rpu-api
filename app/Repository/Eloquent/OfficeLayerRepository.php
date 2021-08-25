@@ -115,9 +115,11 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     public function getOfficeLayerMinistryWise($ministryId)
     {
         return OfficeLayer::with(['parent'])
-            ->select('id','layer_name_eng','layer_name_bng','layer_name_eng AS layer_name_en', 'layer_name_bng AS layer_name_bn','parent_layer_id')
+            ->select('id','layer_name_eng','layer_name_bng','layer_name_eng AS layer_name_en',
+                'layer_name_bng AS layer_name_bn','parent_layer_id')
             ->where('office_ministry_id', $ministryId)
-            ->get()->toArray();
+            ->get()
+            ->toArray();
     }
 
     //get layer tree ministry wise
@@ -130,6 +132,15 @@ class OfficeLayerRepository implements BaseRepositoryInterface
             ->toArray();
     }
 
+
+    public function getOfficeLayerParentAndMinistryWise(Request $request)
+    {
+        return OfficeLayer::where('office_ministry_id', $request->ministry_id)
+            ->where('parent_layer_id', $request->office_layer_id)
+            ->select('id', 'layer_name_eng', 'layer_name_bng')
+            ->get()
+            ->toArray();
+    }
 
     //delete
     public function delete(Request $request, $cdesk)

@@ -66,6 +66,10 @@ class EmployeeRecord extends Model
         return $this->hasMany(EmployeeTrainingDetail::class, 'employee_record_id','id');
     }
 
+    public function certificates(){
+        return $this->hasMany(EmployeeCertificateDetail::class, 'employee_record_id','id');
+    }
+
     public function language_proficiencies(){
         return $this->hasMany(EmployeeLanguageProficiency::class, 'employee_record_id','id');
     }

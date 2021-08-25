@@ -80,4 +80,17 @@ class OfficeLayerController extends Controller
         }
         return response()->json($response);
     }
+
+
+    //for get office Layer parent & ministry wise
+    public function getOfficeLayerParentAndMinistryWise(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    {
+        $officeLayers = $officeLayerService->getOfficeLayerParentAndMinistryWise($request);
+        if (isSuccessResponse($officeLayers)) {
+            $response = responseFormat('success', $officeLayers['data']);
+        } else {
+            $response = responseFormat('error', $officeLayers['data']);
+        }
+        return response()->json($response);
+    }
 }

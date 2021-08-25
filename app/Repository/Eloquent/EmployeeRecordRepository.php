@@ -100,9 +100,10 @@ class EmployeeRecordRepository implements BaseRepositoryInterface
         $employeeRecord->save();
     }
 
+    //for show
     public function show($id)
     {
-        return EmployeeRecord::where('id',$id)->first()->toArray();
+        return EmployeeRecord::with(['language_proficiencies'])->find($id)->toArray();
     }
 
     public function delete(Request $request, $cdesk)
