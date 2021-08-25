@@ -4,8 +4,11 @@ namespace App\Services;
 
 use App\Mail\UserLoginMail;
 use App\Models\Document;
+use App\Models\RpInfoSectionBn;
 use App\Repository\Eloquent\OfficeRepository;
 use App\Repository\Eloquent\UserOfficeRepository;
+use App\Repository\Eloquent\RpInfoSectionBnRepository;
+use App\Repository\Eloquent\RpInfoSectionEnRepository;
 use App\Repository\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,11 +20,13 @@ class OfficeService
     use SendNotification;
 
     public function __construct(OfficeRepository $officeRepository, UserRepository $userRepository,
-                                UserOfficeRepository $userOfficeRepository)
+                                UserOfficeRepository $userOfficeRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,RpInfoSectionEnRepository $rpInfoSectionEnRepository)
     {
         $this->officeRepository = $officeRepository;
         $this->userRepository = $userRepository;
         $this->userOfficeRepository = $userOfficeRepository;
+        $this->rpInfoSectionBnRepository = $rpInfoSectionBnRepository;
+        $this->rpInfoSectionEnRepository = $rpInfoSectionEnRepository;
     }
 
     public function store(Request $request): array
@@ -38,6 +43,11 @@ class OfficeService
 
             //for user office
             $this->userOfficeRepository->storeUserOffice($request, $userId, $officeId, $cdesk);
+
+            if(!is_null($request->rp_info_section_id[0])){
+                $store_rp_info_section_bn = $this->rpInfoSectionBnRepository->store($request,$officeId);
+                $store_rp_info_section_en = $this->rpInfoSectionEnRepository->store($request,$officeId);
+            }
 
             //for insert attachment
             if ($request->hasFile('attachments')) {

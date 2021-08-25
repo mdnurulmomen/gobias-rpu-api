@@ -11,6 +11,7 @@ class OfficeController extends Controller
     public function store(StoreOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $storeOffice = $officeServices->store($request);
+//        dd($storeOffice);
         if (isSuccessResponse($storeOffice)) {
             $response = responseFormat('success', $storeOffice['data']);
         } else {

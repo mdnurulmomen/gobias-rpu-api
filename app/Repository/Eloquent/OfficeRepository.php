@@ -17,6 +17,8 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
+        $office->controlling_office_layer_id = $request->controlling_office_layer_id;
+        $office->controlling_office_id = $request->controlling_office_id;
         $office->geo_division_id = $request->geo_division_id;
         $office->geo_district_id = $request->geo_district_id;
         $office->geo_upazila_id = $request->geo_upazila_id;
@@ -54,6 +56,8 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
+        $office->controlling_office_layer_id = $request->controlling_office_layer_id;
+        $office->controlling_office_id = $request->controlling_office_id;
         $office->geo_division_id = $request->geo_division_id;
         $office->geo_district_id = $request->geo_district_id;
         $office->geo_upazila_id = $request->geo_upazila_id;

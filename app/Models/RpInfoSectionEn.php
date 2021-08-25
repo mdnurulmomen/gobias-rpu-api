@@ -14,6 +14,7 @@ class RpInfoSectionEn extends Model
 		'id',
 		'info_year_id',
 		'rp_id',
+		'office_id',
 		'rp_info_section_id',
 		'info_type',
 		'info_section_data',

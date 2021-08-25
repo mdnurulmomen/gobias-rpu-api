@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 class RpInfoSectionEnRepository implements BaseRepositoryInterface
 {
 
-    public function store(Request $request, $rp_id)
+    public function store(Request $request, $office_id)
     {
         $rp_info_section_data_en = $request->info_section_data_en;
 
         foreach ($request->rp_info_section_id as $key => $value){
             $rp_info_section_bn = new RpInfoSectionEn;
-            $rp_info_section_bn->rp_id = $rp_id;
+            $rp_info_section_bn->rp_id = 0;
+            $rp_info_section_bn->office_id = $office_id;
             $rp_info_section_bn->info_year_id = $request->info_year_id;
             $rp_info_section_bn->rp_info_section_id = $value;
             $rp_info_section_bn->info_type = 1;
