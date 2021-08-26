@@ -224,7 +224,7 @@ class OfficeRepository implements BaseRepositoryInterface
         else {
             $search = $request->search;
 
-            $commonSql = Office::with(['parent_office','office_ministry','office_layer'])
+            $commonSql = Office::with(['parent_office','office_ministry','office_layer','controlling_office_layer','controlling_office'])
                 ->where('office_name_eng', 'like', '%' .$search . '%')
                 ->orWhere('office_name_bng', 'LIKE',"%{$search}%")
                 ->orWhere('office_email', 'LIKE',"%{$search}%")
