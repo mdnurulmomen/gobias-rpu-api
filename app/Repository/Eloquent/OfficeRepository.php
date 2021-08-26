@@ -201,7 +201,7 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_office_ministry_and_layer_wise(Request $request)
     {
-        return Office::with(['parent','child'])->select('id','office_name_eng','office_name_bng','office_name_eng AS office_name_en','office_name_bng AS office_name_bn')->where('office_ministry_id',$request->office_ministry_id)
+        return Office::with(['office_ministry','parent','child'])->select('id','office_name_eng','office_name_bng','office_name_eng AS office_name_en','office_name_bng AS office_name_bn')->where('office_ministry_id',$request->office_ministry_id)
             ->where('office_layer_id',$request->office_layer_id)->get()->toArray();
     }
 
