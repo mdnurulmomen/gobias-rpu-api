@@ -16,6 +16,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
+        $office->parent_office_layer_id = $request->parent_office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
         $office->controlling_office_layer_id = $request->controlling_office_layer_id;
         $office->controlling_office_id = $request->controlling_office_id;

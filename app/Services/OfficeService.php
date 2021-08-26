@@ -88,7 +88,7 @@ class OfficeService
 //            $email = new UserLoginMail($details);
 //            Mail::to($request->office_email)->send($email);
 
-            $this->sendMailNotification(config('notifiable_constants.user_create'), $request->office_email, 'লগইনের তথ্য', []);
+//            $this->sendMailNotification(config('notifiable_constants.user_create'), $request->office_email, 'লগইনের তথ্য', $details);
 
             DB::commit();
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
