@@ -83,12 +83,11 @@ class OfficeService
             $details = [
                 'username' => trim($request->office_web),
                 'userEmail' => trim($request->office_email),
-                'password' => '123456',
             ];
 //            $email = new UserLoginMail($details);
 //            Mail::to($request->office_email)->send($email);
 
-//            $this->sendMailNotification(config('notifiable_constants.user_create'), $request->office_email, 'লগইনের তথ্য', $details);
+            $this->sendMailNotification(config('notifiable_constants.user_create'), $request->office_email, 'লগইনের তথ্য', $details);
 
             DB::commit();
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
