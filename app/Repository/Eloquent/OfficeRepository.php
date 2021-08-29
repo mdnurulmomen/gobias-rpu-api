@@ -47,7 +47,51 @@ class OfficeRepository implements BaseRepositoryInterface
     }
 
     public function show($officeId){
-        return Office::where('id',$officeId)->first()->toArray();
+        /*$result = array();
+        $rpSections = array();
+
+        $officeInfo = Office::with(['rp_bn_sections','rp_en_sections'])
+            ->where('id',$officeId)->first();
+
+        //dd($officeInfo->rp_bn_sections);
+        foreach ($officeInfo->rp_bn_sections as $bnSections){
+            $rpSections[$bnSections->seq_no][] = array(
+                'info_type_bn' => $bnSections->info_type,
+                'info_section_data_bn' => $bnSections->info_section_data,
+            );
+        }
+
+        foreach ($officeInfo->rp_en_sections as $enSections){
+            $rpSections[$enSections->seq_no][] = array(
+                'info_type_en' => $enSections->info_type,
+                'info_section_data_en' => $enSections->info_section_data,
+            );
+        }
+
+        unset($officeInfo->rp_bn_sections,$officeInfo->rp_en_sections);
+        $result['office_info'] =$officeInfo;
+
+        return $rpSections;*/
+        /*return Office::with(['rp_bn_sections','rp_en_sections'])
+            ->where('id',$officeId)->first()->toArray();*/
+
+        $response = array();
+        $response['office_info'] = Office::where('id',$officeId)->first();
+        $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
+            ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
+            ->where('section_bn.office_id',$officeId)
+            ->get(
+                [
+                    'section_bn.id',
+                    'section_bn.info_type',
+                    'section_bn.rp_info_section_id',
+                    'section_bn.info_section_data as section_data_bn',
+                    'section_en.info_section_data as section_data_en'
+                ]
+            );
+
+        return $response;
+
     }
 
     public function update(Request $request, $cdesk)
@@ -56,6 +100,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
+        $office->parent_office_layer_id = $request->parent_office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
         $office->controlling_office_layer_id = $request->controlling_office_layer_id;
         $office->controlling_office_id = $request->controlling_office_id;

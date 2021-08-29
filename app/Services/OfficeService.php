@@ -6,6 +6,7 @@ use App\Mail\UserLoginMail;
 use App\Models\Document;
 use App\Models\RpInfoSectionBn;
 use App\Repository\Eloquent\OfficeRepository;
+use App\Repository\Eloquent\RpInfoSectionRepository;
 use App\Repository\Eloquent\UserOfficeRepository;
 use App\Repository\Eloquent\RpInfoSectionBnRepository;
 use App\Repository\Eloquent\RpInfoSectionEnRepository;
@@ -20,13 +21,15 @@ class OfficeService
     use SendNotification;
 
     public function __construct(OfficeRepository $officeRepository, UserRepository $userRepository,
-                                UserOfficeRepository $userOfficeRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,RpInfoSectionEnRepository $rpInfoSectionEnRepository)
+                                UserOfficeRepository $userOfficeRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,
+                                RpInfoSectionEnRepository $rpInfoSectionEnRepository,RpInfoSectionRepository $rpInfoSectionRepository)
     {
         $this->officeRepository = $officeRepository;
         $this->userRepository = $userRepository;
         $this->userOfficeRepository = $userOfficeRepository;
         $this->rpInfoSectionBnRepository = $rpInfoSectionBnRepository;
         $this->rpInfoSectionEnRepository = $rpInfoSectionEnRepository;
+        $this->rpInfoSectionRepository = $rpInfoSectionRepository;
     }
 
     public function store(Request $request): array
@@ -45,8 +48,7 @@ class OfficeService
             $this->userOfficeRepository->storeUserOffice($request, $userId, $officeId, $cdesk);
 
             if(!is_null($request->rp_info_section_id[0])){
-                $store_rp_info_section_bn = $this->rpInfoSectionBnRepository->store($request,$officeId);
-                $store_rp_info_section_en = $this->rpInfoSectionEnRepository->store($request,$officeId);
+                $this->rpInfoSectionRepository->store($request,$officeId);
             }
 
             //for insert attachment
@@ -111,6 +113,12 @@ class OfficeService
 
         try {
             $this->officeRepository->update($request, $cdesk);
+
+            if(!is_null($request->rp_info_section_id[0])){
+                $this->rpInfoSectionBnRepository->delete($request, $cdesk);
+                $this->rpInfoSectionEnRepository->delete($request, $cdesk);
+                $this->rpInfoSectionRepository->store($request,$request->id);
+            }
 
             //for insert attachment
             if ($request->hasFile('attachments')) {

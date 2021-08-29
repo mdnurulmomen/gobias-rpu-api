@@ -116,4 +116,14 @@ class Office extends Model
         return $this->hasMany(EmployeeOffice::class, 'office_id', 'id')->where('status', 1)->where('ref_designation_master_info_id',
             $designation_master_id)->count();
     }
+
+    public function rp_bn_sections()
+    {
+        return $this->hasMany(RpInfoSectionBn::class, 'office_id', 'id');
+    }
+
+    public function rp_en_sections()
+    {
+        return $this->hasMany(RpInfoSectionEn::class, 'office_id', 'id');
+    }
 }

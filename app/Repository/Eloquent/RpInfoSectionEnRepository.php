@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\RpInfoSectionEn;
 use App\Repository\Contracts\BaseRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class RpInfoSectionEnRepository implements BaseRepositoryInterface
@@ -42,6 +43,6 @@ class RpInfoSectionEnRepository implements BaseRepositoryInterface
 
     public function delete(Request $request, $cdesk)
     {
-        // TODO: Implement delete() method.
+        RpInfoSectionEn::where('office_id',$request->id)->delete();
     }
 }
