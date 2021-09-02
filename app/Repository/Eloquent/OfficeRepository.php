@@ -76,7 +76,7 @@ class OfficeRepository implements BaseRepositoryInterface
             ->where('id',$officeId)->first()->toArray();*/
 
         $response = array();
-        $response['office_info'] = Office::where('id',$officeId)->first();
+        $response['office_info'] = Office::with(['office_detail'])->where('id',$officeId)->first();
         $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
             ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
             ->where('section_bn.office_id',$officeId)
