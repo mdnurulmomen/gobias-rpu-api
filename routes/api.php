@@ -28,6 +28,8 @@ Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, '
 Route::post('/get-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_office_ministry_and_layer_wise']);
 Route::post('/search-office', [App\Http\Controllers\OfficeController::class, 'searchOffice']);
 Route::post('/get-office-list-datatable', [App\Http\Controllers\OfficeController::class, 'employeeDatatable']);
+Route::post('/get-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'show']);
+Route::post('/store-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'store']);
 
 //office unit
 Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);

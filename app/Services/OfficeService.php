@@ -21,13 +21,11 @@ class OfficeService
 {
     use SendNotification;
 
-    public function __construct(OfficeRepository $officeRepository,OfficeDetailRepository $officeDetailRepository,
-                                UserRepository $userRepository,
+    public function __construct(OfficeRepository $officeRepository,UserRepository $userRepository,
                                 UserOfficeRepository $userOfficeRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,
                                 RpInfoSectionEnRepository $rpInfoSectionEnRepository,RpInfoSectionRepository $rpInfoSectionRepository)
     {
         $this->officeRepository = $officeRepository;
-        $this->officeDetailRepository = $officeDetailRepository;
         $this->userRepository = $userRepository;
         $this->userOfficeRepository = $userOfficeRepository;
         $this->rpInfoSectionBnRepository = $rpInfoSectionBnRepository;
@@ -43,9 +41,6 @@ class OfficeService
         try {
             //for office
             $officeId = $this->officeRepository->store($request, $cdesk);
-
-            //for office details
-            $this->officeDetailRepository->store($request,$officeId,$cdesk);
 
             //for user
             $userId = $this->userRepository->store($request, $cdesk);
@@ -122,8 +117,6 @@ class OfficeService
             //for office
             $this->officeRepository->update($request, $cdesk);
 
-            //for office details
-            $this->officeDetailRepository->update($request,$cdesk);
 
             if(!is_null($request->rp_info_section_id[0])){
                 $this->rpInfoSectionBnRepository->delete($request, $cdesk);

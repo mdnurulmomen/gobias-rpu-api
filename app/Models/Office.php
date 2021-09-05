@@ -117,11 +117,6 @@ class Office extends Model
             $designation_master_id)->count();
     }
 
-    public function office_detail()
-    {
-        return $this->hasOne(OfficeDetail::class, 'office_id', 'id');
-    }
-
     public function rp_bn_sections()
     {
         return $this->hasMany(RpInfoSectionBn::class, 'office_id', 'id');
