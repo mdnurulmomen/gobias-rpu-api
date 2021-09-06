@@ -103,7 +103,12 @@ class OfficeUnitRepository implements BaseRepositoryInterface
 
     public function getOfficeUnitMinistryLayerAndOfficeWise(Request $request)
     {
-        return OfficeUnit::with(['child'])->where('office_ministry_id', $request->office_ministry_id)->where('office_layer_id', $request->office_layer_id)->where('office_id', $request->office_id)->where('parent_unit_id', 0)->get();
+        return OfficeUnit::with(['child'])
+            ->where('office_ministry_id', $request->office_ministry_id)
+            ->where('office_layer_id', $request->office_layer_id)
+            ->where('office_id', $request->office_id)
+            ->where('parent_unit_id', 0)
+            ->get();
     }
 
     public function getCostCenterUnit(Request $request)

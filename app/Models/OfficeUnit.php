@@ -33,6 +33,7 @@ class OfficeUnit extends Model
 	];
 
     protected $appends = ['name_bng', 'name_eng'];
+
     public function getNameBngAttribute()
     {
         return $this->unit_name_bng;
