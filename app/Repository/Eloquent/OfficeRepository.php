@@ -244,14 +244,42 @@ class OfficeRepository implements BaseRepositoryInterface
         return $query->get()->toArray();
     }
 
+
     public function get_office_ministry_and_layer_wise(Request $request)
     {
-        return Office::with(['office_ministry','parent','child.controlling_office','controlling_office'])
-            //->select('id','office_name_eng','office_name_bng','office_name_eng AS office_name_en','office_name_bng AS office_name_bn')
+        $offices = Office::with(['office_ministry','child.controlling_office','controlling_office'])
             ->where('office_ministry_id',$request->office_ministry_id)
             ->where('office_layer_id',$request->office_layer_id)
             ->get()
             ->toArray();
+
+        foreach ($offices as $office){
+            if ($office['controlling_office'] == null){
+                $controllingOffice = Office::where('id',$office['id'])->first();
+            }
+            $child = (new \App\Models\Office)->office_wise_child($office['child']);
+            $response = [
+                [
+                    'id' =>$office['id'],
+                    'office_name_bn' =>$office['office_name_bn'],
+                    'office_name_en' =>$office['office_name_en'],
+                    'office_ministry' => [
+                        'id' =>$office['office_ministry']['id'],
+                        'name_eng' =>$office['office_ministry']['name_eng'],
+                        'name_bng' =>$office['office_ministry']['name_bng'],
+                    ],
+                    'child' => $child,
+                    'controlling_office' => [
+                        'id' =>$controllingOffice['id'],
+                        'office_name_bn' =>$controllingOffice['office_name_bn'],
+                        'office_name_en' =>$controllingOffice['office_name_en'],
+                    ]
+                ],
+            ];
+
+
+        }
+        return $response;
     }
 
     //for office datatable

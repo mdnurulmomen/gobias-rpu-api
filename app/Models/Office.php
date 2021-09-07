@@ -126,4 +126,29 @@ class Office extends Model
     {
         return $this->hasMany(RpInfoSectionEn::class, 'office_id', 'id');
     }
+
+    public function office_wise_child($childs)
+    {
+        foreach ($childs as $child) {
+            $subChild = [];
+            if (!empty($child['child'])){
+                $subChild = $this->office_wise_child($child['child']);
+            }
+
+            $childList[] = [
+                'id' => $child['id'],
+                'office_name_bn' => $child['office_name_bn'],
+                'office_name_en' => $child['office_name_en'],
+                'controlling_office' =>[
+                    'id' => $child['controlling_office']['id'],
+                    'office_name_bn' => $child['controlling_office']['office_name_bn'],
+                    'office_name_en' => $child['controlling_office']['office_name_en'],
+                ],
+                'child' => $subChild
+            ];
+        }
+
+        return $childList;
+    }
+
 }
