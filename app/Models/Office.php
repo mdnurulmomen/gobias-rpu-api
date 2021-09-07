@@ -129,8 +129,10 @@ class Office extends Model
 
     public function office_wise_child($childs)
     {
+        $childList = [];
         foreach ($childs as $child) {
             $subChild = [];
+
             if (!empty($child['child'])){
                 $subChild = $this->office_wise_child($child['child']);
             }
@@ -140,9 +142,9 @@ class Office extends Model
                 'office_name_bn' => $child['office_name_bn'],
                 'office_name_en' => $child['office_name_en'],
                 'controlling_office' =>[
-                    'id' => $child['controlling_office']['id'],
-                    'office_name_bn' => $child['controlling_office']['office_name_bn'],
-                    'office_name_en' => $child['controlling_office']['office_name_en'],
+                    'id' => isset($child['controlling_office'])?$child['controlling_office']['id']:"",
+                    'office_name_bn' => isset($child['controlling_office'])?$child['controlling_office']['office_name_bn']:"",
+                    'office_name_en' => isset($child['controlling_office'])?$child['controlling_office']['office_name_en']:"",
                 ],
                 'child' => $subChild
             ];

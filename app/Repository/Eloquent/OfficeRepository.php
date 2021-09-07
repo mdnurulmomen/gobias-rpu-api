@@ -256,6 +256,14 @@ class OfficeRepository implements BaseRepositoryInterface
         foreach ($offices as $office){
             if ($office['controlling_office'] == null){
                 $controllingOffice = Office::where('id',$office['id'])->first();
+                $controllingOfficeId = $controllingOffice['id'];
+                $controllingOfficeNameBn = $controllingOffice['office_name_bn'];
+                $controllingOfficeNameEn = $controllingOffice['office_name_en'];
+            }
+            else{
+                $controllingOfficeId = $office['controlling_office']['id'];
+                $controllingOfficeNameBn = $office['controlling_office']['office_name_bn'];
+                $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
             }
             $child = (new \App\Models\Office)->office_wise_child($office['child']);
             $response = [
@@ -270,9 +278,9 @@ class OfficeRepository implements BaseRepositoryInterface
                     ],
                     'child' => $child,
                     'controlling_office' => [
-                        'id' =>$controllingOffice['id'],
-                        'office_name_bn' =>$controllingOffice['office_name_bn'],
-                        'office_name_en' =>$controllingOffice['office_name_en'],
+                        'id' =>$controllingOfficeId,
+                        'office_name_bn' =>$controllingOfficeNameBn,
+                        'office_name_en' =>$controllingOfficeNameEn,
                     ]
                 ],
             ];
