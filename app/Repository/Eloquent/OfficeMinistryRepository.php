@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\DirectorateMinistryMap;
 use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Illuminate\Http\Request;
@@ -26,10 +27,16 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
 
     public function list(Request $request)
     {
-        if ($request->per_page && !$request->all) {
-            return OfficeMinistry::paginate($request->per_page);
-        } else {
+        if ($request->has('all')) {
             return OfficeMinistry::all();
+        }
+        else {
+            return DirectorateMinistryMap::select('id','directorate_id',
+                'office_ministry_id','directorate_name_bn','directorate_name_en','audit_type')
+                ->with(['ministry_list'])
+                ->where('directorate_id',$request->directorate_id)
+                ->first()
+                ->toArray();
         }
     }
 

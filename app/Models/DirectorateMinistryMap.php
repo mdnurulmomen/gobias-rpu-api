@@ -16,7 +16,11 @@ class DirectorateMinistryMap extends Model
         'directorate_name_en',
         'office_ministry_id',
         'created_by',
-        'modified_by',
-        'created_at',
+        'updated_by',
     ];
+
+    public function ministry_list()
+    {
+        return $this->belongsTo(OfficeMinistry::class, 'office_ministry_id', 'id');
+    }
 }

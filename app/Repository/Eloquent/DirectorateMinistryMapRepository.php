@@ -3,6 +3,7 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\DirectorateMinistryMap;
+use App\Models\ResponsibleParty;
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,6 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
         $directorate_ministry_map->directorate_name_en = $request->directorate_name_en;
         $directorate_ministry_map->office_ministry_id = $request->office_ministry_id;
         $directorate_ministry_map->created_by = $cdesk->user_primary_id;
-        $directorate_ministry_map->modified_by = $cdesk->user_primary_id;
         $directorate_ministry_map->save();
     }
 
@@ -28,8 +28,7 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
         $directorate_ministry_map->directorate_name_bn = $request->directorate_name_bn;
         $directorate_ministry_map->directorate_name_en = $request->directorate_name_en;
         $directorate_ministry_map->office_ministry_id = $request->office_ministry_id;
-        $directorate_ministry_map->created_by = $cdesk->user_primary_id;
-        $directorate_ministry_map->modified_by = $cdesk->user_primary_id;
+        $directorate_ministry_map->updated_by = $cdesk->user_primary_id;
         $directorate_ministry_map->save();
     }
 
@@ -40,7 +39,8 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
 
     public function list(Request $request)
     {
-        $directorate_id = $request->directorate_id;
+        return DirectorateMinistryMap::all()->toArray();
+        /*$directorate_id = $request->directorate_id;
         $office_ministry_id = $request->office_ministry_id;
         $controlling_office_layer_id = $request->controlling_office_layer_id;
         $controlling_office_id = $request->controlling_office_id;
@@ -110,7 +110,7 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
             }))->with(array('cost_center_employee' => function($query) {
                 $query->select('id','name_bng');
             }))->get()->toArray();
-        }
+        }*/
 
     }
 

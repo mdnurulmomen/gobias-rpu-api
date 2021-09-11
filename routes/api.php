@@ -40,10 +40,11 @@ Route::post('/get-office-unit-category-list', [App\Http\Controllers\OfficeUnitCo
 Route::post('/get-office-unit-ministry-layer-and-office-wise', [App\Http\Controllers\OfficeUnitController::class, 'getOfficeUnitMinistryLayerAndOfficeWise']);
 
 //directorate ministry map
-Route::post('/store-office-unit', [App\Http\Controllers\DirectorateMinistryMapController::class, 'store']);
-Route::post('/update-office-unit', [App\Http\Controllers\DirectorateMinistryMapController::class, 'update']);
-Route::post('/get-office-unit-info', [App\Http\Controllers\DirectorateMinistryMapController::class, 'show']);
-Route::post('/get-office-unit-list', [App\Http\Controllers\DirectorateMinistryMapController::class, 'list']);
+Route::post('/store-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'store']);
+Route::post('/update-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'update']);
+Route::post('/get-directorate-ministry-info', [App\Http\Controllers\DirectorateMinistryMapController::class, 'show']);
+Route::post('/get-directorate-ministry-list', [App\Http\Controllers\DirectorateMinistryMapController::class, 'list']);
+Route::post('/get-directorate-ministry-list', [App\Http\Controllers\DirectorateMinistryMapController::class, 'getDirectorWiseMinistryList']);
 
 //for employee
 Route::post('/store-employee', [App\Http\Controllers\EmployeeRecordController::class, 'store']);

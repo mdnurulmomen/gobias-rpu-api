@@ -74,4 +74,15 @@ class DirectorateMinistryMapController extends Controller
         return response()->json($response);
     }
 
+    public function getDirectorWiseMinistryList(Request $request, DirectorateMinistryMapService $directorateMinistryMap): \Illuminate\Http\JsonResponse
+    {
+        $listData = $directorateMinistryMap->getDirectorWiseMinistryList($request);
+        if (isSuccessResponse($listData)) {
+            $response = responseFormat('success', $listData['data']);
+        } else {
+            $response = responseFormat('error', $listData['data']);
+        }
+        return response()->json($response);
+    }
+
 }

@@ -54,6 +54,7 @@ class DirectorateMinistryMapService
         }
     }
 
+
     public function list(Request $request){
         try {
             $office_unit_list = $this->directorateMinistryRepository->list($request);
