@@ -18,6 +18,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->custom_layer_id = $request->office_layer_id;
         $office->parent_office_layer_id = $request->parent_office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
+        $office->office_type = $request->office_type;
         $office->controlling_office_layer_id = $request->controlling_office_layer_id;
         $office->controlling_office_id = $request->controlling_office_id;
         $office->geo_division_id = $request->geo_division_id;
@@ -102,6 +103,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->custom_layer_id = $request->office_layer_id;
         $office->parent_office_layer_id = $request->parent_office_layer_id;
         $office->parent_office_id = $request->parent_office_id;
+        $office->office_type = $request->office_type;
         $office->controlling_office_layer_id = $request->controlling_office_layer_id;
         $office->controlling_office_id = $request->controlling_office_id;
         $office->geo_division_id = $request->geo_division_id;
