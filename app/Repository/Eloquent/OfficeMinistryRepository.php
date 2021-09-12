@@ -37,6 +37,8 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
                 ->toArray();*/
 
             return \DB::table('office_ministries')
+                ->select('office_ministries.id','office_ministries.name_eng',
+                    'office_ministries.name_bng')
                 ->leftJoin('directorate_ministry_maps','office_ministries.id',"=",'directorate_ministry_maps.office_ministry_id')
                 ->where('directorate_ministry_maps.directorate_id',$request->directorate_id)
                 ->get()
