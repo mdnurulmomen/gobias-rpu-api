@@ -14,4 +14,8 @@ class OfficeMinistry extends Model
     protected $fillable=['id','office_type','name_bng','name_eng','name_eng_short','active_status','reference_code','created_by','modified_by'];
 
 
+    public function directorate_ministry_map()
+    {
+        return $this->hasMany(DirectorateMinistryMap::class, 'id','office_ministry_id');
+    }
 }

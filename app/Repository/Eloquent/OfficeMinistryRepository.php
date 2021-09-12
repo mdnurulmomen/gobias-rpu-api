@@ -31,12 +31,24 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
             return OfficeMinistry::all();
         }
         else {
-            return DirectorateMinistryMap::select('id','directorate_id',
+            /*return OfficeMinistry::with()
+                ->where('directorate_id',19) //$request->directorate_id
+                ->get()
+                ->toArray();*/
+
+            return \DB::table('office_ministries')
+                ->leftJoin('directorate_ministry_maps','office_ministries.id',"=",'directorate_ministry_maps.office_ministry_id')
+                ->where('directorate_ministry_maps.directorate_id',$request->directorate_id)
+                ->get()
+                ->toArray();
+
+            /*return DirectorateMinistryMap::select('id','directorate_id',
                 'office_ministry_id','directorate_name_bn','directorate_name_en','audit_type')
                 ->with(['ministry_list'])
-                ->where('directorate_id',$request->directorate_id)
-                ->first()
-                ->toArray();
+                ->where('directorate_id',$request->directorate_id) //$request->directorate_id
+                ->get()
+                ->groupBy('directorate_id')
+                ->toArray();*/
         }
     }
 

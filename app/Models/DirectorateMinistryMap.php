@@ -21,6 +21,6 @@ class DirectorateMinistryMap extends Model
 
     public function ministry_list()
     {
-        return $this->belongsTo(OfficeMinistry::class, 'office_ministry_id', 'id');
+        return $this->hasMany(OfficeMinistry::class, 'id','office_ministry_id');
     }
 }
