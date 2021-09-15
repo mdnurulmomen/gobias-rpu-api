@@ -30,6 +30,7 @@ Route::post('/search-office', [App\Http\Controllers\OfficeController::class, 'se
 Route::post('/get-office-list-datatable', [App\Http\Controllers\OfficeController::class, 'employeeDatatable']);
 Route::post('/get-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'show']);
 Route::post('/store-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'store']);
+Route::post('/get-office-other-info-list', [App\Http\Controllers\OfficeOtherInfoController::class, 'getOfficeOtherInfoList']);
 
 //office unit
 Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);

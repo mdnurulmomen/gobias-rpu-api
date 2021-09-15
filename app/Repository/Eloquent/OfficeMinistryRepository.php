@@ -31,11 +31,6 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
             return OfficeMinistry::all();
         }
         else {
-            /*return OfficeMinistry::with()
-                ->where('directorate_id',19) //$request->directorate_id
-                ->get()
-                ->toArray();*/
-
             return \DB::table('office_ministries')
                 ->select('office_ministries.id','office_ministries.name_eng',
                     'office_ministries.name_bng')
@@ -43,14 +38,6 @@ class OfficeMinistryRepository implements BaseRepositoryInterface
                 ->where('directorate_ministry_maps.directorate_id',$request->directorate_id)
                 ->get()
                 ->toArray();
-
-            /*return DirectorateMinistryMap::select('id','directorate_id',
-                'office_ministry_id','directorate_name_bn','directorate_name_en','audit_type')
-                ->with(['ministry_list'])
-                ->where('directorate_id',$request->directorate_id) //$request->directorate_id
-                ->get()
-                ->groupBy('directorate_id')
-                ->toArray();*/
         }
     }
 

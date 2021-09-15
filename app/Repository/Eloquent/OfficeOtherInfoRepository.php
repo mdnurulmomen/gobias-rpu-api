@@ -77,4 +77,12 @@ class OfficeOtherInfoRepository
 
         return $response;
     }
+
+    //get office other info list
+    public function getOfficeOtherInfoList(Request $request){
+        return OfficeOtherInfoDetail::with(['office_other_info_title'])
+            ->where('office_id', $request->office_id)
+            ->get()
+            ->toArray();
+    }
 }

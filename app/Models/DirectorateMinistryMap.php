@@ -18,9 +18,4 @@ class DirectorateMinistryMap extends Model
         'created_by',
         'updated_by',
     ];
-
-    public function ministry_list()
-    {
-        return $this->hasMany(OfficeMinistry::class, 'id','office_ministry_id');
-    }
 }

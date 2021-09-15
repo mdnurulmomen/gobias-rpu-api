@@ -29,4 +29,15 @@ class OfficeOtherInfoController extends Controller
         return response()->json($response);
     }
 
+    public function getOfficeOtherInfoList(Request $request, OfficeOtherInfoService $officeOtherInfoService): \Illuminate\Http\JsonResponse
+    {
+        $responseData = $officeOtherInfoService->getOfficeOtherInfoList($request);
+        if (isSuccessResponse($responseData)) {
+            $response = responseFormat('success', $responseData['data']);
+        } else {
+            $response = responseFormat('error', $responseData['data']);
+        }
+        return response()->json($response);
+    }
+
 }

@@ -37,4 +37,13 @@ class OfficeOtherInfoService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function getOfficeOtherInfoList(Request $request){
+        try {
+            $responseData = $this->officeOtherInfoRepository->getOfficeOtherInfoList($request);
+            return ['status' => 'success', 'data' => $responseData];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }
