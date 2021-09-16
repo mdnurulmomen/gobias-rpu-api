@@ -25,7 +25,7 @@ class OfficeOtherInfoRepository
                 );
             }
             else{
-                $officeOtherInfoDetail = OfficeOtherInfoDetail::find($content->id);
+                $officeOtherInfoDetail = OfficeOtherInfoDetail::find($content->content_detail_id);
                 $officeOtherInfoDetail->office_id = $request->office_id;
                 $officeOtherInfoDetail->content_title_id = $content->id;
                 $officeOtherInfoDetail->content = $content->content;
