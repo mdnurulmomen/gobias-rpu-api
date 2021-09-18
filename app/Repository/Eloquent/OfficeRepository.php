@@ -292,6 +292,50 @@ class OfficeRepository implements BaseRepositoryInterface
         return $response;
     }
 
+    public function get_office_parent_wise(Request $request)
+    {
+        $offices = Office::with(['office_ministry','child.controlling_office','controlling_office'])
+            ->where('parent_office_id',$request->parent_office_id)
+            ->get()
+            ->toArray();
+
+        foreach ($offices as $office){
+            if ($office['controlling_office'] == null){
+                $controllingOffice = Office::where('id',$office['id'])->first();
+                $controllingOfficeId = $controllingOffice['id'];
+                $controllingOfficeNameBn = $controllingOffice['office_name_bn'];
+                $controllingOfficeNameEn = $controllingOffice['office_name_en'];
+            }
+            else{
+                $controllingOfficeId = $office['controlling_office']['id'];
+                $controllingOfficeNameBn = $office['controlling_office']['office_name_bn'];
+                $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
+            }
+            $child = (new \App\Models\Office)->office_wise_child($office['child']);
+            $response = [
+                [
+                    'id' =>$office['id'],
+                    'office_name_bn' =>$office['office_name_bn'],
+                    'office_name_en' =>$office['office_name_en'],
+                    'office_ministry' => [
+                        'id' =>$office['office_ministry']['id'],
+                        'name_eng' =>$office['office_ministry']['name_eng'],
+                        'name_bng' =>$office['office_ministry']['name_bng'],
+                    ],
+                    'child' => $child,
+                    'controlling_office' => [
+                        'id' =>$controllingOfficeId,
+                        'office_name_bn' =>$controllingOfficeNameBn,
+                        'office_name_en' =>$controllingOfficeNameEn,
+                    ]
+                ],
+            ];
+
+
+        }
+        return $response;
+    }
+
     //for office datatable
     public function officeDatatable(Request $request){
         $limit = $request->length;

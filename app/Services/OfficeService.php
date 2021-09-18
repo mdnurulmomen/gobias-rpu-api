@@ -199,6 +199,12 @@ class OfficeService
         return ['status' => 'success', 'data' => $get_office_list];
     }
 
+    public function get_office_parent_wise(Request $request){
+
+        $get_office_list = $this->officeRepository->get_office_parent_wise($request);
+        return ['status' => 'success', 'data' => $get_office_list];
+    }
+
     public function officeDatatable(Request $request){
         try {
             $officeList = $this->officeRepository->officeDatatable($request);
