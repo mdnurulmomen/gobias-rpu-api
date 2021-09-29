@@ -255,6 +255,7 @@ class OfficeRepository implements BaseRepositoryInterface
             ->get()
             ->toArray();
 
+        $response = [];
         foreach ($offices as $office){
             if ($office['controlling_office'] == null){
                 $controllingOffice = Office::where('id',$office['id'])->first();
@@ -268,7 +269,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
             }
             $child = (new \App\Models\Office)->office_wise_child($office['child']);
-            $response = [
+            $response[] = [
                 [
                     'id' =>$office['id'],
                     'office_name_bn' =>$office['office_name_bn'],
