@@ -18,4 +18,9 @@ class DirectorateMinistryMap extends Model
         'created_by',
         'updated_by',
     ];
+
+    public function directorate_ministry()
+    {
+        return $this->belongsTo(OfficeMinistry::class, 'office_ministry_id', 'id');
+    }
 }

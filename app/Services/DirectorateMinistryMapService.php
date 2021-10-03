@@ -64,4 +64,13 @@ class DirectorateMinistryMapService
         }
     }
 
+    public function getDirectorWiseMinistryList(Request $request){
+        try {
+            $list = $this->directorateMinistryRepository->getDirectorWiseMinistryList($request);
+            return ['status' => 'success', 'data' => $list];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
 }
