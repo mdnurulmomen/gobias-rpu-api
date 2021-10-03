@@ -392,7 +392,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $risk_category  = $request->risk_category;
         $audit_year  = $request->audit_due_year ? date("Y") - $request->audit_due_year : '';
 
-        return Office::with('office_ministry','controlling_office','office_layer','parent_office')->where('directorate_id',$directorate_id)->where('office_ministry_id',$office_ministry_id)->where('last_audit_year_start','>',$audit_year)->where('risk_category',$risk_category)->limit(20)->get()->toArray();
+        return Office::with('office_ministry','controlling_office','office_layer','parent_office')->where('directorate_id',$directorate_id)->where('office_ministry_id',$office_ministry_id)->where('last_audit_year_start','<',$audit_year)->where('risk_category',$risk_category)->limit(20)->get()->toArray();
 
 //        $query->when($directorate_id, function ($q, $directorate_id) {
 //            return $q->where('directorate_id', $directorate_id);
