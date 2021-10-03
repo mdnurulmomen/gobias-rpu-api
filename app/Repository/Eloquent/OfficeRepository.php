@@ -33,6 +33,9 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_fax = $request->office_fax;
         $office->office_email = $request->office_email;
         $office->office_web = $request->office_web;
+        $office->last_audit_year_start = $request->last_audit_year_start;
+        $office->last_audit_year_end = $request->last_audit_year_end;
+        $office->risk_category = $request->risk_category;
         $office->date_of_formation = empty($request->date_of_formation)?null:date('Y-m-d', strtotime($request->date_of_formation));
         $office->date_of_close = empty($request->date_of_close)?null:date('Y-m-d', strtotime($request->date_of_close));
         $office->office_status = $request->office_status;
@@ -118,6 +121,9 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->office_fax = $request->office_fax;
         $office->office_email = $request->office_email;
         $office->office_web = $request->office_web;
+        $office->last_audit_year_start = $request->last_audit_year_start;
+        $office->last_audit_year_end = $request->last_audit_year_end;
+        $office->risk_category = $request->risk_category;
         $office->date_of_formation = empty($request->date_of_formation)?null:date('Y-m-d', strtotime($request->date_of_formation));
         $office->date_of_close = empty($request->date_of_close)?null:date('Y-m-d', strtotime($request->date_of_close));
         $office->office_status = $request->office_status;
