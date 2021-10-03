@@ -97,6 +97,9 @@ Route::post('/store-lookup-type', [App\Http\Controllers\LookupController::class,
 Route::post('/get-lookup-type-info', [App\Http\Controllers\LookupController::class, 'show']);
 Route::post('/update-lookup-type', [App\Http\Controllers\LookupController::class, 'update']);
 
+
+//Mis Dashboard
+Route::post('/get-rpu-list-mis', [App\Http\Controllers\MisAndDashboardController::class, 'rpuList']);
 //responsible party
 Route::post('/store-responsible-party', [App\Http\Controllers\ResponsiblePartyController::class, 'store']);
 Route::post('/update-responsible-party', [App\Http\Controllers\ResponsiblePartyController::class, 'update']);

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\DirectorateMinistryMap;
 use App\Models\Office;
 use App\Repository\Contracts\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -381,5 +382,33 @@ class OfficeRepository implements BaseRepositoryInterface
             "totalFiltered"=>$totalData
         );
         return $response;
+    }
+
+    public function getRupListMis(Request $request)
+    {
+        $directorate_id  = $request->directorate_id;
+        $office_ministry_id  = $request->office_ministry_id;
+        $risk_category  = $request->risk_category;
+        $audit_year  = $request->audit_due_year ? date("Y") - $request->audit_due_year : '';
+
+        $query = Office::query();
+
+        $query->when($directorate_id, function ($q, $directorate_id) {
+            return $q->where('directorate_id', $directorate_id);
+        });
+
+        $query->when($office_ministry_id, function ($q, $office_ministry_id) {
+            return $q->where('office_ministry_id', $office_ministry_id);
+        });
+
+        $query->when($risk_category, function ($q, $risk_category) {
+            return $q->where('risk_category', $risk_category);
+        });
+
+        $query->when($audit_year, function ($q, $audit_year) {
+            return $q->where('last_audit_year_start', '>', $audit_year);
+        });
+
+        return $query->get()->toArray();
     }
 }
