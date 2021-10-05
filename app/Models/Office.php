@@ -130,14 +130,14 @@ class Office extends Model
         return $this->hasMany(RpInfoSectionEn::class, 'office_id', 'id');
     }
 
-    public function office_wise_child($childs)
+    public function office_wise_child($childs,$controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn)
     {
         $childList = [];
         foreach ($childs as $child) {
             $subChild = [];
 
             if (!empty($child['child'])){
-                $subChild = $this->office_wise_child($child['child']);
+                $subChild = $this->office_wise_child($child['child'],$controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn);
             }
 
             $childList[] = [
@@ -145,9 +145,9 @@ class Office extends Model
                 'office_name_bn' => $child['office_name_bn'],
                 'office_name_en' => $child['office_name_en'],
                 'controlling_office' =>[
-                    'id' => isset($child['controlling_office'])?$child['controlling_office']['id']:"",
-                    'office_name_bn' => isset($child['controlling_office'])?$child['controlling_office']['office_name_bn']:"",
-                    'office_name_en' => isset($child['controlling_office'])?$child['controlling_office']['office_name_en']:"",
+                    'id' => !empty($child['controlling_office'])?$child['controlling_office']['id']:$controllingOfficeId,
+                    'office_name_bn' => !empty($child['controlling_office'])?$child['controlling_office']['office_name_bn']:$controllingOfficeNameBn,
+                    'office_name_en' => !empty($child['controlling_office'])?$child['controlling_office']['office_name_en']:$controllingOfficeNameEn,
                 ],
                 'child' => $subChild
             ];

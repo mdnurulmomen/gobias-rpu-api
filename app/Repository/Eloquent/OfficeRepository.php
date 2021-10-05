@@ -275,7 +275,8 @@ class OfficeRepository implements BaseRepositoryInterface
                 $controllingOfficeNameBn = $office['controlling_office']['office_name_bn'];
                 $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
             }
-            $child = (new \App\Models\Office)->office_wise_child($office['child']);
+            $child = (new \App\Models\Office)->office_wise_child($office['child'],
+                $controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn);
             $response[] = [
                 [
                     'id' =>$office['id'],
