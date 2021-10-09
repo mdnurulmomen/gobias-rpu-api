@@ -390,7 +390,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $directorate_id  = $request->directorate_id;
         $office_ministry_id  = $request->office_ministry_id;
         $risk_category  = $request->risk_category;
-        $audit_year  = $request->audit_due_year ? date("Y") - $request->audit_due_year : '';
+        $audit_year  = $request->audit_due_year;
 
         $query = Office::query();
 
@@ -407,7 +407,7 @@ class OfficeRepository implements BaseRepositoryInterface
         });
 
         $query->when($audit_year, function ($q, $audit_year) {
-            return $q->where('last_audit_year_start', '<', $audit_year);
+            return $q->where('last_audit_year_start', $audit_year);
         });
 
         return $query->with('office_ministry','controlling_office','office_layer','parent_office')->limit(20)->get()->toArray();
