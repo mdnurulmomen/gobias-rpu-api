@@ -13,6 +13,7 @@ class OfficeRepository implements BaseRepositoryInterface
     public function store(Request $request, $cdesk)
     {
         $office = new Office;
+        $office->directorate_id = $request->directorate_id;
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
@@ -102,6 +103,7 @@ class OfficeRepository implements BaseRepositoryInterface
     public function update(Request $request, $cdesk)
     {
         $office = Office::find($request->id);
+        $office->directorate_id = $request->directorate_id;
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;

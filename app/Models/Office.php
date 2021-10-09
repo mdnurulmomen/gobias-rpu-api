@@ -16,6 +16,7 @@ class Office extends Model
         'geo_division_id',
         'geo_district_id',
         'office_ministry_id',
+        'directorate_id',
         'geo_upazila_id',
         'geo_union_id',
         'office_layer_id',
