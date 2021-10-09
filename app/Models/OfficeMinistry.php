@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class OfficeMinistry extends Model
 {
     use HasFactory;
+
     const CREATED_AT = 'created';
     const UPDATED_AT = 'modified';
-    protected  $table = 'office_ministries';
-    protected $fillable=['id','office_type','name_bng','name_eng','name_eng_short','active_status','reference_code','created_by','modified_by'];
+    protected $table = 'office_ministries';
+    protected $fillable = ['id', 'office_type', 'name_bng', 'name_eng', 'name_eng_short', 'active_status', 'reference_code', 'created_by', 'modified_by'];
 
 
     public function directorate_ministry_map()
     {
-        return $this->hasMany(DirectorateMinistryMap::class, 'id','office_ministry_id');
+        return $this->hasMany(DirectorateMinistryMap::class, 'id', 'office_ministry_id');
     }
 }

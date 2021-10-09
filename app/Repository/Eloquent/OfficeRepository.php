@@ -2,10 +2,9 @@
 
 namespace App\Repository\Eloquent;
 
-use App\Models\DirectorateMinistryMap;
 use App\Models\Office;
+use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class OfficeRepository implements BaseRepositoryInterface
@@ -37,8 +36,8 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->last_audit_year_start = $request->last_audit_year_start;
         $office->last_audit_year_end = $request->last_audit_year_end;
         $office->risk_category = $request->risk_category;
-        $office->date_of_formation = empty($request->date_of_formation)?null:date('Y-m-d', strtotime($request->date_of_formation));
-        $office->date_of_close = empty($request->date_of_close)?null:date('Y-m-d', strtotime($request->date_of_close));
+        $office->date_of_formation = empty($request->date_of_formation) ? null : date('Y-m-d', strtotime($request->date_of_formation));
+        $office->date_of_close = empty($request->date_of_close) ? null : date('Y-m-d', strtotime($request->date_of_close));
         $office->office_status = $request->office_status;
         $office->actual_strength = $request->actual_strength;
         $office->office_description = trim($request->office_description);
@@ -51,7 +50,8 @@ class OfficeRepository implements BaseRepositoryInterface
         return $lastInsertId;
     }
 
-    public function show($officeId){
+    public function show($officeId)
+    {
         /*$result = array();
         $rpSections = array();
 
@@ -81,17 +81,17 @@ class OfficeRepository implements BaseRepositoryInterface
             ->where('id',$officeId)->first()->toArray();*/
 
         $response = array();
-        $response['office_info'] = Office::where('id',$officeId)->first();
+        $response['office_info'] = Office::where('id', $officeId)->first();
         $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
             ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
-            ->where('section_bn.office_id',$officeId)
+            ->where('section_bn.office_id', $officeId)
             ->get(
                 [
                     'section_bn.id',
                     'section_bn.info_type',
                     'section_bn.rp_info_section_id',
                     'section_bn.info_section_data as section_data_bn',
-                    'section_en.info_section_data as section_data_en'
+                    'section_en.info_section_data as section_data_en',
                 ]
             );
 
@@ -125,8 +125,8 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->last_audit_year_start = $request->last_audit_year_start;
         $office->last_audit_year_end = $request->last_audit_year_end;
         $office->risk_category = $request->risk_category;
-        $office->date_of_formation = empty($request->date_of_formation)?null:date('Y-m-d', strtotime($request->date_of_formation));
-        $office->date_of_close = empty($request->date_of_close)?null:date('Y-m-d', strtotime($request->date_of_close));
+        $office->date_of_formation = empty($request->date_of_formation) ? null : date('Y-m-d', strtotime($request->date_of_formation));
+        $office->date_of_close = empty($request->date_of_close) ? null : date('Y-m-d', strtotime($request->date_of_close));
         $office->office_status = $request->office_status;
         $office->actual_strength = $request->actual_strength;
         $office->office_description = trim($request->office_description);
@@ -149,9 +149,9 @@ class OfficeRepository implements BaseRepositoryInterface
     public function searchOffice(Request $request)
     {
 
-        $office_ministry_id  = $request->office_ministry_id;
-        $office_layer_id  = $request->office_layer_id;
-        $custom_layer_id  = $request->custom_layer_id;
+        $office_ministry_id = $request->office_ministry_id;
+        $office_layer_id = $request->office_layer_id;
+        $custom_layer_id = $request->custom_layer_id;
         $office_name_bng = $request->office_name_bng;
         $office_name_eng = $request->office_name_eng;
         $geo_division_id = $request->geo_division_id;
@@ -180,11 +180,11 @@ class OfficeRepository implements BaseRepositoryInterface
         });
 
         $query->when($office_name_bng, function ($q, $office_name_bng) {
-            return $q->where('office_name_bng', 'LIKE',"%{$office_name_bng}%");
+            return $q->where('office_name_bng', 'LIKE', "%{$office_name_bng}%");
         });
 
         $query->when($office_name_eng, function ($q, $office_name_eng) {
-            return $q->where('office_name_eng', 'LIKE',"%{$office_name_eng}%");
+            return $q->where('office_name_eng', 'LIKE', "%{$office_name_eng}%");
         });
 
         $query->when($geo_division_id, function ($q, $geo_division_id) {
@@ -256,66 +256,53 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_office_ministry_and_layer_wise(Request $request)
     {
-        $offices = Office::with(['office_ministry','child.controlling_office','controlling_office'])
-            ->where('office_ministry_id',$request->office_ministry_id)
-            ->where('office_layer_id',$request->office_layer_id)
+        $offices = Office::with(['child.controlling_office', 'controlling_office'])
+            ->where('office_ministry_id', $request->office_ministry_id)
+            ->where('office_layer_id', $request->office_layer_id)
             ->get()
             ->toArray();
 
-        $response = [];
-        foreach ($offices as $office){
-            if ($office['controlling_office'] == null){
-                $controllingOffice = Office::where('id',$office['id'])->first();
-                $controllingOfficeId = $controllingOffice['id'];
-                $controllingOfficeNameBn = $controllingOffice['office_name_bn'];
-                $controllingOfficeNameEn = $controllingOffice['office_name_en'];
-            }
-            else{
-                $controllingOfficeId = $office['controlling_office']['id'];
-                $controllingOfficeNameBn = $office['controlling_office']['office_name_bn'];
-                $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
-            }
-            $child = (new \App\Models\Office)->office_wise_child($office['child'],
-                $controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn);
-            $response[] = [
-                [
-                    'id' =>$office['id'],
-                    'office_name_bn' =>$office['office_name_bn'],
-                    'office_name_en' =>$office['office_name_en'],
-                    'office_ministry' => [
-                        'id' =>$office['office_ministry']['id'],
-                        'name_eng' =>$office['office_ministry']['name_eng'],
-                        'name_bng' =>$office['office_ministry']['name_bng'],
-                    ],
-                    'child' => $child,
-                    'controlling_office' => [
-                        'id' =>$controllingOfficeId,
-                        'office_name_bn' =>$controllingOfficeNameBn,
-                        'office_name_en' =>$controllingOfficeNameEn,
-                    ]
-                ],
+        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
+
+        $controlling_office_data = [];
+        foreach ($offices as $office) {
+            $controlling_office = $office['controlling_office'] == null ? Office::where('id', $office['id'])->first() : $office['controlling_office'];
+            $controllingOfficeId = $controlling_office['id'];
+            $controllingOfficeNameBn = $controlling_office['office_name_bn'];
+            $controllingOfficeNameEn = $controlling_office['office_name_en'];
+
+            $child = (new \App\Models\Office)->office_wise_child($office['child']);
+            $office_data[] = [
+                'id' => $office['id'],
+                'office_name_bn' => $office['office_name_bn'],
+                'office_name_en' => $office['office_name_en'],
+                'child' => $child,
             ];
-
-
+            $controlling_office_data['offices'][$controllingOfficeId] = [
+                'controlling_office_id' => $controllingOfficeId,
+                'controlling_office_name_bn' => $controllingOfficeNameBn,
+                'controlling_office_name_en' => $controllingOfficeNameEn,
+                'rp_offices' => $office_data,
+            ];
         }
-        return $response;
+        $data = ['office_ministry' => $ministry] + $controlling_office_data;
+        return $data;
     }
 
     public function get_office_parent_wise(Request $request)
     {
-        $offices = Office::with(['office_ministry','child.controlling_office','controlling_office'])
-            ->where('parent_office_id',$request->parent_office_id)
+        $offices = Office::with(['office_ministry', 'child.controlling_office', 'controlling_office'])
+            ->where('parent_office_id', $request->parent_office_id)
             ->get()
             ->toArray();
 
-        foreach ($offices as $office){
-            if ($office['controlling_office'] == null){
-                $controllingOffice = Office::where('id',$office['id'])->first();
+        foreach ($offices as $office) {
+            if ($office['controlling_office'] == null) {
+                $controllingOffice = Office::where('id', $office['id'])->first();
                 $controllingOfficeId = $controllingOffice['id'];
                 $controllingOfficeNameBn = $controllingOffice['office_name_bn'];
                 $controllingOfficeNameEn = $controllingOffice['office_name_en'];
-            }
-            else{
+            } else {
                 $controllingOfficeId = $office['controlling_office']['id'];
                 $controllingOfficeNameBn = $office['controlling_office']['office_name_bn'];
                 $controllingOfficeNameEn = $office['controlling_office']['office_name_en'];
@@ -323,20 +310,20 @@ class OfficeRepository implements BaseRepositoryInterface
             $child = (new \App\Models\Office)->office_wise_child($office['child']);
             $response = [
                 [
-                    'id' =>$office['id'],
-                    'office_name_bn' =>$office['office_name_bn'],
-                    'office_name_en' =>$office['office_name_en'],
+                    'id' => $office['id'],
+                    'office_name_bn' => $office['office_name_bn'],
+                    'office_name_en' => $office['office_name_en'],
                     'office_ministry' => [
-                        'id' =>$office['office_ministry']['id'],
-                        'name_eng' =>$office['office_ministry']['name_eng'],
-                        'name_bng' =>$office['office_ministry']['name_bng'],
+                        'id' => $office['office_ministry']['id'],
+                        'name_eng' => $office['office_ministry']['name_eng'],
+                        'name_bng' => $office['office_ministry']['name_bng'],
                     ],
                     'child' => $child,
                     'controlling_office' => [
-                        'id' =>$controllingOfficeId,
-                        'office_name_bn' =>$controllingOfficeNameBn,
-                        'office_name_en' =>$controllingOfficeNameEn,
-                    ]
+                        'id' => $controllingOfficeId,
+                        'office_name_bn' => $controllingOfficeNameBn,
+                        'office_name_en' => $controllingOfficeNameEn,
+                    ],
                 ],
             ];
 
@@ -346,7 +333,8 @@ class OfficeRepository implements BaseRepositoryInterface
     }
 
     //for office datatable
-    public function officeDatatable(Request $request){
+    public function officeDatatable(Request $request)
+    {
         $limit = $request->length;
         $start = $request->start;
         $order = $request->order;
@@ -354,21 +342,19 @@ class OfficeRepository implements BaseRepositoryInterface
 
         if (empty($request->search)) {
             $totalData = Office::count();
-            $offices = Office::with(['parent_office','office_ministry','office_layer','controlling_office_layer','controlling_office'])
+            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
                 ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
-        }
-
-        else {
+        } else {
             $search = $request->search;
 
-            $commonSql = Office::with(['parent_office','office_ministry','office_layer','controlling_office_layer','controlling_office'])
-                ->where('office_name_eng', 'like', '%' .$search . '%')
-                ->orWhere('office_name_bng', 'LIKE',"%{$search}%")
-                ->orWhere('office_email', 'LIKE',"%{$search}%")
-                ->orWhere('office_web', 'LIKE',"%{$search}%");
+            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+                ->where('office_name_eng', 'like', '%' . $search . '%')
+                ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
+                ->orWhere('office_email', 'LIKE', "%{$search}%")
+                ->orWhere('office_web', 'LIKE', "%{$search}%");
 
             $totalData = $commonSql->count();
             $offices = $commonSql->offset($start)
@@ -378,19 +364,19 @@ class OfficeRepository implements BaseRepositoryInterface
         }
 
         $response = array(
-            "offices"=> $offices,
-            "totalData"=>$totalData,
-            "totalFiltered"=>$totalData
+            "offices" => $offices,
+            "totalData" => $totalData,
+            "totalFiltered" => $totalData,
         );
         return $response;
     }
 
     public function getRupListMis(Request $request)
     {
-        $directorate_id  = $request->directorate_id;
-        $office_ministry_id  = $request->office_ministry_id;
-        $risk_category  = $request->risk_category;
-        $audit_year  = $request->audit_due_year ? date("Y") - $request->audit_due_year : '';
+        $directorate_id = $request->directorate_id;
+        $office_ministry_id = $request->office_ministry_id;
+        $risk_category = $request->risk_category;
+        $audit_year = $request->audit_due_year ? date("Y") - $request->audit_due_year : '';
 
         $query = Office::query();
 
@@ -410,6 +396,6 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('last_audit_year_start', '<', $audit_year);
         });
 
-        return $query->with('office_ministry','controlling_office','office_layer','parent_office')->limit(20)->get()->toArray();
+        return $query->with('office_ministry', 'controlling_office', 'office_layer', 'parent_office')->limit(20)->get()->toArray();
     }
 }

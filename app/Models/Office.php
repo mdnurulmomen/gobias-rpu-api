@@ -80,7 +80,7 @@ class Office extends Model
 
     public function controlling_office_layer()
     {
-      return $this->belongsTo(OfficeLayer::class,'controlling_office_layer_id','id');
+        return $this->belongsTo(OfficeLayer::class, 'controlling_office_layer_id', 'id');
     }
 
     public function controlling_office()
@@ -130,26 +130,21 @@ class Office extends Model
         return $this->hasMany(RpInfoSectionEn::class, 'office_id', 'id');
     }
 
-    public function office_wise_child($childs,$controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn)
+    public function office_wise_child($childs)
     {
         $childList = [];
         foreach ($childs as $child) {
             $subChild = [];
 
-            if (!empty($child['child'])){
-                $subChild = $this->office_wise_child($child['child'],$controllingOfficeId,$controllingOfficeNameBn,$controllingOfficeNameEn);
+            if (!empty($child['child'])) {
+                $subChild = $this->office_wise_child($child['child']);
             }
 
             $childList[] = [
                 'id' => $child['id'],
                 'office_name_bn' => $child['office_name_bn'],
                 'office_name_en' => $child['office_name_en'],
-                'controlling_office' =>[
-                    'id' => !empty($child['controlling_office'])?$child['controlling_office']['id']:$controllingOfficeId,
-                    'office_name_bn' => !empty($child['controlling_office'])?$child['controlling_office']['office_name_bn']:$controllingOfficeNameBn,
-                    'office_name_en' => !empty($child['controlling_office'])?$child['controlling_office']['office_name_en']:$controllingOfficeNameEn,
-                ],
-                'child' => $subChild
+                'child' => $subChild,
             ];
         }
 
