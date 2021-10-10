@@ -258,7 +258,12 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_office_ministry_and_layer_wise(Request $request)
     {
-        $offices = Office::with(['child.controlling_office', 'controlling_office'])
+//        $offices = Office::with(['child.controlling_office', 'controlling_office'])
+//            ->where('office_ministry_id', $request->office_ministry_id)
+//            ->where('office_layer_id', $request->office_layer_id)
+//            ->get()
+//            ->toArray();
+        $offices = Office::with(['controlling_office'])
             ->where('office_ministry_id', $request->office_ministry_id)
             ->where('office_layer_id', $request->office_layer_id)
             ->get()
@@ -375,10 +380,10 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function getRupListMis(Request $request)
     {
-        $directorate_id  = $request->directorate_id;
-        $office_ministry_id  = $request->office_ministry_id;
-        $risk_category  = $request->risk_category;
-        $audit_year  = $request->audit_due_year;
+        $directorate_id = $request->directorate_id;
+        $office_ministry_id = $request->office_ministry_id;
+        $risk_category = $request->risk_category;
+        $audit_year = $request->audit_due_year;
 
         $query = Office::query();
 
@@ -398,6 +403,6 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('last_audit_year_start', $audit_year);
         });
 
-        return $query->with('office_ministry','controlling_office','office_layer','parent_office')->limit(20)->get()->toArray();
+        return $query->with('office_ministry', 'controlling_office', 'office_layer', 'parent_office')->limit(20)->get()->toArray();
     }
 }
