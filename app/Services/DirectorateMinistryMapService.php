@@ -45,9 +45,9 @@ class DirectorateMinistryMapService
         return $return_data;
     }
 
-    public function show($unit_id){
+    public function show($directorate_ministry_map_id){
         try {
-            $office_unit_info = $this->directorateMinistryRepository->show($unit_id);
+            $office_unit_info = $this->directorateMinistryRepository->show($directorate_ministry_map_id);
             return ['status' => 'success', 'data' => $office_unit_info];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
@@ -57,8 +57,8 @@ class DirectorateMinistryMapService
 
     public function list(Request $request){
         try {
-            $office_unit_list = $this->directorateMinistryRepository->list($request);
-            return ['status' => 'success', 'data' => $office_unit_list];
+            $directorateMinistryMapList = $this->directorateMinistryRepository->list($request);
+            return ['status' => 'success', 'data' => $directorateMinistryMapList];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

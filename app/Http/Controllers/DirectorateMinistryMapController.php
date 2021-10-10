@@ -32,7 +32,7 @@ class DirectorateMinistryMapController extends Controller
 
     public function show(Request $request, DirectorateMinistryMapService $directorateMinistryMap): \Illuminate\Http\JsonResponse
     {
-        $unit_info = $directorateMinistryMap->show($request->unit_id);
+        $unit_info = $directorateMinistryMap->show($request->directorate_ministry_map_id);
         if (isSuccessResponse($unit_info)) {
             $response = responseFormat('success', $unit_info['data']);
         } else {
@@ -43,13 +43,13 @@ class DirectorateMinistryMapController extends Controller
 
     public function list(Request $request, DirectorateMinistryMapService $directorateMinistryMap): \Illuminate\Http\JsonResponse
     {
-        $unit_list = $directorateMinistryMap->list($request);
-        if (isSuccessResponse($unit_list)) {
-            $response = responseFormat('success', $unit_list['data']);
+        $directorateMinistryMapList = $directorateMinistryMap->list($request);
+        if (isSuccessResponse($directorateMinistryMapList)) {
+            $response = responseFormat('success', $directorateMinistryMapList['data']);
         } else {
-            $response = responseFormat('error', $unit_list['data']);
+            $response = responseFormat('error', $directorateMinistryMapList['data']);
         }
-        return response()->json($response);
+        return response()->json($directorateMinistryMapList);
     }
 
     public function getUnitCategoryList(Request $request, OfficeUnitService $unit): \Illuminate\Http\JsonResponse

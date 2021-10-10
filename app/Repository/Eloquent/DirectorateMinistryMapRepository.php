@@ -23,7 +23,7 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
 
     public function update(Request $request, $cdesk)
     {
-        $directorate_ministry_map = new DirectorateMinistryMap;
+        $directorate_ministry_map = DirectorateMinistryMap::find($request->directorate_ministry_map_id);
         $directorate_ministry_map->directorate_id = $request->directorate_id;
         $directorate_ministry_map->directorate_name_bn = $request->directorate_name_bn;
         $directorate_ministry_map->directorate_name_en = $request->directorate_name_en;
@@ -34,12 +34,12 @@ class DirectorateMinistryMapRepository implements BaseRepositoryInterface
 
     public function show($directorate_ministry_map_id)
     {
-       return DirectorateMinistryMap::where('id',$directorate_ministry_map_id)->get()->toArray();
+       return DirectorateMinistryMap::where('id',$directorate_ministry_map_id)->first()->toArray();
     }
 
     public function list(Request $request)
     {
-        return DirectorateMinistryMap::all()->toArray();
+        return DirectorateMinistryMap::with('directorate_ministry')->get()->toArray();
     }
 
     public function getDirectorWiseMinistryList(Request $request)
