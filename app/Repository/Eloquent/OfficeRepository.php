@@ -264,6 +264,7 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->get()
 //            ->toArray();
         $offices = Office::with(['controlling_office'])
+            ->withCount('child')
             ->where('office_ministry_id', $request->office_ministry_id)
             ->where('office_layer_id', $request->office_layer_id)
             ->get()
@@ -284,7 +285,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'id' => $office['id'],
                 'office_name_bn' => $office['office_name_bn'],
                 'office_name_en' => $office['office_name_en'],
-//                'child' => $child,
+                'has_child' => $office['child_count'] > 0,
             ];
             $controlling_office_data['offices'][$controllingOfficeId] = [
                 'controlling_office_id' => $controllingOfficeId,
@@ -344,7 +345,7 @@ class OfficeRepository implements BaseRepositoryInterface
     public function get_parent_wise_child_office(Request $request)
     {
         return Office::with(['child'])
-            ->where('parent_office_id',$request->parent_office_id)
+            ->where('parent_office_id', $request->parent_office_id)
             ->get()
             ->toArray();
     }
