@@ -340,6 +340,15 @@ class OfficeRepository implements BaseRepositoryInterface
         return $response;
     }
 
+
+    public function get_parent_wise_child_office(Request $request)
+    {
+        return Office::with(['child'])
+            ->where('parent_office_id',$request->parent_office_id)
+            ->get()
+            ->toArray();
+    }
+
     //for office datatable
     public function officeDatatable(Request $request)
     {

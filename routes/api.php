@@ -27,6 +27,7 @@ Route::post('/update-office', [App\Http\Controllers\OfficeController::class, 'up
 Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, 'show']);
 Route::post('/get-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_office_ministry_and_layer_wise']);
 Route::post('/get-office-parent-wise', [App\Http\Controllers\OfficeController::class, 'get_office_parent_wise']);
+Route::post('/get-parent-wise-child-office', [App\Http\Controllers\OfficeController::class, 'get_parent_wise_child_office']);
 Route::post('/search-office', [App\Http\Controllers\OfficeController::class, 'searchOffice']);
 Route::post('/get-office-list-datatable', [App\Http\Controllers\OfficeController::class, 'employeeDatatable']);
 Route::post('/get-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'show']);
