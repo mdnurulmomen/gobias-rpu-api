@@ -344,10 +344,35 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_parent_wise_child_office(Request $request)
     {
-        return Office::with(['child'])
+        $office_data = Office::withCount('child')
             ->where('parent_office_id', $request->parent_office_id)
             ->get()
             ->toArray();
+
+        $offices = [];
+
+        foreach ($office_data as $office) {
+            $offices[] = [
+                'id' => $office['id'],
+                'office_layer_id' => $office['office_layer_id'],
+                'controlling_office_layer_id' => $office['controlling_office_layer_id'],
+                'controlling_office_id' => $office['controlling_office_id'],
+                'custom_layer_id' => $office['custom_layer_id'],
+                'office_name_bng' => $office['office_name_bng'],
+                'office_name_eng' => $office['office_name_eng'],
+                'office_name_bn' => $office['office_name_bng'],
+                'office_name_en' => $office['office_name_eng'],
+                'office_address' => $office['office_address'],
+                'office_phone' => $office['office_phone'],
+                'office_mobile' => $office['office_mobile'],
+                'parent_office_id' => $office['parent_office_id'],
+                'last_audit_year_start' => $office['last_audit_year_start'],
+                'last_audit_year_end' => $office['last_audit_year_end'],
+                'risk_category' => $office['risk_category'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+        }
+        return $offices;
     }
 
     //for office datatable
