@@ -267,6 +267,7 @@ class OfficeRepository implements BaseRepositoryInterface
             ->withCount('child')
             ->where('office_ministry_id', $request->office_ministry_id)
             ->where('office_layer_id', $request->office_layer_id)
+            ->where('office_status', 1)
             ->get()
             ->toArray();
 
@@ -302,6 +303,7 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         $offices = Office::with(['office_ministry', 'child.controlling_office', 'controlling_office'])
             ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_status', 1)
             ->get()
             ->toArray();
 
@@ -346,6 +348,7 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         $office_data = Office::withCount('child')
             ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_status', 1)
             ->get()
             ->toArray();
 
@@ -381,13 +384,13 @@ class OfficeRepository implements BaseRepositoryInterface
             ->toArray();
 
         $childOffice = Office::with(['child'])
-            ->where('parent_office_id',$request->parent_office_id)
+            ->where('parent_office_id', $request->parent_office_id)
             ->get()
             ->toArray();
 
         $response = [
             'parent_office' => $ownOffice,
-            'child_offices' => $childOffice
+            'child_offices' => $childOffice,
         ];
 
         return $response;
@@ -412,6 +415,7 @@ class OfficeRepository implements BaseRepositoryInterface
             $search = $request->search;
 
             $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+                ->where('office_status', 1)
                 ->where('office_name_eng', 'like', '%' . $search . '%')
                 ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
                 ->orWhere('office_email', 'LIKE', "%{$search}%")
