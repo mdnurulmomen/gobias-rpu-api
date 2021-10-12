@@ -86,6 +86,17 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function get_parent_with_child_office(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $offices = $officeServices->get_parent_with_child_office($request);
+        if (isSuccessResponse($offices)) {
+            $response = responseFormat('success', $offices['data']);
+        } else {
+            $response = responseFormat('error', $offices['data']);
+        }
+        return response()->json($response);
+    }
+
     public function employeeDatatable(Request $request,OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $officeList = $officeServices->officeDatatable($request);
