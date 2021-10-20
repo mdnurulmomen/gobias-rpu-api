@@ -12,8 +12,7 @@ class AuditQuery extends Model
     protected $fillable = [
         'fiscal_year_id',
         'activity_id',
-        'annual_plan_id',
-        'audit_plan_id',
+        'audit_plan',
         'office_order_id',
         'team_id',
         'team_leader_name_en',

@@ -16,7 +16,7 @@ class AuditQueryService
             $queries = $request->query_list;
             foreach ($queries as $key => $query) {
                 $ac_query = new AuditQuery;
-                $ac_query->audit_plan_id = $query['audit_plan_id'];
+                $ac_query->audit_plan = $query['audit_plan_id'];
                 $ac_query->office_order_id = $query['office_order_id'];
                 $ac_query->team_id = $query['team_id'];
                 $ac_query->cost_center_type_id = $query['cost_center_type_id'];
