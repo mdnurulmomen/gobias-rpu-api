@@ -20,13 +20,6 @@ class AuditQueryService
                 $ac_query->office_order_id = $query['office_order_id'];
                 $ac_query->team_id = $query['team_id'];
                 $ac_query->cost_center_type_id = $query['cost_center_type_id'];
-                $ac_query->ministry_id = $query['ministry_id'];
-                $ac_query->controlling_office_id = $query['controlling_office_id'];
-                $ac_query->controlling_office_name_en = $query['controlling_office_name_en'];
-                $ac_query->controlling_office_name_bn = $query['controlling_office_name_bn'];
-                $ac_query->entity_office_id = $query['entity_office_id'];
-                $ac_query->entity_office_name_en = $query['entity_office_name_en'];
-                $ac_query->entity_office_name_bn = $query['entity_office_name_bn'];
                 $ac_query->cost_center_id = $query['cost_center_id'];
                 $ac_query->cost_center_name_bn = $query['cost_center_name_bn'];
                 $ac_query->cost_center_name_en = $query['cost_center_name_en'];
