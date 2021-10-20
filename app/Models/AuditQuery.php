@@ -29,7 +29,7 @@ class AuditQuery extends Model
         'cost_center_id',
         'cost_center_name_en',
         'cost_center_name_bn',
-        'potro_id',
+        'potro_no',
         'query_id',
         'query_title_en',
         'query_title_bn',

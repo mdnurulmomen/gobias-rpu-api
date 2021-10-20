@@ -110,6 +110,9 @@ Route::post('/get-responsible-party-list', [App\Http\Controllers\ResponsiblePart
 Route::post('/get-cost-center-office-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterOffice']);
 Route::post('/get-cost-center-unit-list', [App\Http\Controllers\ResponsiblePartyController::class, 'getCostCenterunit']);
 
+//audit query
+Route::post('/send-audit-query', [App\Http\Controllers\AuditQueryController::class, 'store']);
+
 //for language
 Route::post('/list-language', [App\Http\Controllers\LanguageController::class, 'list']);
 
