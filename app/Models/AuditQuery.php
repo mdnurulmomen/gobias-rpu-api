@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -37,4 +38,13 @@ class AuditQuery extends Model
         'querier_receiver_officer_name_bn',
         'status',
     ];
+
+    public function setQueryDateAttribute($value)
+    {
+        if (strstr($value, '/')){
+            $value = str_replace('/','-',$value);
+        }
+
+        $this->attributes['query_date'] = Carbon::parse($value)->format('Y-m-d');
+    }
 }
