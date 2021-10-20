@@ -12,9 +12,8 @@ class AuditQueryService
 
     public function store(Request $request): array
     {
-         try {
+        try {
             $queries = $request->query_list;
-            return ['status' => 'success', 'data' => $queries];
             foreach ($queries as $key => $query) {
                 $ac_query = new AuditQuery;
                 $ac_query->audit_plan_id = $query['audit_plan_id'];
@@ -55,7 +54,8 @@ class AuditQueryService
     }
 
 
-    public function show(Request $request){
+    public function show(Request $request)
+    {
         //
     }
 
