@@ -19,6 +19,8 @@ class AuditQueryService
                 $ac_query->audit_plan = $query['audit_plan_id'];
                 $ac_query->office_order_id = $query['office_order_id'];
                 $ac_query->team_id = $query['team_id'];
+                $ac_query->team_leader_name_en = $query['team_leader_name_en'];
+                $ac_query->team_leader_name_bn = $query['team_leader_name_bn'];
                 $ac_query->cost_center_type_id = $query['cost_center_type_id'];
                 $ac_query->cost_center_id = $query['cost_center_id'];
                 $ac_query->cost_center_name_bn = $query['cost_center_name_bn'];
@@ -30,10 +32,12 @@ class AuditQueryService
                 $ac_query->query_date = $query['query_send_date'];
                 $ac_query->querier_officer_id = $query['querier_officer_id'];
                 $ac_query->querier_officer_name_en = $query['querier_officer_name_en'];
-                $ac_query->querier_officer_name_bn = $query['querier_officer_name_en'];
+                $ac_query->querier_officer_name_bn = $query['querier_officer_name_bn'];
                 $ac_query->querier_designation_id = $query['querier_designation_id'];
                 $ac_query->save();
             }
+
+            return ['status' => 'success', 'data' => 'Send Successfully'];
 
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
