@@ -113,6 +113,9 @@ Route::post('/get-cost-center-unit-list', [App\Http\Controllers\ResponsibleParty
 //audit query
 Route::post('/send-audit-query', [App\Http\Controllers\AuditQueryController::class, 'store']);
 
+//audit memo
+Route::post('/send-audit-memo', [App\Http\Controllers\AcMemoController::class, 'store']);
+
 //for language
 Route::post('/list-language', [App\Http\Controllers\LanguageController::class, 'list']);
 
