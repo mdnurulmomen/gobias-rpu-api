@@ -26,7 +26,7 @@ class AuditQueryService
                 $ac_query->cost_center_name_bn = $query['cost_center_name_bn'];
                 $ac_query->cost_center_name_en = $query['cost_center_name_en'];
                 $ac_query->query_id = $query['query_id'];
-                $ac_query->potro_no = '1';
+                $ac_query->potro_no = $query['potro_no'];
                 $ac_query->query_title_en = $query['query_title_en'];
                 $ac_query->query_title_bn = $query['query_title_bn'];
                 $ac_query->query_date = $query['query_send_date'];
@@ -34,6 +34,7 @@ class AuditQueryService
                 $ac_query->querier_officer_name_en = $query['querier_officer_name_en'];
                 $ac_query->querier_officer_name_bn = $query['querier_officer_name_bn'];
                 $ac_query->querier_designation_id = $query['querier_designation_id'];
+                $ac_query->status = $query['status'];
                 $ac_query->save();
             }
 
