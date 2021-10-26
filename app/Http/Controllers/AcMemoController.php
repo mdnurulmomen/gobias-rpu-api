@@ -18,9 +18,16 @@ class AcMemoController extends Controller
         return response()->json($response);
     }
 
-    public function update(UpdateOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function update(Request $request, AcMemoService $acMemoService): \Illuminate\Http\JsonResponse
     {
-       //
+        $updateAuditMemo = $acMemoService->update($request);
+//        dd($storeAuditQuery);
+        if (isSuccessResponse($updateAuditMemo)) {
+            $response = responseFormat('success', $updateAuditMemo['data']);
+        } else {
+            $response = responseFormat('error', $updateAuditMemo['data']);
+        }
+        return response()->json($response);
     }
 
     public function show(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
