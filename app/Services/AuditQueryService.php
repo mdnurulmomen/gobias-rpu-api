@@ -52,9 +52,25 @@ class AuditQueryService
     }
 
 
-    public function show(Request $request)
+    public function removeQuery(Request $request): array
     {
-        //
+        try {
+            $ac_query = AuditQuery::where('query_id', $request->query_id)->first();
+            $ac_query->query_rejector_officer_id = $request->query_rejector_officer_id;
+            $ac_query->query_rejector_officer_name_en = $request->query_rejector_officer_name_en;
+            $ac_query->query_rejector_officer_name_bn= $request->query_rejector_officer_name_bn;
+            $ac_query->query_rejector_officer_designation_id = $request->query_rejector_officer_designation_id;
+            $ac_query->comment = $request->comment;
+            $ac_query->status = $request->status;
+            $ac_query->save();
+
+            return ['status' => 'success', 'data' => 'Remove Successfully'];
+
+        } catch (\Exception $exception) {
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
     }
+
+
 
 }
