@@ -39,6 +39,7 @@ class AcMemoService
                     $ac_memo->memo_type = $memo['memo_type_name'];
                     $ac_memo->memo_status = $memo['memo_status_name'];
                     $ac_memo->memo_send_date = $request->memo_send_date;
+                    $ac_memo->response_of_rpu = $memo['response_of_rpu'];
                     $ac_memo->audit_conclusion = $memo['audit_conclusion'];
                     $ac_memo->audit_recommendation = $memo['audit_recommendation'];
                     $ac_memo->jorito_ortho_poriman = $memo['jorito_ortho_poriman'];
