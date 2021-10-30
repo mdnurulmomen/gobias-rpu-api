@@ -28,6 +28,18 @@ class AuditQueryController extends Controller
         //
     }
 
+    public function receiveQuery(Request $request, AuditQueryService $auditQueryService): \Illuminate\Http\JsonResponse
+    {
+        $removeQuery = $auditQueryService->receiveQuery($request);
+        if (isSuccessResponse($removeQuery)) {
+            $response = responseFormat('success', $removeQuery['data']);
+        } else {
+            $response = responseFormat('error', $removeQuery['data']);
+        }
+        return response()->json($response);
+
+    }
+
     public function removeQuery(Request $request, AuditQueryService $auditQueryService): \Illuminate\Http\JsonResponse
     {
         $removeQuery = $auditQueryService->removeQuery($request);

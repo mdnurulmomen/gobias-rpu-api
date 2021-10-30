@@ -19,6 +19,9 @@ class AcMemoService
                 foreach ($memos as $key => $memo){
                     $memo_attachment = json_encode($memo['ac_memo_attachments']);
                     $ac_memo = new AcMemo;
+                    $ac_memo->directorate_id = $request->directorate_id;
+                    $ac_memo->directorate_en = $request->directorate_en;
+                    $ac_memo->directorate_bn = $request->directorate_bn;
                     $ac_memo->onucched_no = $memo['onucched_no'];
                     $ac_memo->memo_irregularity_type = $memo['memo_irregularity_type_name'];
                     $ac_memo->memo_irregularity_sub_type = $memo['memo_irregularity_sub_type_name'];

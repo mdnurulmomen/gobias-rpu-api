@@ -112,6 +112,7 @@ Route::post('/get-cost-center-unit-list', [App\Http\Controllers\ResponsibleParty
 
 //audit query
 Route::post('/send-audit-query', [App\Http\Controllers\AuditQueryController::class, 'store']);
+Route::post('/receive-query-from-rpu', [App\Http\Controllers\AuditQueryController::class, 'receiveQuery']);
 Route::post('/remove-query-from-rpu', [App\Http\Controllers\AuditQueryController::class, 'removeQuery']);
 
 //audit memo

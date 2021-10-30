@@ -16,6 +16,9 @@ class AuditQueryService
             $queries = $request->query_list;
             foreach ($queries as $key => $query) {
                 $ac_query = new AuditQuery;
+                $ac_query->directorate_id = $request->directorate_id;
+                $ac_query->directorate_en = $request->directorate_en;
+                $ac_query->directorate_bn = $request->directorate_bn;
                 $ac_query->audit_plan = $query['audit_plan_id'];
                 $ac_query->office_order_id = $query['office_order_id'];
                 $ac_query->team_id = $query['team_id'];
@@ -49,6 +52,24 @@ class AuditQueryService
     public function update(Request $request): array
     {
         //
+    }
+
+    public function receiveQuery(Request $request): array
+    {
+        try {
+            $ac_query = AuditQuery::where('query_id', $request->query_id)->first();
+            $ac_query->query_receiver_officer_id = $request->query_receiver_officer_id;
+            $ac_query->query_receiver_designation_id  = $request->query_receiver_designation_id;
+            $ac_query->querier_receiver_officer_name_en= $request->querier_receiver_officer_name_en;
+            $ac_query->querier_receiver_officer_name_bn = $request->querier_receiver_officer_name_bn;
+            $ac_query->status = $request->status;
+            $ac_query->save();
+
+            return ['status' => 'success', 'data' => 'Remove Successfully'];
+
+        } catch (\Exception $exception) {
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
     }
 
 
