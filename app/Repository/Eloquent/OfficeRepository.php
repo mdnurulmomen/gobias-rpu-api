@@ -285,13 +285,14 @@ class OfficeRepository implements BaseRepositoryInterface
 
             $office_data[] = [
                 'id' => $office['id'],
+                'office_type' => $office['office_type'],
                 'office_name_bn' => $office['office_name_bn'],
                 'office_name_en' => $office['office_name_en'],
                 'has_child' => $office['child_count'] > 0,
             ];
             $controlling_office_data['offices'][$controllingOfficeId] = [
                 'controlling_office_id' => $controllingOfficeId,
-                'controlling_office_type' => $controllingOfficeType,
+                'office_type' => $controllingOfficeType,
                 'controlling_office_name_bn' => $controllingOfficeNameBn,
                 'controlling_office_name_en' => $controllingOfficeNameEn,
                 'rp_offices' => $office_data,
