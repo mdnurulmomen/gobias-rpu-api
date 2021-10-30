@@ -38,6 +38,7 @@ class Office extends Model
         'digital_nothi_code',
         'reference_code',
         'parent_office_id',
+        'office_type',
         'date_of_formation',
         'date_of_close',
         'office_status',
@@ -45,7 +46,8 @@ class Office extends Model
         'office_description',
         'office_details',
         'created_by',
-        'modified_by'];
+        'modified_by'
+    ];
 
     protected $appends = ['office_name_bn', 'office_name_en'];
 

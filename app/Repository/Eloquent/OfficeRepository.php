@@ -277,6 +277,7 @@ class OfficeRepository implements BaseRepositoryInterface
         foreach ($offices as $office) {
             $controlling_office = $office['controlling_office'] == null ? Office::where('id', $office['id'])->first() : $office['controlling_office'];
             $controllingOfficeId = $controlling_office['id'];
+            $controllingOfficeType = $controlling_office['office_type'];
             $controllingOfficeNameBn = $controlling_office['office_name_bn'];
             $controllingOfficeNameEn = $controlling_office['office_name_en'];
 
@@ -290,6 +291,7 @@ class OfficeRepository implements BaseRepositoryInterface
             ];
             $controlling_office_data['offices'][$controllingOfficeId] = [
                 'controlling_office_id' => $controllingOfficeId,
+                'controlling_office_type' => $controllingOfficeType,
                 'controlling_office_name_bn' => $controllingOfficeNameBn,
                 'controlling_office_name_en' => $controllingOfficeNameEn,
                 'rp_offices' => $office_data,
