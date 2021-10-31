@@ -19,6 +19,8 @@ class AuditQueryService
                 $ac_query->directorate_id = $request->directorate_id;
                 $ac_query->directorate_en = $request->directorate_en;
                 $ac_query->directorate_bn = $request->directorate_bn;
+                $ac_query->fiscal_year_id = $query['fiscal_year_id'];
+                $ac_query->fiscal_year = $request->fiscal_year;
                 $ac_query->audit_plan = $query['audit_plan_id'];
                 $ac_query->office_order_id = $query['office_order_id'];
                 $ac_query->team_id = $query['team_id'];
@@ -37,6 +39,8 @@ class AuditQueryService
                 $ac_query->querier_officer_name_en = $query['querier_officer_name_en'];
                 $ac_query->querier_officer_name_bn = $query['querier_officer_name_bn'];
                 $ac_query->querier_designation_id = $query['querier_designation_id'];
+                $ac_query->querier_designation_bn = $query['querier_designation_bn'];
+                $ac_query->querier_designation_en = $query['querier_designation_en'];
                 $ac_query->status = $query['status'];
                 $ac_query->save();
             }

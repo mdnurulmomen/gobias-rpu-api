@@ -30,6 +30,7 @@ class AcMemoService
                     $ac_memo->cost_center_name_bn = $memo['cost_center_name_bn'];
                     $ac_memo->cost_center_name_en = $memo['cost_center_name_en'];
                     $ac_memo->fiscal_year_id = $memo['fiscal_year_id'];
+                    $ac_memo->fiscal_year = $memo['fiscal_year'];
                     $ac_memo->ac_query_potro_no = $memo['ac_query_potro_no'];
                     $ac_memo->audit_year_start = $memo['audit_year_start'];
                     $ac_memo->audit_year_end = $memo['audit_year_end'];
@@ -51,6 +52,9 @@ class AcMemoService
                     $ac_memo->sender_officer_id = $request->sender_officer_id;
                     $ac_memo->sender_officer_name_bn = $request->sender_officer_name_bn;
                     $ac_memo->sender_officer_name_en = $request->sender_officer_name_en;
+                    $ac_memo->sender_designation_id = $request->sender_designation_id;
+                    $ac_memo->sender_designation_bn = $request->sender_designation_bn;
+                    $ac_memo->sender_designation_en = $request->sender_designation_en;
                     $ac_memo->save();
                 }
 

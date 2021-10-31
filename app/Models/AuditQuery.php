@@ -12,6 +12,7 @@ class AuditQuery extends Model
 
     protected $fillable = [
         'fiscal_year_id',
+        'fiscal_year',
         'activity_id',
         'audit_plan',
         'office_order_id',
@@ -32,6 +33,8 @@ class AuditQuery extends Model
         'querier_officer_name_en',
         'querier_officer_name_bn',
         'querier_designation_id',
+        'querier_designation_en',
+        'querier_designation_bn',
         'query_receiver_officer_id',
         'query_receiver_designation_id',
         'querier_receiver_officer_name_en',
