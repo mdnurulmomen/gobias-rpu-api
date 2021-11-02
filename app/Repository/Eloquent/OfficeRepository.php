@@ -153,7 +153,6 @@ class OfficeRepository implements BaseRepositoryInterface
 
         $office_ministry_id = $request->office_ministry_id;
         $office_layer_id = $request->office_layer_id;
-        $controlling_office_layer_id = $request->controlling_office_layer_id;
         $custom_layer_id = $request->custom_layer_id;
         $office_name_bng = $request->office_name_bng;
         $office_name_eng = $request->office_name_eng;
@@ -172,10 +171,6 @@ class OfficeRepository implements BaseRepositoryInterface
 
         $query->when($office_ministry_id, function ($q, $office_ministry_id) {
             return $q->where('office_ministry_id', $office_ministry_id);
-        });
-
-        $query->when($controlling_office_layer_id, function ($q, $controlling_office_layer_id) {
-            return $q->where('controlling_office_layer_id', $controlling_office_layer_id);
         });
 
         $query->when($office_layer_id, function ($q, $office_layer_id) {
@@ -234,8 +229,7 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('active_status', $status);
         });
 
-//        return $query->get()->toArray();
-        return $query->toSql();
+        return $query->get()->toArray();
     }
 
     public function getCostCenterOffice(Request $request)
@@ -261,43 +255,6 @@ class OfficeRepository implements BaseRepositoryInterface
         return $query->get()->toArray();
     }
 
-    public function get_offices_by_layring(Request $request)
-    {
-        $offices = Office::with(['controlling_office'])
-            ->withCount('child')
-            ->where('office_ministry_id', $request->office_ministry_id)
-            ->where('office_layer_id', $request->office_layer_id)
-            ->where('office_status', 1)
-            ->get()
-            ->toArray();
-
-        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
-
-        $controlling_office_data = [];
-        foreach ($offices as $office) {
-            $controlling_office = $office['controlling_office'] == null ? Office::where('id', $office['id'])->first() : $office['controlling_office'];
-            $controllingOfficeId = $controlling_office['id'];
-            $controllingOfficeType = $controlling_office['office_type'];
-            $controllingOfficeNameBn = $controlling_office['office_name_bn'];
-            $controllingOfficeNameEn = $controlling_office['office_name_en'];
-            $office_data[] = [
-                'id' => $office['id'],
-                'office_type' => $office['office_type'],
-                'office_name_bn' => $office['office_name_bn'],
-                'office_name_en' => $office['office_name_en'],
-                'has_child' => $office['child_count'] > 0,
-            ];
-            $controlling_office_data['offices'][$controllingOfficeId] = [
-                'controlling_office_id' => $controllingOfficeId,
-                'office_type' => $controllingOfficeType,
-                'controlling_office_name_bn' => $controllingOfficeNameBn,
-                'controlling_office_name_en' => $controllingOfficeNameEn,
-                'rp_offices' => $office_data,
-            ];
-        }
-        $data = ['office_ministry' => $ministry] + $controlling_office_data;
-        return $data;
-    }
 
     public function get_office_ministry_and_layer_wise(Request $request)
     {

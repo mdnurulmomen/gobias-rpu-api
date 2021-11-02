@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Requests\Office\StoreOfficeRequest;
 use App\Http\Requests\Office\UpdateOfficeRequest;
-use App\Services\OfficeService;
 use Illuminate\Http\Request;
+use App\Services\OfficeService;
 
 class OfficeController extends Controller
 {
@@ -98,7 +97,7 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
-    public function employeeDatatable(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function employeeDatatable(Request $request,OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $officeList = $officeServices->officeDatatable($request);
         if (isSuccessResponse($officeList)) {
@@ -108,4 +107,6 @@ class OfficeController extends Controller
         }
         return response()->json($response);
     }
+
+
 }
