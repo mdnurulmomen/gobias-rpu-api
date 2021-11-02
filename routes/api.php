@@ -9,6 +9,10 @@ Route::post('client-login', [App\Http\Controllers\LoginController::class, 'clien
 //office ministry
 Route::post('/get-office-ministry-list', [App\Http\Controllers\OfficeMinistryController::class, 'list']);
 
+//RPU Search Layering
+Route::post('/get-controlling-office-layer-by-ministry-or-division', [App\Http\Controllers\OfficeLayerController::class, 'getControllingOfficeLayerByMinistryOrDivision']);
+Route::post('/get-office-unit-layer-by-controlling-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'getOfficeUnitLayerByControllingOfficeLayer']);
+
 //office layer
 Route::post('/store-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'store']);
 Route::post('/update-office-layer', [App\Http\Controllers\OfficeLayerController::class, 'update']);

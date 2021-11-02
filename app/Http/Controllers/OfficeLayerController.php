@@ -34,7 +34,7 @@ class OfficeLayerController extends Controller
     }
 
     //for show
-    public function show(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    public function show(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
     {
         $officeLayerInfo = $officeLayerService->show($request->id);
         if (isSuccessResponse($officeLayerInfo)) {
@@ -58,9 +58,9 @@ class OfficeLayerController extends Controller
     }
 
     //for get office Layer ministry wise
-    public function getOfficeLayerMinistryWise(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    public function getOfficeLayerMinistryWise(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
     {
-        $officeLayers= $officeLayerService->getOfficeLayerMinistryWise($request->ministry_id);
+        $officeLayers = $officeLayerService->getOfficeLayerMinistryWise($request->ministry_id);
         if (isSuccessResponse($officeLayers)) {
             $response = responseFormat('success', $officeLayers['data']);
         } else {
@@ -70,9 +70,9 @@ class OfficeLayerController extends Controller
     }
 
     //for get office Layer tree ministry wise
-    public function getOfficeLayerTreeMinistryWise(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    public function getOfficeLayerTreeMinistryWise(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
     {
-        $officeLayers= $officeLayerService->getOfficeLayerTreeMinistryWise($request->ministry_id);
+        $officeLayers = $officeLayerService->getOfficeLayerTreeMinistryWise($request->ministry_id);
         if (isSuccessResponse($officeLayers)) {
             $response = responseFormat('success', $officeLayers['data']);
         } else {
@@ -83,9 +83,33 @@ class OfficeLayerController extends Controller
 
 
     //for get office Layer parent & ministry wise
-    public function getOfficeLayerParentAndMinistryWise(Request $request,OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    public function getOfficeLayerParentAndMinistryWise(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
     {
         $officeLayers = $officeLayerService->getOfficeLayerParentAndMinistryWise($request);
+        if (isSuccessResponse($officeLayers)) {
+            $response = responseFormat('success', $officeLayers['data']);
+        } else {
+            $response = responseFormat('error', $officeLayers['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function getControllingOfficeLayerByMinistryOrDivision(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    {
+        \Validator::make($request->all(), ['office_ministry_id' => 'required'])->validate();
+        $officeLayers = $officeLayerService->getControllingOfficeLayerByMinistryOrDivision($request);
+        if (isSuccessResponse($officeLayers)) {
+            $response = responseFormat('success', $officeLayers['data']);
+        } else {
+            $response = responseFormat('error', $officeLayers['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function getOfficeUnitLayerByControllingOfficeLayer(Request $request, OfficeLayerService $officeLayerService): \Illuminate\Http\JsonResponse
+    {
+        \Validator::make($request->all(), ['office_ministry_id' => 'required', 'controlling_office_layer_id' => 'required'])->validate();
+        $officeLayers = $officeLayerService->getOfficeUnitLayerByControllingOfficeLayer($request);
         if (isSuccessResponse($officeLayers)) {
             $response = responseFormat('success', $officeLayers['data']);
         } else {
