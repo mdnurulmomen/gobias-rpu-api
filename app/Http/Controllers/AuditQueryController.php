@@ -18,16 +18,6 @@ class AuditQueryController extends Controller
         return response()->json($response);
     }
 
-    public function update(UpdateOfficeRequest $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
-    {
-       //
-    }
-
-    public function show(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
-    {
-        //
-    }
-
     public function receiveQuery(Request $request, AuditQueryService $auditQueryService): \Illuminate\Http\JsonResponse
     {
         $removeQuery = $auditQueryService->receiveQuery($request);

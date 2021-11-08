@@ -65,23 +65,14 @@ class AuditQueryService
     }
 
 
-    public function update(Request $request): array
-    {
-        //
-    }
 
     public function receiveQuery(Request $request): array
     {
         try {
-            $ac_query = AuditQuery::where('query_id', $request->query_id)->first();
-            $ac_query->query_receiver_officer_id = $request->query_receiver_officer_id;
-            $ac_query->query_receiver_designation_id  = $request->query_receiver_designation_id;
-            $ac_query->querier_receiver_officer_name_en= $request->querier_receiver_officer_name_en;
-            $ac_query->querier_receiver_officer_name_bn = $request->querier_receiver_officer_name_bn;
-            $ac_query->status = $request->status;
-            $ac_query->save();
-
-            return ['status' => 'success', 'data' => 'Remove Successfully'];
+            $auditQuery = AuditQuery::where('query_id', $request->ac_query_id)->first();
+            $auditQuery->query_items = $request->ac_query_items;
+            $auditQuery->save();
+            return ['status' => 'success', 'data' => 'Received Successfully'];
 
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
