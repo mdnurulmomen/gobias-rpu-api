@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Traits\SendNotification;
 use App\Models\AuditQuery;
@@ -13,37 +14,48 @@ class AuditQueryService
     public function store(Request $request): array
     {
         try {
-            $queries = $request->query_list;
-            foreach ($queries as $key => $query) {
-                $ac_query = new AuditQuery;
-                $ac_query->directorate_id = $request->directorate_id;
-                $ac_query->directorate_en = $request->directorate_en;
-                $ac_query->directorate_bn = $request->directorate_bn;
-                $ac_query->fiscal_year_id = $query['fiscal_year_id'];
-                $ac_query->fiscal_year = $request->fiscal_year;
-                $ac_query->audit_plan = $query['audit_plan_id'];
-                $ac_query->office_order_id = $query['office_order_id'];
-                $ac_query->team_id = $query['team_id'];
-                $ac_query->team_leader_name_en = $query['team_leader_name_en'];
-                $ac_query->team_leader_name_bn = $query['team_leader_name_bn'];
-                $ac_query->cost_center_type_id = $query['cost_center_type_id'];
-                $ac_query->cost_center_id = $query['cost_center_id'];
-                $ac_query->cost_center_name_bn = $query['cost_center_name_bn'];
-                $ac_query->cost_center_name_en = $query['cost_center_name_en'];
-                $ac_query->query_id = $query['query_id'];
-                $ac_query->potro_no = $query['potro_no'];
-                $ac_query->query_title_en = $query['query_title_en'];
-                $ac_query->query_title_bn = $query['query_title_bn'];
-                $ac_query->query_date = $query['query_send_date'];
-                $ac_query->querier_officer_id = $query['querier_officer_id'];
-                $ac_query->querier_officer_name_en = $query['querier_officer_name_en'];
-                $ac_query->querier_officer_name_bn = $query['querier_officer_name_bn'];
-                $ac_query->querier_designation_id = $query['querier_designation_id'];
-                $ac_query->querier_designation_bn = $query['querier_designation_bn'];
-                $ac_query->querier_designation_en = $query['querier_designation_en'];
-                $ac_query->status = $query['status'];
-                $ac_query->save();
-            }
+            //get ac query
+            $ac_query = $request->ac_query;
+
+            //audit query
+            $auditQuery = new AuditQuery;
+            $auditQuery->directorate_id = $request->directorate_id;
+            $auditQuery->directorate_en = $request->directorate_en;
+            $auditQuery->directorate_bn = $request->directorate_bn;
+
+            $auditQuery->fiscal_year_id = $ac_query['fiscal_year_id'];
+            $auditQuery->fiscal_year = $request->fiscal_year;
+            $auditQuery->audit_plan_id = $ac_query['audit_plan_id'];
+            $auditQuery->office_order_id = $ac_query['office_order_id'];
+
+            $auditQuery->team_id = $ac_query['team_id'];
+            $auditQuery->team_name_bn = $ac_query['plan_team']['team_name'];
+            $auditQuery->team_name_en = $ac_query['plan_team']['team_name'];
+            $auditQuery->team_leader_name_en = $ac_query['plan_team']['leader_name_en'];
+            $auditQuery->team_leader_name_bn = $ac_query['plan_team']['leader_name_bn'];
+            $auditQuery->team_leader_role = $ac_query['plan_team']['team_parent_id'] ==0?'দলনেতা':'উপ দলনেতা';
+
+            $auditQuery->cost_center_id = $ac_query['cost_center_id'];
+            $auditQuery->cost_center_name_en = $ac_query['cost_center_name_en'];
+            $auditQuery->cost_center_name_bn = $ac_query['cost_center_name_bn'];
+            $auditQuery->query_id = $ac_query['id'];
+            $auditQuery->query_date = date('Y-m-d',strtotime($ac_query['created_at']));
+            $auditQuery->query_items = $request->ac_query_items;
+            $auditQuery->querier_officer_id = $ac_query['querier_officer_id'];
+            $auditQuery->querier_officer_name_en = $ac_query['querier_officer_name_en'];
+            $auditQuery->querier_officer_name_bn = $ac_query['querier_officer_name_bn'];
+            $auditQuery->querier_designation_id = $ac_query['querier_designation_id'];
+            $auditQuery->querier_designation_bn = $ac_query['querier_designation_bn'];
+            $auditQuery->querier_designation_en = $ac_query['querier_designation_en'];
+            $auditQuery->rpu_office_head_details = $ac_query['rpu_office_head_details'];
+            $auditQuery->memorandum_no = $ac_query['memorandum_no'];
+            $auditQuery->memorandum_date = $ac_query['memorandum_date'];
+            $auditQuery->subject = $ac_query['subject'];
+            $auditQuery->description = $ac_query['description'];
+            $auditQuery->cc = $ac_query['cc'];
+            $auditQuery->comment = $ac_query['comment'];
+            $auditQuery->status = $ac_query['status'];
+            $auditQuery->save();
 
             return ['status' => 'success', 'data' => 'Send Successfully'];
 
