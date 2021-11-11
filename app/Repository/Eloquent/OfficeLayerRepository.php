@@ -118,6 +118,9 @@ class OfficeLayerRepository implements BaseRepositoryInterface
             ->select('id','layer_name_eng','layer_name_bng','layer_name_eng AS layer_name_en',
                 'layer_name_bng AS layer_name_bn','parent_layer_id')
             ->where('office_ministry_id', $ministryId)
+            ->whereHas('custom_layer', function ($q) {
+                $q->where('is_entity', 1);
+            })
             ->get()
             ->toArray();
     }
