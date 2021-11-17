@@ -12,6 +12,7 @@ use App\Repository\Eloquent\UserOfficeRepository;
 use App\Repository\Eloquent\RpInfoSectionBnRepository;
 use App\Repository\Eloquent\RpInfoSectionEnRepository;
 use App\Repository\Eloquent\UserRepository;
+use App\Repository\Eloquent\CostCenterRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -23,7 +24,7 @@ class OfficeService
 
     public function __construct(OfficeRepository $officeRepository,UserRepository $userRepository,
                                 UserOfficeRepository $userOfficeRepository, RpInfoSectionBnRepository $rpInfoSectionBnRepository,
-                                RpInfoSectionEnRepository $rpInfoSectionEnRepository,RpInfoSectionRepository $rpInfoSectionRepository)
+                                RpInfoSectionEnRepository $rpInfoSectionEnRepository,RpInfoSectionRepository $rpInfoSectionRepository,CostCenterRepository $costCenterRepository)
     {
         $this->officeRepository = $officeRepository;
         $this->userRepository = $userRepository;
@@ -31,6 +32,7 @@ class OfficeService
         $this->rpInfoSectionBnRepository = $rpInfoSectionBnRepository;
         $this->rpInfoSectionEnRepository = $rpInfoSectionEnRepository;
         $this->rpInfoSectionRepository = $rpInfoSectionRepository;
+        $this->costCenterRepository = $costCenterRepository;
     }
 
     public function store(Request $request): array
@@ -47,6 +49,9 @@ class OfficeService
 
             //for user office
             $this->userOfficeRepository->storeUserOffice($request, $userId, $officeId, $cdesk);
+
+            //cost center
+            $this->costCenterRepository->store($request, $officeId);
 
             //for section
             if(!is_null($request->rp_info_section_id[0])){
@@ -199,9 +204,21 @@ class OfficeService
         return ['status' => 'success', 'data' => $get_office_list];
     }
 
+    public function get_master_office_ministry_and_layer_wise(Request $request){
+
+        $get_office_list = $this->officeRepository->get_master_office_ministry_and_layer_wise($request);
+        return ['status' => 'success', 'data' => $get_office_list];
+    }
+
     public function get_office_parent_wise(Request $request){
 
         $get_office_list = $this->officeRepository->get_office_parent_wise($request);
+        return ['status' => 'success', 'data' => $get_office_list];
+    }
+
+    public function get_parent_wise_child_master_office(Request $request){
+
+        $get_office_list = $this->officeRepository->get_parent_wise_child_master_office($request);
         return ['status' => 'success', 'data' => $get_office_list];
     }
 
@@ -221,6 +238,15 @@ class OfficeService
         try {
             $officeList = $this->officeRepository->officeDatatable($request);
             return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function parents(Request $request){
+        try {
+            $officList = $this->officeRepository->parents($request);
+            return ['status' => 'success', 'data' => $officList];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }

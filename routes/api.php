@@ -34,7 +34,10 @@ Route::post('/get-office-list-datatable', [App\Http\Controllers\OfficeController
 Route::post('/get-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'show']);
 Route::post('/store-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'store']);
 Route::post('/get-office-other-info-list', [App\Http\Controllers\OfficeOtherInfoController::class, 'getOfficeOtherInfoList']);
+Route::post('/office-parents', [App\Http\Controllers\OfficeController::class, 'parents']);
 
+Route::post('/get-master-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_master_office_ministry_and_layer_wise']);
+Route::post('/get-parent-wise-child-master-office', [App\Http\Controllers\OfficeController::class, 'get_parent_wise_child_master_office']);
 //office unit
 Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);
 Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);
@@ -43,6 +46,9 @@ Route::post('/get-office-unit-list', [App\Http\Controllers\OfficeUnitController:
 Route::post('/get-office-unit-category-list', [App\Http\Controllers\OfficeUnitController::class, 'getUnitCategoryList']);
 Route::post('/get-office-unit-ministry-layer-and-office-wise', [App\Http\Controllers\OfficeUnitController::class, 'getOfficeUnitMinistryLayerAndOfficeWise']);
 
+//cost center
+Route::post('/store-cost-center', [App\Http\Controllers\CostCenterController::class, 'store']);
+Route::post('/cost-center-list', [App\Http\Controllers\CostCenterController::class, 'list']);
 //directorate ministry map
 Route::post('/store-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'store']);
 Route::post('/update-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'update']);

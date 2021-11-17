@@ -64,9 +64,31 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function get_master_office_ministry_and_layer_wise(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $office_info = $officeServices->get_master_office_ministry_and_layer_wise($request);
+        if (isSuccessResponse($office_info)) {
+            $response = responseFormat('success', $office_info['data']);
+        } else {
+            $response = responseFormat('error', $office_info['data']);
+        }
+        return response()->json($response);
+    }
+
     public function get_office_parent_wise(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $office_info = $officeServices->get_office_parent_wise($request);
+        if (isSuccessResponse($office_info)) {
+            $response = responseFormat('success', $office_info['data']);
+        } else {
+            $response = responseFormat('error', $office_info['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function get_parent_wise_child_master_office(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $office_info = $officeServices->get_parent_wise_child_master_office($request);
         if (isSuccessResponse($office_info)) {
             $response = responseFormat('success', $office_info['data']);
         } else {
@@ -104,6 +126,17 @@ class OfficeController extends Controller
             $response = responseFormat('success', $officeList['data']);
         } else {
             $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function parents(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeParentsList = $officeServices->parents($request);
+        if (isSuccessResponse($officeParentsList)) {
+            $response = responseFormat('success', $officeParentsList['data']);
+        } else {
+            $response = responseFormat('error', $officeParentsList['data']);
         }
         return response()->json($response);
     }

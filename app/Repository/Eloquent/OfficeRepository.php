@@ -2,6 +2,7 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Models\CostCenter;
 use App\Models\Office;
 use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
@@ -255,14 +256,8 @@ class OfficeRepository implements BaseRepositoryInterface
         return $query->get()->toArray();
     }
 
-
-    public function get_office_ministry_and_layer_wise(Request $request)
+    public function get_master_office_ministry_and_layer_wise(Request $request)
     {
-//        $offices = Office::with(['child.controlling_office', 'controlling_office'])
-//            ->where('office_ministry_id', $request->office_ministry_id)
-//            ->where('office_layer_id', $request->office_layer_id)
-//            ->get()
-//            ->toArray();
         $offices = Office::with(['controlling_office'])
             ->withCount('child')
             ->where('office_ministry_id', $request->office_ministry_id)
@@ -288,6 +283,64 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_type' => $office['office_type'],
                 'office_name_bn' => $office['office_name_bn'],
                 'office_name_en' => $office['office_name_en'],
+                'parent_office_id' => $office['parent_office_id'],
+                'office_layer_id' => $office['office_layer_id'],
+                'custom_layer_id' => $office['custom_layer_id'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+            $controlling_office_data['offices'][$controllingOfficeId] = [
+                'controlling_office_id' => $controllingOfficeId,
+                'office_type' => $controllingOfficeType,
+                'controlling_office_name_bn' => $controllingOfficeNameBn,
+                'controlling_office_name_en' => $controllingOfficeNameEn,
+                'rp_offices' => $office_data,
+            ];
+        }
+        $data = ['office_ministry' => $ministry] + $controlling_office_data;
+        return $data;
+    }
+
+
+    public function get_office_ministry_and_layer_wise(Request $request)
+    {
+
+        $offices = CostCenter::with('office','office.controlling_office')
+            ->withCount('child')
+            ->where('office_ministry_id',$request->office_ministry_id)
+            ->where('office_layer_id',$request->office_layer_id)
+//            ->where('office_status', 1)
+            ->get()
+            ->toArray();
+
+
+//        $offices = Office::with(['controlling_office'])
+//            ->withCount('child')
+//            ->where('office_ministry_id', $request->office_ministry_id)
+//            ->where('office_layer_id', $request->office_layer_id)
+//            ->where('office_status', 1)
+//            ->get()
+//            ->toArray();
+
+        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
+
+        $controlling_office_data = [];
+        foreach ($offices as $office) {
+//            dd($office);
+            $controlling_office = $office['office']['controlling_office'] == null ? Office::where('id', $office['office']['id'])->first() : $office['office']['controlling_office'];
+            $controllingOfficeId = $controlling_office['id'];
+            $controllingOfficeType = $controlling_office['office_type'];
+            $controllingOfficeNameBn = $controlling_office['office_name_bn'];
+            $controllingOfficeNameEn = $controlling_office['office_name_en'];
+
+//            $child = (new \App\Models\Office)->office_wise_child($office['child']);
+
+            $office_data[] = [
+                'id' => $office['office']['id'],
+                'office_type' => $office['office']['office_type'],
+                'office_ministry_id' => $office['office']['office_ministry_id'],
+                'office_layer_id' => $office['office']['office_layer_id'],
+                'office_name_bn' => $office['office']['office_name_bn'],
+                'office_name_en' => $office['office']['office_name_en'],
                 'has_child' => $office['child_count'] > 0,
             ];
             $controlling_office_data['offices'][$controllingOfficeId] = [
@@ -346,10 +399,9 @@ class OfficeRepository implements BaseRepositoryInterface
         return $response;
     }
 
-
-    public function get_parent_wise_child_office(Request $request)
+    public function get_parent_wise_child_master_office(Request $request)
     {
-        $office_data = Office::withCount('child')
+        $office_data = Office::with('parent')->withCount('child')
             ->where('parent_office_id', $request->parent_office_id)
             ->where('office_status', 1)
             ->get()
@@ -372,9 +424,57 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_phone' => $office['office_phone'],
                 'office_mobile' => $office['office_mobile'],
                 'parent_office_id' => $office['parent_office_id'],
+                'parent_office_en' => $office['parent']['office_name_bng'],
+                'parent_office_bn' => $office['parent']['office_name_bng'],
                 'last_audit_year_start' => $office['last_audit_year_start'],
                 'last_audit_year_end' => $office['last_audit_year_end'],
                 'risk_category' => $office['risk_category'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+        }
+        return $offices;
+    }
+
+
+    public function get_parent_wise_child_office(Request $request)
+    {
+
+        $office_data = CostCenter::with('office')
+            ->withCount('child')
+            ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_ministry_id', $request->parent_ministry_id)
+//            ->where('office_layer_id', $request->parent_office_layer_id)
+            ->get()
+            ->toArray();
+
+//        return $office_data;
+
+//        $office_data = Office::withCount('child')
+//            ->where('parent_office_id', $request->parent_office_id)
+//            ->where('office_status', 1)
+//            ->get()
+//            ->toArray();
+
+        $offices = [];
+
+        foreach ($office_data as $office) {
+            $offices[] = [
+                'id' => $office['office']['id'],
+                'office_layer_id' => $office['office']['office_layer_id'],
+                'controlling_office_layer_id' => $office['office']['controlling_office_layer_id'],
+                'controlling_office_id' => $office['office']['controlling_office_id'],
+                'custom_layer_id' => $office['office']['custom_layer_id'],
+                'office_name_bng' => $office['office']['office_name_bng'],
+                'office_name_eng' => $office['office']['office_name_eng'],
+                'office_name_bn' => $office['office']['office_name_bng'],
+                'office_name_en' => $office['office']['office_name_eng'],
+                'office_address' => $office['office']['office_address'],
+                'office_phone' => $office['office']['office_phone'],
+                'office_mobile' => $office['office']['office_mobile'],
+                'parent_office_id' => $office['office']['parent_office_id'],
+                'last_audit_year_start' => $office['office']['last_audit_year_start'],
+                'last_audit_year_end' => $office['office']['last_audit_year_end'],
+                'risk_category' => $office['office']['risk_category'],
                 'has_child' => $office['child_count'] > 0,
             ];
         }
@@ -465,5 +565,10 @@ class OfficeRepository implements BaseRepositoryInterface
         });
 
         return $query->with('office_ministry', 'controlling_office', 'office_layer', 'parent_office')->limit(20)->get()->toArray();
+    }
+
+    public function parents(Request $request)
+    {
+       return Office::select('id','parent_office_id','office_name_bng','office_name_eng')->with('parent:id,parent_office_id,office_name_bng,office_name_eng')->whereIn('parent_office_id',$request->parent_office_id)->get()->unique('parent_office_id');
     }
 }

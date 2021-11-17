@@ -112,14 +112,17 @@ class OfficeLayerRepository implements BaseRepositoryInterface
     }
 
     //get layer ministry wise
-    public function getOfficeLayerMinistryWise($ministryId)
+    public function getOfficeLayerMinistryWise($ministryId,$is_entity='')
     {
         return OfficeLayer::with(['parent'])
             ->select('id','layer_name_eng','layer_name_bng','layer_name_eng AS layer_name_en',
-                'layer_name_bng AS layer_name_bn','parent_layer_id')
+                'layer_name_bng AS layer_name_bn','parent_layer_id','custom_layer_id')
             ->where('office_ministry_id', $ministryId)
-            ->whereHas('custom_layer', function ($q) {
-                $q->where('is_entity', 1);
+            ->whereHas('custom_layer', function ($q) use ($is_entity) {
+                if($is_entity){
+                    $q->where('is_entity', 1);
+                }
+
             })
             ->get()
             ->toArray();
