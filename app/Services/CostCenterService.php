@@ -23,9 +23,6 @@ class CostCenterService
             DB::commit();
             $returnData = ['status' => 'success', 'data' => 'সফল্ভাবে যুক্ত করা হয়েছে।'];
         }
-        catch (ValidationException $exception) {
-            $returnData = ['status' => 'error', 'data' => $exception->errors()];
-        }
         catch (\Exception $exception) {
             DB::rollback();
             $returnData = ['status' => 'error', 'data' => $exception];

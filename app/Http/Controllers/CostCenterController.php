@@ -9,7 +9,7 @@ class CostCenterController extends Controller
     public function store(Request $request,CostCenterService $costCenterService): \Illuminate\Http\JsonResponse
     {
         $store = $costCenterService->store($request);
-//        dd($storeOffice);
+//        dd($store);
         if (isSuccessResponse($store)) {
             $response = responseFormat('success', $store['data']);
         } else {

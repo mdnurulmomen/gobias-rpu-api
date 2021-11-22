@@ -22,7 +22,10 @@ class CostCenterRepository
     public function costCenterStore(Request $request)
     {
         foreach ($request->cost_center_list as $cost_center_office) {
-            $exist = CostCenter::select('office_id')->where('office_id',$cost_center_office['office_id'])->first()->office_id;
+            $exist = CostCenter::select('office_id')
+                ->where('office_id',$cost_center_office['office_id'])
+                ->where('office_ministry_id',$request->office_ministry_id)
+                ->first();
             if($exist){
                 continue;
             }
@@ -57,6 +60,6 @@ class CostCenterRepository
     //list
     public function list(Request $request)
     {
-       return CostCenter::with('parent_with_office','office:id,office_ministry_id,office_name_eng,office_name_bng','office_ministry:id,name_bng,name_eng')->get();
+       return CostCenter::with('parent_with_office','office:id,office_ministry_id,office_name_eng,office_name_bng','office_ministry:id,name_bng,name_eng','office_layer:id,layer_name_eng,layer_name_bng')->paginate(10);
     }
 }
