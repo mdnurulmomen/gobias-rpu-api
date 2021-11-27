@@ -322,10 +322,11 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->toArray();
 
         $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
-
+//        return $offices;
         $controlling_office_data = [];
         foreach ($offices as $office) {
 //            dd($office);
+            $office_data = [];
             $controlling_office = $office['office']['controlling_office'] == null ? Office::where('id', $office['office']['id'])->first() : $office['office']['controlling_office'];
             $controllingOfficeId = $controlling_office['id'];
             $controllingOfficeType = $controlling_office['office_type'];
