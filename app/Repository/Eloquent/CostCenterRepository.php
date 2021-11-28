@@ -13,6 +13,7 @@ class CostCenterRepository
         $cost_center = new CostCenter;
         $cost_center->office_id = $officeId;
         $cost_center->office_ministry_id = $request->office_ministry_id;
+        $cost_center->parent_office_id = $request->parent_office_id;
         $cost_center->office_layer_id = $request->office_layer_id;
         $cost_center->custom_layer_id = $request->custom_layer_id;
         $cost_center->created_at = date('Y-m-d H:i:s');

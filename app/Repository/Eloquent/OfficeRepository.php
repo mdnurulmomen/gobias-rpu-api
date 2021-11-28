@@ -311,30 +311,9 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->where('office_status', 1)
             ->get()
             ->toArray();
-
-
-//        $offices = Office::with(['controlling_office'])
-//            ->withCount('child')
-//            ->where('office_ministry_id', $request->office_ministry_id)
-//            ->where('office_layer_id', $request->office_layer_id)
-//            ->where('office_status', 1)
-//            ->get()
-//            ->toArray();
-
-        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
 //        return $offices;
-        $controlling_office_data = [];
+        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
         foreach ($offices as $office) {
-//            dd($office);
-//            $office_data = [];
-            $controlling_office = $office['office']['controlling_office'] == null ? Office::where('id', $office['office']['id'])->first() : $office['office']['controlling_office'];
-            $controllingOfficeId = $controlling_office['id'];
-            $controllingOfficeType = $controlling_office['office_type'];
-            $controllingOfficeNameBn = $controlling_office['office_name_bn'];
-            $controllingOfficeNameEn = $controlling_office['office_name_en'];
-
-//            $child = (new \App\Models\Office)->office_wise_child($office['child']);
-
             $office_data[] = [
                 'id' => $office['office']['id'],
                 'office_type' => $office['office']['office_type'],
@@ -344,15 +323,8 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_name_en' => $office['office']['office_name_en'],
                 'has_child' => $office['child_count'] > 0,
             ];
-            $controlling_office_data['offices'][$controllingOfficeId] = [
-                'controlling_office_id' => $controllingOfficeId,
-                'office_type' => $controllingOfficeType,
-                'controlling_office_name_bn' => $controllingOfficeNameBn,
-                'controlling_office_name_en' => $controllingOfficeNameEn,
-                'rp_offices' => $office_data,
-            ];
         }
-        $data = ['office_ministry' => $ministry] + $controlling_office_data;
+        $data = ['office_ministry' => $ministry,'offices' => $office_data];
         return $data;
     }
 
