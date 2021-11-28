@@ -5,6 +5,7 @@ namespace App\Repository\Eloquent;
 use App\Models\CostCenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CostCenterRepository
 {
@@ -25,12 +26,10 @@ class CostCenterRepository
         foreach ($request->cost_center_list as $cost_center_office) {
             $exist = CostCenter::select('office_id')
                 ->where('office_id',$cost_center_office['office_id'])
-                ->where('office_ministry_id',$request->office_ministry_id)
+                ->where('office_ministry_id',$request->ministry_id)
                 ->first();
-            if($exist){
-                continue;
-            }
-            $cost_center = new CostCenter;
+            if(!$exist){
+                $cost_center = new CostCenter;
             $cost_center->office_id = $cost_center_office['office_id'];
             $cost_center->office_ministry_id = $request->ministry_id;
             $cost_center->parent_office_id = $cost_center_office['parent_office_id'];
@@ -38,6 +37,7 @@ class CostCenterRepository
             $cost_center->custom_layer_id = $cost_center_office['custom_layer_id'];
             $cost_center->created_at = date('Y-m-d H:i:s');
             $cost_center->save();
+            }
         }
     }
 
