@@ -311,7 +311,6 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->where('office_status', 1)
             ->get()
             ->toArray();
-//        return $offices;
         $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
         foreach ($offices as $office) {
             $office_data[] = [
@@ -321,6 +320,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_layer_id' => $office['office']['office_layer_id'],
                 'office_name_bn' => $office['office']['office_name_bn'],
                 'office_name_en' => $office['office']['office_name_en'],
+                'child_count' => $office['child_count'],
                 'has_child' => $office['child_count'] > 0,
             ];
         }
