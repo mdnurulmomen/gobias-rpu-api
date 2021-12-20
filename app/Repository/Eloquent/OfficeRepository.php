@@ -52,41 +52,13 @@ class OfficeRepository implements BaseRepositoryInterface
         return $lastInsertId;
     }
 
-    public function show($officeId)
+    public function show(Request $request)
     {
-        /*$result = array();
-        $rpSections = array();
-
-        $officeInfo = Office::with(['rp_bn_sections','rp_en_sections'])
-            ->where('id',$officeId)->first();
-
-        //dd($officeInfo->rp_bn_sections);
-        foreach ($officeInfo->rp_bn_sections as $bnSections){
-            $rpSections[$bnSections->seq_no][] = array(
-                'info_type_bn' => $bnSections->info_type,
-                'info_section_data_bn' => $bnSections->info_section_data,
-            );
-        }
-
-        foreach ($officeInfo->rp_en_sections as $enSections){
-            $rpSections[$enSections->seq_no][] = array(
-                'info_type_en' => $enSections->info_type,
-                'info_section_data_en' => $enSections->info_section_data,
-            );
-        }
-
-        unset($officeInfo->rp_bn_sections,$officeInfo->rp_en_sections);
-        $result['office_info'] =$officeInfo;
-
-        return $rpSections;*/
-        /*return Office::with(['rp_bn_sections','rp_en_sections'])
-            ->where('id',$officeId)->first()->toArray();*/
-
         $response = array();
-        $response['office_info'] = Office::where('id', $officeId)->first();
+        $response['office_info'] = Office::with('cost_center')->where('id', $request->id)->where('office_ministry_id',$request->office_ministry_id)->first();
         $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
             ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
-            ->where('section_bn.office_id', $officeId)
+            ->where('section_bn.office_id', $request->id)
             ->get(
                 [
                     'section_bn.id',
@@ -312,7 +284,10 @@ class OfficeRepository implements BaseRepositoryInterface
             ->get()
             ->toArray();
         $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
+
+
         foreach ($offices as $office) {
+//            return $office;
             $office_data[] = [
                 'id' => $office['office']['id'],
                 'office_type' => $office['office']['office_type'],

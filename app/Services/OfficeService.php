@@ -121,8 +121,7 @@ class OfficeService
         try {
             //for office
             $this->officeRepository->update($request, $cdesk);
-
-
+            $this->costCenterRepository->update($request);
             if(!is_null($request->rp_info_section_id[0])){
                 $this->rpInfoSectionBnRepository->delete($request, $cdesk);
                 $this->rpInfoSectionEnRepository->delete($request, $cdesk);
@@ -176,7 +175,7 @@ class OfficeService
 
     public function show(Request $request){
         try {
-            $officeInfo = $this->officeRepository->show($request->id);
+            $officeInfo = $this->officeRepository->show($request);
             return ['status' => 'success', 'data' => $officeInfo];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];

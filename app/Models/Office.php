@@ -154,4 +154,9 @@ class Office extends Model
         return $childList;
     }
 
+    public function cost_center()
+    {
+        return $this->hasone(CostCenter::class, 'office_id', 'id');
+    }
+
 }

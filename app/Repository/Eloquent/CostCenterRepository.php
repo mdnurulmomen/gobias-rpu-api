@@ -41,9 +41,16 @@ class CostCenterRepository
         }
     }
 
-    public function update(Request $request, $cdesk)
+    public function update(Request $request)
     {
-        // TODO: Implement update() method.
+        $cost_center = CostCenter::find($request->cost_center_id);
+        $cost_center->office_id = $request->id;
+        $cost_center->office_ministry_id = $request->office_ministry_id;
+        $cost_center->parent_office_id = $request->parent_office_id;
+        $cost_center->office_layer_id = $request->office_layer_id;
+        $cost_center->custom_layer_id = $request->custom_layer_id;
+        $cost_center->created_at = date('Y-m-d H:i:s');
+        $cost_center->save();
     }
 
     //show
