@@ -29,6 +29,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->geo_union_id = $request->geo_union_id != null ? $request->geo_union_id : 0;
         $office->office_name_eng = $request->office_name_eng;
         $office->office_name_bng = $request->office_name_bng;
+        $office->office_structure_type = $request->office_structure_type;
         $office->office_address = $request->office_address;
         $office->office_phone = $request->office_phone;
         $office->office_mobile = $request->office_mobile;
@@ -55,7 +56,7 @@ class OfficeRepository implements BaseRepositoryInterface
     public function show(Request $request)
     {
         $response = array();
-        $response['office_info'] = Office::with('cost_center')->where('id', $request->id)->where('office_ministry_id',$request->office_ministry_id)->first();
+        $response['office_info'] = Office::with('cost_center')->where('id', $request->id)->where('office_ministry_id', $request->office_ministry_id)->first();
         $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
             ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
             ->where('section_bn.office_id', $request->id)
@@ -91,6 +92,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->geo_union_id = $request->geo_union_id != null ? $request->geo_union_id : 0;
         $office->office_name_eng = $request->office_name_eng;
         $office->office_name_bng = $request->office_name_bng;
+        $office->office_structure_type = $request->office_structure_type;
         $office->office_address = $request->office_address;
         $office->office_phone = $request->office_phone;
         $office->office_mobile = $request->office_mobile;
@@ -258,6 +260,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'parent_office_id' => $office['parent_office_id'],
                 'office_layer_id' => $office['office_layer_id'],
                 'custom_layer_id' => $office['custom_layer_id'],
+                'office_structure_type' => $office['office_structure_type'],
                 'has_child' => $office['child_count'] > 0,
             ];
             $controlling_office_data['offices'][$controllingOfficeId] = [
@@ -276,10 +279,10 @@ class OfficeRepository implements BaseRepositoryInterface
     public function get_office_ministry_and_layer_wise(Request $request)
     {
 
-        $offices = CostCenter::with('office','office.controlling_office')
+        $offices = CostCenter::with('office', 'office.controlling_office')
             ->withCount('child')
-            ->where('office_ministry_id',$request->office_ministry_id)
-            ->where('office_layer_id',$request->office_layer_id)
+            ->where('office_ministry_id', $request->office_ministry_id)
+            ->where('office_layer_id', $request->office_layer_id)
 //            ->where('office_status', 1)
             ->get()
             ->toArray();
@@ -299,7 +302,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'has_child' => $office['child_count'] > 0,
             ];
         }
-        $data = ['office_ministry' => $ministry,'offices' => $office_data];
+        $data = ['office_ministry' => $ministry, 'offices' => $office_data];
         return $data;
     }
 
@@ -370,6 +373,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_name_en' => $office['office_name_eng'],
                 'office_address' => $office['office_address'],
                 'office_phone' => $office['office_phone'],
+                'office_structure_type' => $office['office_structure_type'],
                 'office_mobile' => $office['office_mobile'],
                 'parent_office_id' => $office['parent_office_id'],
                 'parent_office_en' => $office['parent']['office_name_bng'],
@@ -517,6 +521,6 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function parents(Request $request)
     {
-       return Office::select('id','parent_office_id','office_name_bng','office_name_eng')->with('parent:id,parent_office_id,office_name_bng,office_name_eng')->whereIn('parent_office_id',$request->parent_office_id)->get()->unique('parent_office_id');
+        return Office::select('id', 'parent_office_id', 'office_name_bng', 'office_name_eng', 'office_structure_type')->with('parent:id,parent_office_id,office_structure_type,office_name_bng,office_name_eng')->whereIn('parent_office_id', $request->parent_office_id)->get()->unique('parent_office_id');
     }
 }
