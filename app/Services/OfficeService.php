@@ -208,6 +208,11 @@ class OfficeService
         return ['status' => 'success', 'data' => $get_office_list];
     }
 
+    public function get_ministry_parent_wise_child_office(Request $request){
+        $get_office_list = $this->officeRepository->get_ministry_parent_wise_child_office($request);
+        return ['status' => 'success', 'data' => $get_office_list];
+    }
+
 
     public function get_master_office_ministry_and_layer_wise(Request $request){
 

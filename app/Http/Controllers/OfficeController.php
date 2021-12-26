@@ -110,6 +110,18 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function get_ministry_parent_wise_child_office(Request $request, OfficeService $officeServices)
+    {
+
+        $office_info = $officeServices->get_ministry_parent_wise_child_office($request);
+        if (isSuccessResponse($office_info)) {
+            $response = responseFormat('success', $office_info['data']);
+        } else {
+            $response = responseFormat('error', $office_info['data']);
+        }
+        return response()->json($response);
+    }
+
     public function get_parent_wise_child_office(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $office_info = $officeServices->get_parent_wise_child_office($request);
