@@ -275,6 +275,37 @@ class OfficeRepository implements BaseRepositoryInterface
         return $data;
     }
 
+    public function get_entity_office_ministry_wise(Request $request)
+    {
+        $offices = CostCenter::with('office', 'office.controlling_office')
+            ->withCount('child')
+            ->where('office_ministry_id', $request->office_ministry_id)
+            ->where('office_structure_type', 'entity')
+//            ->where('office_status', 1)
+            ->get()
+            ->toArray();
+        return $offices;
+        $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
+
+
+        foreach ($offices as $office) {
+//            return $office;
+            $office_data[] = [
+                'id' => $office['office']['id'],
+                'office_type' => $office['office']['office_type'],
+                'office_ministry_id' => $office['office']['office_ministry_id'],
+                'office_layer_id' => $office['office']['office_layer_id'],
+                'office_name_bn' => $office['office']['office_name_bn'],
+                'office_name_en' => $office['office']['office_name_en'],
+                'child_count' => $office['child_count'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+        }
+        $data = ['office_ministry' => $ministry, 'offices' => $office_data];
+        return $data;
+
+    }
+
 
     public function get_office_ministry_and_layer_wise(Request $request)
     {

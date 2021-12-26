@@ -203,6 +203,12 @@ class OfficeService
         return ['status' => 'success', 'data' => $get_office_list];
     }
 
+    public function get_entity_office_ministry_wise(Request $request){
+        $get_office_list = $this->officeRepository->get_entity_office_ministry_wise($request);
+        return ['status' => 'success', 'data' => $get_office_list];
+    }
+
+
     public function get_master_office_ministry_and_layer_wise(Request $request){
 
         $get_office_list = $this->officeRepository->get_master_office_ministry_and_layer_wise($request);

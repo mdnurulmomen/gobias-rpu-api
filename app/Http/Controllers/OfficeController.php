@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\Office\StoreOfficeRequest;
 use App\Http\Requests\Office\UpdateOfficeRequest;
 use Illuminate\Http\Request;
@@ -64,6 +65,18 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function get_entity_office_ministry_wise(Request $request, OfficeService $officeServices)
+    {
+        $office_info = $officeServices->get_entity_office_ministry_wise($request);
+        if (isSuccessResponse($office_info)) {
+            $response = responseFormat('success', $office_info['data']);
+        } else {
+            $response = responseFormat('error', $office_info['data']);
+        }
+        return response()->json($response);
+
+    }
+
     public function get_master_office_ministry_and_layer_wise(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $office_info = $officeServices->get_master_office_ministry_and_layer_wise($request);
@@ -119,7 +132,7 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
-    public function employeeDatatable(Request $request,OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function employeeDatatable(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $officeList = $officeServices->officeDatatable($request);
         if (isSuccessResponse($officeList)) {
