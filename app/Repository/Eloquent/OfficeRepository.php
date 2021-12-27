@@ -284,7 +284,7 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->where('office_status', 1)
             ->get()
             ->toArray();
-        return $offices;
+
         $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
 
 
@@ -301,6 +301,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'has_child' => $office['child_count'] > 0,
             ];
         }
+
         $data = ['office_ministry' => $ministry, 'offices' => $office_data];
         return $data;
 
@@ -599,6 +600,6 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function parents(Request $request)
     {
-        return Office::select('id', 'parent_office_id', 'office_name_bng', 'office_name_eng', 'office_structure_type')->with('parent:id,parent_office_id,office_structure_type,office_name_bng,office_name_eng')->whereIn('parent_office_id', $request->parent_office_id)->get()->unique('parent_office_id');
+        return Office::select('id', 'parent_office_id', 'office_name_bng', 'office_name_eng', 'office_structure_type', 'office_type')->with('parent:id,parent_office_id,office_structure_type,office_type,office_name_bng,office_name_eng')->whereIn('parent_office_id', $request->parent_office_id)->get()->unique('parent_office_id');
     }
 }

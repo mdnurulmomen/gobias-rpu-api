@@ -142,3 +142,7 @@ Route::post('/get-district-division-wise', [App\Http\Controllers\GeoDistrictCont
 
 //for upazila
 Route::post('/get-upozila-district-wise', [App\Http\Controllers\GeoUpozilaController::class, 'getUpozilaDistrictWise']);
+
+//For Office Category Type
+Route::post('/get-all-office-category-types', [\App\Http\Controllers\OfficeCategoryTypeController::class, 'index']);
+Route::post('/office-category', [\App\Http\Controllers\OfficeCategoryTypeController::class, 'show']);
