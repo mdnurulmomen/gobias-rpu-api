@@ -166,5 +166,17 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function ministryWiseEntity(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeEntityList = $officeServices->ministryWiseEntity($request);
+
+        if (isSuccessResponse($officeEntityList)) {
+            $response = responseFormat('success', $officeEntityList['data']);
+        } else {
+            $response = responseFormat('error', $officeEntityList['data']);
+        }
+        return response()->json($response);
+    }
+
 
 }

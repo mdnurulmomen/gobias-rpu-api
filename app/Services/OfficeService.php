@@ -261,4 +261,13 @@ class OfficeService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function ministryWiseEntity(Request $request){
+        try {
+            $officEntityList = $this->officeRepository->ministryWiseEntity($request);
+            return ['status' => 'success', 'data' => $officEntityList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

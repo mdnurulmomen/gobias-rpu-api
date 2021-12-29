@@ -3,6 +3,7 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\CostCenter;
+use App\Models\DirectorateMinistryMap;
 use App\Models\Office;
 use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
@@ -535,22 +536,20 @@ class OfficeRepository implements BaseRepositoryInterface
     //for office datatable
     public function officeDatatable(Request $request)
     {
+//        return $request->entity_id;
+        $cdesk = json_decode($request->cdesk, false);
+
         $limit = $request->length;
         $start = $request->start;
         $order = $request->order;
         $dir = $request->dir;
 
-        if (empty($request->search)) {
-            $totalData = Office::count();
-            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-                ->offset($start)
-                ->limit($limit)
-                ->orderBy($order, $dir)
-                ->get();
-        } else {
-            $search = $request->search;
+        $ministries = DirectorateMinistryMap::where('directorate_id',$cdesk->office_id)->pluck('office_ministry_id');
 
+        if (!empty($request->search)) {
+            $search = $request->search;
             $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+                ->whereIn('office_ministry_id',$ministries)
                 ->where('office_status', 1)
                 ->where('office_name_eng', 'like', '%' . $search . '%')
                 ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
@@ -559,6 +558,27 @@ class OfficeRepository implements BaseRepositoryInterface
 
             $totalData = $commonSql->count();
             $offices = $commonSql->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+        } else if(!empty($request->entity_id)) {
+            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+//                ->whereIn('office_ministry_id',$ministries)
+                ->where('office_status', 1)
+                ->where('office_ministry_id', $request->office_ministry_id)
+                ->where('parent_office_id', $request->entity_id);
+            $totalData = $commonSql->count();
+            $offices = $commonSql->offset($start)
+                ->limit($limit)
+                ->orderBy($order, $dir)
+                ->get();
+
+        }else{
+            $totalData = Office::whereIn('office_ministry_id',$ministries)->count();
+            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+                ->whereIn('office_ministry_id',$ministries)
+                ->offset($start)
                 ->limit($limit)
                 ->orderBy($order, $dir)
                 ->get();
@@ -603,5 +623,10 @@ class OfficeRepository implements BaseRepositoryInterface
     public function parents(Request $request)
     {
         return Office::select('id', 'parent_office_id', 'office_name_bng', 'office_name_eng', 'office_structure_type', 'office_type')->with('parent:id,parent_office_id,office_structure_type,office_type,office_name_bng,office_name_eng')->whereIn('parent_office_id', $request->parent_office_id)->get()->unique('parent_office_id');
+    }
+
+    public function ministryWiseEntity(Request $request)
+    {
+        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
     }
 }
