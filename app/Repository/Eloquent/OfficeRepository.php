@@ -389,6 +389,8 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         $office_data = Office::with('parent')->withCount('child')
             ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_ministry_id', $request->parent_ministry_id)
+            ->where('office_structure_type', '!=','entity')
             ->where('office_status', 1)
             ->get()
             ->toArray();
