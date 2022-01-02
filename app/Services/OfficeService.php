@@ -270,4 +270,24 @@ class OfficeService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function ministryWiseOffice(Request $request){
+        try {
+            $officList = $this->officeRepository->ministryWiseOffice($request);
+            return ['status' => 'success', 'data' => $officList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+
+
+    public function delete(Request $request){
+        try {
+            $delete = $this->officeRepository->delete($request);
+            return ['status' => 'success', 'data' => $delete];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

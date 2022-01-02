@@ -25,6 +25,7 @@ Route::post('/list-office-custom-layer', [App\Http\Controllers\OfficeCustomLayer
 Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'store']);
 Route::post('/update-office', [App\Http\Controllers\OfficeController::class, 'update']);
 Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, 'show']);
+Route::post('/delete-office', [App\Http\Controllers\OfficeController::class, 'delete']);
 Route::post('/get-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_office_ministry_and_layer_wise']);
 Route::post('/get-entity-office-ministry-wise', [App\Http\Controllers\OfficeController::class, 'get_entity_office_ministry_wise']);
 Route::post('/get-office-parent-wise', [App\Http\Controllers\OfficeController::class, 'get_office_parent_wise']);
@@ -38,6 +39,7 @@ Route::post('/store-office-other-info', [App\Http\Controllers\OfficeOtherInfoCon
 Route::post('/get-office-other-info-list', [App\Http\Controllers\OfficeOtherInfoController::class, 'getOfficeOtherInfoList']);
 Route::post('/office-parents', [App\Http\Controllers\OfficeController::class, 'parents']);
 Route::post('/office-ministry-wise-entity', [App\Http\Controllers\OfficeController::class, 'ministryWiseEntity']);
+Route::post('/ministry-wise-office', [App\Http\Controllers\OfficeController::class, 'ministryWiseOffice']);
 
 Route::post('/get-master-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_master_office_ministry_and_layer_wise']);
 Route::post('/get-parent-wise-child-master-office', [App\Http\Controllers\OfficeController::class, 'get_parent_wise_child_master_office']);

@@ -7,6 +7,7 @@ use App\Models\DirectorateMinistryMap;
 use App\Models\Office;
 use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class OfficeRepository implements BaseRepositoryInterface
@@ -15,7 +16,6 @@ class OfficeRepository implements BaseRepositoryInterface
     public function store(Request $request, $cdesk)
     {
         $office = new Office;
-        $office->directorate_id = $cdesk->office_id;
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
@@ -114,9 +114,15 @@ class OfficeRepository implements BaseRepositoryInterface
         $office->save();
     }
 
-    public function delete(Request $request, $cdesk)
+    public function delete(Request $request, $cdesk='')
     {
-        // TODO: Implement delete() method.
+        Office::find($request->office_id)->delete();
+        Office::where('parent_office_id',$request->office_id)->delete();
+
+        CostCenter::where('office_id',$request->office_id)->delete();
+        CostCenter::where('parent_office_id',$request->office_id)->delete();
+
+        return 'Deleted Successfully';
     }
 
     public function list(Request $request)
@@ -632,4 +638,10 @@ class OfficeRepository implements BaseRepositoryInterface
     {
         return Office::select('id','office_name_bng', 'office_name_eng')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
     }
+
+    public function ministryWiseOffice(Request $request)
+    {
+        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->get();
+    }
+
 }

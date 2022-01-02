@@ -178,5 +178,29 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function ministryWiseOffice(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeList = $officeServices->ministryWiseOffice($request);
+
+        if (isSuccessResponse($officeList)) {
+            $response = responseFormat('success', $officeList['data']);
+        } else {
+            $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function delete(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $delete = $officeServices->delete($request);
+
+        if (isSuccessResponse($delete)) {
+            $response = responseFormat('success', $delete['data']);
+        } else {
+            $response = responseFormat('error', $delete['data']);
+        }
+        return response()->json($response);
+    }
+
 
 }
