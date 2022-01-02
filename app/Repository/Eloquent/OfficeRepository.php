@@ -403,6 +403,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_layer_id' => $office['office_layer_id'],
                 'controlling_office_layer_id' => $office['controlling_office_layer_id'],
                 'controlling_office_id' => $office['controlling_office_id'],
+                'office_ministry_id' => $office['office_ministry_id'],
                 'custom_layer_id' => $office['custom_layer_id'],
                 'office_name_bng' => $office['office_name_bng'],
                 'office_name_eng' => $office['office_name_eng'],
