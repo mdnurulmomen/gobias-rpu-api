@@ -57,7 +57,7 @@ class OfficeRepository implements BaseRepositoryInterface
     public function show(Request $request)
     {
         $response = array();
-        $response['office_info'] = Office::with('cost_center')->where('id', $request->id)->where('office_ministry_id', $request->office_ministry_id)->first();
+        $response['office_info'] = Office::with('parent:id,parent_office_id')->with('cost_center')->where('id', $request->id)->where('office_ministry_id', $request->office_ministry_id)->first();
         $response['section_list'] = \DB::table('rp_info_section_bn as section_bn')
             ->leftJoin('rp_info_section_en as section_en', 'section_bn.id', '=', 'section_en.section_bn_id')
             ->where('section_bn.office_id', $request->id)
@@ -640,7 +640,7 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function ministryWiseOffice(Request $request)
     {
-        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->limit(20)->get();
+        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->where('office_structure_type','!=','unit')->get();
     }
 
 }
