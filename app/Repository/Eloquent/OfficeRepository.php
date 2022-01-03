@@ -635,7 +635,16 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function ministryWiseEntity(Request $request)
     {
-        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
+        $office_type = $request->office_type;
+
+        $query = Office::query();
+
+        $query->when($office_type, function ($q, $office_type) {
+            return $q->where('office_type', $office_type);
+        });
+
+        return $query->select('id','office_name_bng', 'office_name_eng')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
+
     }
 
     public function ministryWiseOffice(Request $request)
