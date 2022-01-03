@@ -78,7 +78,6 @@ class OfficeRepository implements BaseRepositoryInterface
     public function update(Request $request, $cdesk)
     {
         $office = Office::find($request->id);
-        $office->directorate_id = $cdesk->office_id;
         $office->office_ministry_id = $request->office_ministry_id;
         $office->office_layer_id = $request->office_layer_id;
         $office->custom_layer_id = $request->office_layer_id;
@@ -641,7 +640,7 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function ministryWiseOffice(Request $request)
     {
-        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->get();
+        return Office::select('id','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->limit(20)->get();
     }
 
 }
