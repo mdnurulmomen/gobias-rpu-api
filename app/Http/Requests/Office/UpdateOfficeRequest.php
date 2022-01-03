@@ -38,7 +38,7 @@ class UpdateOfficeRequest extends FormRequest
             'office_name_eng' => 'required|nullable|string',
             'office_name_bng' => 'required|nullable|string',
             'office_structure_type' => 'required|nullable|string',
-            'office_address' => 'required|string',
+            'office_address' => 'nullable|string',
             'office_phone' => 'nullable|string',
             'office_mobile' => 'nullable|numeric',
             'office_fax' => 'nullable|numeric',
