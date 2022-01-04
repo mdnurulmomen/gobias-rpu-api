@@ -509,6 +509,7 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_name_eng' => $office['office']['office_name_eng'],
                 'office_name_bn' => $office['office']['office_name_bng'],
                 'office_name_en' => $office['office']['office_name_eng'],
+                'office_structure_type' => $office['office']['office_structure_type'],
                 'office_address' => $office['office']['office_address'],
                 'office_phone' => $office['office']['office_phone'],
                 'office_mobile' => $office['office']['office_mobile'],
