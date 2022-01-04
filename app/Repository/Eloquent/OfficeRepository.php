@@ -392,13 +392,37 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_parent_wise_child_master_office(Request $request)
     {
-        $office_data = Office::with('parent')->withCount('child')
-            ->where('parent_office_id', $request->parent_office_id)
-            ->where('office_ministry_id', $request->parent_ministry_id)
-            ->where('office_structure_type', '!=','entity')
-            ->where('office_status', 1)
-            ->get()
-            ->toArray();
+        $office_type = $request->office_type;
+        $parent_ministry_id = $request->parent_ministry_id;
+        $parent_office_id = $request->parent_office_id;
+
+//        $office_data = Office::with('parent')->withCount('child')
+//            ->where('parent_office_id', $request->parent_office_id)
+//            ->where('office_ministry_id', $request->parent_ministry_id)
+//            ->where('office_structure_type', '!=','entity')
+//            ->where('office_status', 1)
+//            ->get()
+//            ->toArray();
+
+        $query = Office::query();
+
+        $query->when($office_type, function ($q, $office_type) {
+            return $q->where('office_type', $office_type);
+        });
+
+        $query->when($parent_office_id, function ($q, $parent_office_id) {
+            return $q->where('parent_office_id', $parent_office_id)->where('office_structure_type', '!=','entity');
+        });
+
+        $query->where('office_ministry_id', $request->parent_ministry_id);
+
+        if($parent_ministry_id && $parent_office_id == ''){
+            $query->where('office_structure_type', '=','entity');
+        }
+
+        $query->where('office_status', 1);
+
+        $office_data =  $query->with('parent')->withCount('child')->get()->toArray();
 
         $offices = [];
 
@@ -419,8 +443,8 @@ class OfficeRepository implements BaseRepositoryInterface
                 'office_structure_type' => $office['office_structure_type'],
                 'office_mobile' => $office['office_mobile'],
                 'parent_office_id' => $office['parent_office_id'],
-                'parent_office_en' => $office['parent']['office_name_bng'],
-                'parent_office_bn' => $office['parent']['office_name_bng'],
+                'parent_office_en' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
+                'parent_office_bn' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
                 'last_audit_year_start' => $office['last_audit_year_start'],
                 'last_audit_year_end' => $office['last_audit_year_end'],
                 'risk_category' => $office['risk_category'],
