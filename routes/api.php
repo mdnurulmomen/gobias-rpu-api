@@ -149,3 +149,6 @@ Route::post('/get-upozila-district-wise', [App\Http\Controllers\GeoUpozilaContro
 //For Office Category Type
 Route::post('/get-all-office-category-types', [\App\Http\Controllers\OfficeCategoryTypeController::class, 'index']);
 Route::post('/office-category', [\App\Http\Controllers\OfficeCategoryTypeController::class, 'show']);
+
+//Air
+Route::post('/send-air-to-rpu', [\App\Http\Controllers\RpuAirReportController::class, 'store']);
