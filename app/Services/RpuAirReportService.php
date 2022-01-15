@@ -21,6 +21,7 @@ class RpuAirReportService
 
             foreach ($air_list as $air_info){
                 $air = new RAir;
+                $air->air_id = $air_info['air_id'];
                 $air->report_number = $air_info['report_number'];
                 $air->fiscal_year_id = $air_info['fiscal_year_id'];
                 $air->fiscal_year = $air_info['fiscal_year'];
