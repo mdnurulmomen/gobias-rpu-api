@@ -669,7 +669,7 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('office_type', $office_type);
         });
 
-        return $query->select('id','office_name_bng', 'office_name_eng','office_type')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
+        return $query->select('id','office_name_bng', 'office_name_eng','office_type','last_audit_year_start','last_audit_year_end')->where('office_structure_type','entity')->where('office_ministry_id', $request->office_ministry_id)->get();
 
     }
 
