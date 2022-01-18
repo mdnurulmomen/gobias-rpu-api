@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AuditQueryItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Traits\SendNotification;
@@ -13,6 +14,7 @@ class AuditQueryService
 
     public function store(Request $request): array
     {
+        \DB::beginTransaction();
         try {
             //get ac query
             $ac_query = $request->ac_query;
@@ -57,9 +59,25 @@ class AuditQueryService
             $auditQuery->status = $ac_query['status'];
             $auditQuery->save();
 
+            //for query item insert
+            $queryItems = [];
+            foreach (json_decode($request->ac_query_items,true) as $items){
+                array_push($queryItems,[
+                    'query_id' => $items['ac_query_id'],
+                    'item_title_en' => $items['item_title_en'],
+                    'item_title_bn' => $items['item_title_bn'],
+                    'status' => $items['status'],
+                ]);
+            }
+            if (!empty($queryItems)){
+                AuditQueryItem::insert($queryItems);
+            }
+
+            \DB::commit();
             return ['status' => 'success', 'data' => 'Send Successfully'];
 
         } catch (\Exception $exception) {
+            \DB::rollback();
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
     }
