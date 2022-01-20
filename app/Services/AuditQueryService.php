@@ -64,6 +64,7 @@ class AuditQueryService
             foreach (json_decode($request->ac_query_items,true) as $items){
                 array_push($queryItems,[
                     'query_id' => $items['ac_query_id'],
+                    'query_item_id' => $items['id'],
                     'item_title_en' => $items['item_title_en'],
                     'item_title_bn' => $items['item_title_bn'],
                     'status' => $items['status'],
@@ -87,9 +88,8 @@ class AuditQueryService
     public function receiveQuery(Request $request): array
     {
         try {
-            $auditQuery = AuditQuery::where('query_id', $request->ac_query_id)->first();
-            $auditQuery->query_items = $request->ac_query_items;
-            $auditQuery->save();
+
+            AuditQueryItem::where('query_item_id',$request->ac_query_item_id)->update(['status'=> 'received']);
             return ['status' => 'success', 'data' => 'Received Successfully'];
 
         } catch (\Exception $exception) {

@@ -12,6 +12,7 @@ class AuditQueryItem extends Model
 
     protected $fillable = [
         'query_id',
+        'query_item_id',
         'item_title_en',
         'item_title_bn',
         'status',

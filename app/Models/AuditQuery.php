@@ -71,4 +71,9 @@ class AuditQuery extends Model
         }
         $this->attributes['memorandum_date'] = Carbon::parse($value)->format('Y-m-d');
     }
+
+    public function audit_query_items(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AuditQueryItem::class, 'query_id', 'id');
+    }
 }
