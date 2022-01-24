@@ -422,7 +422,8 @@ class OfficeRepository implements BaseRepositoryInterface
 
         $query->where('office_status', 1);
 
-        $office_data =  $query->with('parent')->withCount('child')->get()->toArray();
+        $office_data =  $query->with('parent')->withCount('child')->toSql();
+        dd($office_data);
 
         $offices = [];
 
