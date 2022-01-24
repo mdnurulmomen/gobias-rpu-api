@@ -392,9 +392,10 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_parent_wise_child_master_office(Request $request)
     {
-        $office_type = $request->office_type;
-        $parent_ministry_id = $request->parent_ministry_id;
-        $parent_office_id = $request->parent_office_id;
+        try {
+            $office_type = $request->office_type;
+            $parent_ministry_id = $request->parent_ministry_id;
+            $parent_office_id = $request->parent_office_id;
 
 //        $office_data = Office::with('parent')->withCount('child')
 //            ->where('parent_office_id', $request->parent_office_id)
@@ -404,55 +405,57 @@ class OfficeRepository implements BaseRepositoryInterface
 //            ->get()
 //            ->toArray();
 
-        $query = Office::query();
+            $query = Office::query();
 
-        $query->when($office_type, function ($q, $office_type) {
-            return $q->where('office_type', $office_type);
-        });
+            $query->when($office_type, function ($q, $office_type) {
+                return $q->where('office_type', $office_type);
+            });
 
-        $query->when($parent_office_id, function ($q, $parent_office_id) {
-            return $q->where('parent_office_id', $parent_office_id)->where('office_structure_type', '!=','entity');
-        });
+            $query->when($parent_office_id, function ($q, $parent_office_id) {
+                return $q->where('parent_office_id', $parent_office_id)->where('office_structure_type', '!=','entity');
+            });
 
-        $query->where('office_ministry_id', $request->parent_ministry_id);
+            $query->where('office_ministry_id', $request->parent_ministry_id);
 
-        if($parent_ministry_id && $parent_office_id == ''){
-            $query->where('office_structure_type', '=','entity');
+            if($parent_ministry_id && $parent_office_id == ''){
+                $query->where('office_structure_type', '=','entity');
+            }
+
+            $query->where('office_status', 1);
+
+            $office_data =  $query->with('parent')->withCount('child')->get()->toArray();
+            $offices = [];
+
+            foreach ($office_data as $office) {
+                $offices[] = [
+                    'id' => $office['id'],
+                    'office_layer_id' => $office['office_layer_id'],
+                    'controlling_office_layer_id' => $office['controlling_office_layer_id'],
+                    'controlling_office_id' => $office['controlling_office_id'],
+                    'office_ministry_id' => $office['office_ministry_id'],
+                    'custom_layer_id' => $office['custom_layer_id'],
+                    'office_name_bng' => $office['office_name_bng'],
+                    'office_name_eng' => $office['office_name_eng'],
+                    'office_name_bn' => $office['office_name_bng'],
+                    'office_name_en' => $office['office_name_eng'],
+                    'office_address' => $office['office_address'],
+                    'office_phone' => $office['office_phone'],
+                    'office_structure_type' => $office['office_structure_type'],
+                    'office_type' => $office['office_type'],
+                    'office_mobile' => $office['office_mobile'],
+                    'parent_office_id' => $office['parent_office_id'],
+                    'parent_office_en' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
+                    'parent_office_bn' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
+                    'last_audit_year_start' => $office['last_audit_year_start'],
+                    'last_audit_year_end' => $office['last_audit_year_end'],
+                    'risk_category' => $office['risk_category'],
+                    'has_child' => $office['child_count'] > 0,
+                ];
+            }
+            return $offices;
+        }catch (\Exception $exception){
+            return $exception;
         }
-
-        $query->where('office_status', 1);
-
-        $office_data =  $query->with('parent')->withCount('child')->get()->toArray();
-
-        $offices = [];
-
-        foreach ($office_data as $office) {
-            $offices[] = [
-                'id' => $office['id'],
-                'office_layer_id' => $office['office_layer_id'],
-                'controlling_office_layer_id' => $office['controlling_office_layer_id'],
-                'controlling_office_id' => $office['controlling_office_id'],
-                'office_ministry_id' => $office['office_ministry_id'],
-                'custom_layer_id' => $office['custom_layer_id'],
-                'office_name_bng' => $office['office_name_bng'],
-                'office_name_eng' => $office['office_name_eng'],
-                'office_name_bn' => $office['office_name_bng'],
-                'office_name_en' => $office['office_name_eng'],
-                'office_address' => $office['office_address'],
-                'office_phone' => $office['office_phone'],
-                'office_structure_type' => $office['office_structure_type'],
-                'office_type' => $office['office_type'],
-                'office_mobile' => $office['office_mobile'],
-                'parent_office_id' => $office['parent_office_id'],
-                'parent_office_en' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
-                'parent_office_bn' => $office['parent'] ? $office['parent']['office_name_bng'] : '',
-                'last_audit_year_start' => $office['last_audit_year_start'],
-                'last_audit_year_end' => $office['last_audit_year_end'],
-                'risk_category' => $office['risk_category'],
-                'has_child' => $office['child_count'] > 0,
-            ];
-        }
-        return $offices;
     }
 
 
