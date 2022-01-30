@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+use App\Models\Apotti;
+use App\Models\ApottiItem;
 use App\Models\RAir;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -12,12 +14,9 @@ class RpuAirReportService
 
     public function store(Request $request): array
     {
+        \DB::beginTransaction();
         try {
-
-//            return ['status' => 'success', 'data' => $request->air_list];
-
             $air_list = $request->air_list;
-//            return $request->air_list;
 
             foreach ($air_list as $air_info){
                 $air = new RAir;
@@ -40,10 +39,90 @@ class RpuAirReportService
                 $air->save();
             }
 
+            //for apotti
+            $apotti_list = $request->apotti_list;
+            foreach ($apotti_list as $apottiInfo){
+                $apotti = new Apotti();
+                $apotti->apotti_id = $apottiInfo['id'];
+                $apotti->air_id = $request->air_id;
+                $apotti->audit_plan_id = $apottiInfo['audit_plan_id'];
+                $apotti->apotti_title = $apottiInfo['apotti_title'];
+                $apotti->apotti_description = $apottiInfo['apotti_description'];
+                $apotti->apotti_type = $apottiInfo['apotti_type'];
+                $apotti->onucched_no = $apottiInfo['onucched_no'];
+                $apotti->ministry_id = $apottiInfo['ministry_id'];
+                $apotti->ministry_name_en = $apottiInfo['ministry_name_en'];
+                $apotti->ministry_name_bn = $apottiInfo['ministry_name_bn'];
+                $apotti->parent_office_id = $apottiInfo['parent_office_id'];
+                $apotti->parent_office_name_en = $apottiInfo['parent_office_name_en'];
+                $apotti->parent_office_name_bn = $apottiInfo['parent_office_name_bn'];
+                $apotti->fiscal_year_id = $apottiInfo['fiscal_year_id'];
+                $apotti->total_jorito_ortho_poriman = $apottiInfo['total_jorito_ortho_poriman'];
+                $apotti->total_onishponno_jorito_ortho_poriman = $apottiInfo['total_onishponno_jorito_ortho_poriman'];
+                $apotti->response_of_rpu = $apottiInfo['response_of_rpu'];
+                $apotti->irregularity_cause = $apottiInfo['irregularity_cause'];
+                $apotti->audit_conclusion = $apottiInfo['audit_conclusion'];
+                $apotti->audit_recommendation = $apottiInfo['audit_recommendation'];
+                $apotti->created_by = 1;
+                $apotti->approve_status = $apottiInfo['approve_status'];
+                $apotti->status = $apottiInfo['status'];
+                $apotti->comment = $apottiInfo['comment'];
+                $apotti->apotti_sequence = $apottiInfo['apotti_sequence'];
+                $apotti->is_combined = $apottiInfo['is_combined'];
+                $apotti->save();
 
+                foreach ($apottiInfo['apotti_items'] as $item){
+                    $apottiItem = new ApottiItem();
+                    $apottiItem->apotti_id = $item['apotti_id'];
+                    $apottiItem->apotti_item_id = $item['id'];
+                    $apottiItem->memo_id = $item['memo_id'];
+                    $apottiItem->onucched_no = $item['onucched_no'];
+                    $apottiItem->memo_irregularity_type = $item['memo_irregularity_type'];
+                    $apottiItem->memo_irregularity_sub_type = $item['memo_irregularity_sub_type'];
+                    $apottiItem->ministry_id = $item['ministry_id'];
+                    $apottiItem->ministry_name_en = $item['ministry_name_en'];
+                    $apottiItem->ministry_name_bn = $item['ministry_name_bn'];
+                    $apottiItem->parent_office_id = $item['parent_office_id'];
+                    $apottiItem->parent_office_name_en = $item['parent_office_name_en'];
+                    $apottiItem->parent_office_name_bn = $item['parent_office_name_bn'];
+                    $apottiItem->cost_center_id = $item['cost_center_id'];
+                    $apottiItem->cost_center_name_en = $item['cost_center_name_en'];
+                    $apottiItem->cost_center_name_bn = $item['cost_center_name_bn'];
+                    $apottiItem->fiscal_year_id = $item['fiscal_year_id'];
+                    $apottiItem->audit_year_start = $item['audit_year_start'];
+                    $apottiItem->audit_year_end = $item['audit_year_end'];
+                    $apottiItem->ac_query_potro_no = $item['ac_query_potro_no'];
+                    $apottiItem->ap_office_order_id = $item['ap_office_order_id'];
+                    $apottiItem->audit_plan_id = $item['audit_plan_id'];
+                    $apottiItem->audit_type = $item['audit_type'];
+                    $apottiItem->team_id = $item['team_id'];
+                    $apottiItem->memo_title_bn = $item['memo_title_bn'];
+                    $apottiItem->memo_description_bn = $item['memo_description_bn'];
+                    $apottiItem->memo_type = $item['memo_type'];
+                    $apottiItem->memo_status = $item['memo_status'];
+                    $apottiItem->jorito_ortho_poriman = $item['jorito_ortho_poriman'];
+                    $apottiItem->onishponno_jorito_ortho_poriman = $item['onishponno_jorito_ortho_poriman'];
+                    $apottiItem->response_of_rpu = $item['response_of_rpu'];
+                    $apottiItem->irregularity_cause = $item['irregularity_cause'];
+                    $apottiItem->audit_conclusion = $item['audit_conclusion'];
+                    $apottiItem->audit_recommendation = $item['audit_recommendation'];
+                    $apottiItem->created_by = 1;
+                    $apottiItem->status = $item['status'];
+                    $apottiItem->directorate_id = $request->directorate_id;
+                    $apottiItem->directorate_en = $request->directorate_en;
+                    $apottiItem->directorate_bn = $request->directorate_bn;
+                    $apottiItem->save();
+                }
+            }
+
+            \DB::commit();
             return ['status' => 'success', 'data' => 'Send Air Successfully'];
 
+        } catch (\Error $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
         } catch (\Exception $exception) {
+            \DB::rollback();
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
     }

@@ -423,6 +423,10 @@ class OfficeRepository implements BaseRepositoryInterface
 
             $query->where('office_status', 1);
 
+            /*return $query->whereHas('parent', function($query){
+                return $query->with('parent');
+            })->get();*/
+
             $office_data =  $query->with('parent')->withCount('child')->get()->toArray();
             $offices = [];
 
