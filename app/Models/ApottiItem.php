@@ -59,5 +59,8 @@ class ApottiItem extends Model
         'directorate_id',
         'directorate_bn',
         'directorate_en',
+        'is_response_unit',
+        'is_response_entity',
+        'is_response_ministry',
     ];
 }

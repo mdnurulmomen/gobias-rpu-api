@@ -22,6 +22,7 @@ class RpuAirReportService
                 $air = new RAir;
                 $air->air_id = $air_info['air_id'];
                 $air->report_number = $air_info['report_number'];
+                $air->report_name = $air_info['report_name'];
                 $air->fiscal_year_id = $air_info['fiscal_year_id'];
                 $air->fiscal_year = $air_info['fiscal_year'];
                 $air->cost_center_id = $air_info['cost_center_id'];
@@ -36,6 +37,7 @@ class RpuAirReportService
                 $air->sender_name_en = $air_info['sender_en'];
                 $air->sender_name_bn = $air_info['sender_bn'];
                 $air->send_date = $air_info['send_date'];
+                $air->last_date_of_reply = date('Y-m-d', strtotime("+15 day", strtotime($air_info['send_date'])));
                 $air->save();
             }
 
