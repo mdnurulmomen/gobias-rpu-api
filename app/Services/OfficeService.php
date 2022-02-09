@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Document;
+use App\Models\Office;
 use App\Repository\Eloquent\CostCenterRepository;
 use App\Repository\Eloquent\OfficeDetailRepository;
 use App\Repository\Eloquent\OfficeRepository;
