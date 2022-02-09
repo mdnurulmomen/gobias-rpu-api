@@ -25,6 +25,7 @@ Route::post('/list-office-custom-layer', [App\Http\Controllers\OfficeCustomLayer
 Route::post('/store-office', [App\Http\Controllers\OfficeController::class, 'store']);
 Route::post('/update-office', [App\Http\Controllers\OfficeController::class, 'update']);
 Route::post('/get-office-info', [App\Http\Controllers\OfficeController::class, 'show']);
+Route::post('/get-offices-info', [App\Http\Controllers\OfficeController::class, 'getOfficesInfo']);
 Route::post('/delete-office', [App\Http\Controllers\OfficeController::class, 'delete']);
 Route::post('/get-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_office_ministry_and_layer_wise']);
 Route::post('/get-entity-office-ministry-wise', [App\Http\Controllers\OfficeController::class, 'get_entity_office_ministry_wise']);

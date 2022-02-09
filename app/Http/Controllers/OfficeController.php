@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Office\StoreOfficeRequest;
 use App\Http\Requests\Office\UpdateOfficeRequest;
-use Illuminate\Http\Request;
 use App\Services\OfficeService;
+use Illuminate\Http\Request;
 
 class OfficeController extends Controller
 {
@@ -199,6 +199,14 @@ class OfficeController extends Controller
         } else {
             $response = responseFormat('error', $delete['data']);
         }
+        return response()->json($response);
+    }
+
+    public function getOfficesInfo(Request $request, OfficeService $officeService)
+    {
+        \Validator::make($request->all(), ['office_ids' => 'required'])->validate();
+
+        $response = $officeService->getOfficesInfo($request);
         return response()->json($response);
     }
 
