@@ -202,11 +202,18 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
-    public function getOfficesInfo(Request $request, OfficeService $officeService)
+    public function getOfficesInfo(Request $request, OfficeService $officeService): \Illuminate\Http\JsonResponse
     {
         \Validator::make($request->all(), ['office_ids' => 'required'])->validate();
 
         $response = $officeService->getOfficesInfo($request);
+        return response()->json($response);
+    }
+
+    public function getRelatedOffices(Request $request, OfficeService $officeService): \Illuminate\Http\JsonResponse
+    {
+        \Validator::make($request->all(), ['office_ids' => 'required', 'type' => 'required'])->validate();
+        $response = $officeService->getRelatedOffices($request);
         return response()->json($response);
     }
 

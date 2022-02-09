@@ -336,4 +336,30 @@ class OfficeService
             return ['status' => 'error', 'data' => $e];
         }
     }
+
+    public function getRelatedOffices(Request $request): array
+    {
+        try {
+            $office_ids = explode(',', $request->office_ids);
+            if (!is_array($office_ids)) {
+                throw new \Exception('Office Ids error!');
+            }
+            $officeList = Office::whereIn('id', $office_ids);
+
+            if ($request->type == 'both') {
+                $officeList = $officeList->with('parent')->with('child');
+            } elseif ($request->type == 'parent') {
+                $officeList = $officeList->with('parent');
+            } elseif ($request->type == 'child') {
+                $officeList = $officeList->with('child');
+            }
+
+            $officeList = $officeList->get();
+
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+
+    }
 }
