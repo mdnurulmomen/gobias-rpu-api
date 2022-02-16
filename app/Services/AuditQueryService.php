@@ -63,7 +63,7 @@ class AuditQueryService
             $queryItems = [];
             foreach (json_decode($request->ac_query_items,true) as $items){
                 array_push($queryItems,[
-                    'query_id' => $items['ac_query_id'],
+                    'query_id' => $auditQuery->id,
                     'query_item_id' => $items['id'],
                     'item_title_en' => $items['item_title_en'],
                     'item_title_bn' => $items['item_title_bn'],
