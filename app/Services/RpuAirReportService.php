@@ -135,4 +135,31 @@ class RpuAirReportService
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
     }
+
+    public function updateApottiItem(Request $request): array
+    {
+        \DB::beginTransaction();
+        try {
+
+            $apotti_item = ApottiItem::where('directorate_id',$request->directorate_id)->where('apotti_item_id',$request->apotti_item_id)->first();
+
+            $apotti_item->memo_status = $request->memo_status;
+            $apotti_item->onishponno_jorito_ortho_poriman = $request->onishponno_jorito_ortho_poriman;
+            $apotti_item->adjustment_ortho_poriman = $request->adjustment_ortho_poriman;
+            $apotti_item->collected_amount = $request->collected_amount;
+            $apotti_item->save();
+
+            return ['status' => 'success', 'data' => 'Update Successfully'];
+
+            \DB::commit();
+
+
+        } catch (\Error $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        } catch (\Exception $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
+    }
 }
