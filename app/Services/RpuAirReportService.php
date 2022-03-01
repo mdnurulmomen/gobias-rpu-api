@@ -148,12 +148,9 @@ class RpuAirReportService
             $apotti_item->adjustment_ortho_poriman = $request->adjustment_ortho_poriman;
             $apotti_item->collected_amount = $request->collected_amount;
             $apotti_item->save();
-            return ['status' => 'success', 'data' => $apotti_item];
-
-             return ['status' => 'success', 'data' => 'Update Successfully'];
-
             \DB::commit();
 
+             return ['status' => 'success', 'data' => 'Update Successfully'];
 
         } catch (\Error $exception) {
             \DB::rollback();

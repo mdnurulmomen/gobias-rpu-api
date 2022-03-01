@@ -39,6 +39,7 @@ class ApottiItem extends Model
         'memo_status',
         'jorito_ortho_poriman',
         'onishponno_jorito_ortho_poriman',
+        'collected_amount',
         'adjustment_ortho_poriman',
         'response_of_rpu',
         'irregularity_cause',
