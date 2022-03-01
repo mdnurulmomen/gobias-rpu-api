@@ -44,6 +44,7 @@ class ApottiItem extends Model
         'irregularity_cause',
         'audit_conclusion',
         'audit_recommendation',
+        'ministry_office_id',
         'unit_response',
         'entity_response',
         'ministry_response',

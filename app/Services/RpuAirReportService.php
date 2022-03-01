@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Apotti;
 use App\Models\ApottiItem;
+use App\Models\Office;
 use App\Models\RAir;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -74,6 +75,11 @@ class RpuAirReportService
                 $apotti->save();
 
                 foreach ($apottiInfo['apotti_items'] as $item){
+                    $ministry_office_id = Office::select('id')->where('office_ministry_id',$item['ministry_id'])
+                        ->where('is_ministry',1)
+                        ->first();
+                    $ministry_office_id = $ministry_office_id?$ministry_office_id->id:null;
+
                     $apottiItem = new ApottiItem();
                     $apottiItem->apotti_id = $item['apotti_id'];
                     $apottiItem->apotti_item_id = $item['id'];
@@ -108,6 +114,7 @@ class RpuAirReportService
                     $apottiItem->irregularity_cause = $item['irregularity_cause'];
                     $apottiItem->audit_conclusion = $item['audit_conclusion'];
                     $apottiItem->audit_recommendation = $item['audit_recommendation'];
+                    $apottiItem->ministry_office_id = $ministry_office_id; //ministry office id
                     $apottiItem->created_by = 1;
                     $apottiItem->status = $item['status'];
                     $apottiItem->directorate_id = $request->directorate_id;
