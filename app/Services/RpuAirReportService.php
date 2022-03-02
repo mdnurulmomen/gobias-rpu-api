@@ -3,6 +3,7 @@
 namespace App\Services;
 use App\Models\Apotti;
 use App\Models\ApottiItem;
+use App\Models\BroadsheetReplyFromDirectorate;
 use App\Models\Office;
 use App\Models\RAir;
 use Illuminate\Database\Eloquent\Model;
@@ -151,6 +152,64 @@ class RpuAirReportService
             \DB::commit();
 
              return ['status' => 'success', 'data' => 'Update Successfully'];
+
+        } catch (\Error $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        } catch (\Exception $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
+    }
+
+    public function broadSheetReplyFromDirectorate(Request $request): array
+    {
+        \DB::beginTransaction();
+        try {
+
+
+            foreach ($request->item_info as $apoitti_item){
+
+                $apotti_item = ApottiItem::where('directorate_id',$apoitti_item['directorate_id'])->where('apotti_item_id',$apoitti_item['apotti_item_id'])->first();
+                $apotti_item->memo_status = $apoitti_item['memo_status'];
+                $apotti_item->onishponno_jorito_ortho_poriman = $apoitti_item['onishponno_jorito_ortho_poriman'];
+                $apotti_item->adjustment_ortho_poriman = $apoitti_item['adjustment_ortho_poriman'];
+                $apotti_item->collected_amount = $apoitti_item['collected_amount'];
+                $apotti_item->save();
+
+            }
+
+            $reply_info = $request->reply_info;
+
+//            return ['status' => 'success', 'data' => $reply_info];
+
+            $broadsheetReplyFromDirectorate = new BroadsheetReplyFromDirectorate;
+            $broadsheetReplyFromDirectorate->id = $reply_info['id'];
+            $broadsheetReplyFromDirectorate->directorate_id = $reply_info['directorate_id'];
+            $broadsheetReplyFromDirectorate->broad_sheet_reply_id = $reply_info['broad_sheet_reply_id'];
+            $broadsheetReplyFromDirectorate->ref_memorandum_no = $reply_info['ref_memorandum_no'];
+            $broadsheetReplyFromDirectorate->memorandum_no = $reply_info['memorandum_no'];
+            $broadsheetReplyFromDirectorate->memorandum_date = $reply_info['memorandum_date'];
+            $broadsheetReplyFromDirectorate->rpu_office_head_details = $reply_info['rpu_office_head_details'];
+            $broadsheetReplyFromDirectorate->subject = $reply_info['subject'];
+            $broadsheetReplyFromDirectorate->description = $reply_info['description'];
+            $broadsheetReplyFromDirectorate->braod_sheet_cc = $reply_info['braod_sheet_cc'];
+            $broadsheetReplyFromDirectorate->sender_id = $reply_info['sender_id'];
+            $broadsheetReplyFromDirectorate->sender_name_bn = $reply_info['sender_name_bn'];
+            $broadsheetReplyFromDirectorate->sender_name_en = $reply_info['sender_name_en'];
+            $broadsheetReplyFromDirectorate->sender_designation_id = $reply_info['sender_designation_id'];
+            $broadsheetReplyFromDirectorate->sender_designation_bn = $reply_info['sender_designation_bn'];
+            $broadsheetReplyFromDirectorate->sender_designation_en = $reply_info['sender_designation_en'];
+            $broadsheetReplyFromDirectorate->sender_unit_id = $reply_info['sender_unit_id'];
+            $broadsheetReplyFromDirectorate->sender_unit_bn = $reply_info['sender_unit_bn'];
+            $broadsheetReplyFromDirectorate->sender_unit_en = $reply_info['sender_unit_en'];
+            $broadsheetReplyFromDirectorate->save();
+
+
+
+            \DB::commit();
+
+            return ['status' => 'success', 'data' => 'সফলভাবে রেসপন্সিবল পার্টিতে প্রেরণ করা হয়নি'];
 
         } catch (\Error $exception) {
             \DB::rollback();

@@ -155,3 +155,4 @@ Route::post('/office-category', [\App\Http\Controllers\OfficeCategoryTypeControl
 //Air
 Route::post('/send-air-to-rpu', [\App\Http\Controllers\RpuAirReportController::class, 'store']);
 Route::post('/broad-sheet-apotti-update', [\App\Http\Controllers\RpuAirReportController::class, 'updateApottiItem']);
+Route::post('/broad-sheet-reply-from-directorate', [\App\Http\Controllers\RpuAirReportController::class, 'broadSheetReplyFromDirectorate']);
