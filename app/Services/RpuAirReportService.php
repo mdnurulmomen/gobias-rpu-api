@@ -175,6 +175,7 @@ class RpuAirReportService
                 $apotti_item->onishponno_jorito_ortho_poriman = $apoitti_item['onishponno_jorito_ortho_poriman'];
                 $apotti_item->adjustment_ortho_poriman = $apoitti_item['adjustment_ortho_poriman'];
                 $apotti_item->collected_amount = $apoitti_item['collected_amount'];
+                $apotti_item->is_response_amms = 1;
                 $apotti_item->save();
 
             }
