@@ -6,6 +6,8 @@ Route::post('login-in-rpu-amms', [App\Http\Controllers\LoginController::class, '
 
 Route::post('client-login', [App\Http\Controllers\LoginController::class, 'clientLogin']);
 
+//user
+Route::post('/get-user-list', [App\Http\Controllers\UserController::class, 'list']);
 //office ministry
 Route::post('/get-office-ministry-list', [App\Http\Controllers\OfficeMinistryController::class, 'list']);
 
