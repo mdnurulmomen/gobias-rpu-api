@@ -39,5 +39,25 @@ class RpuAirReportController extends Controller
         return response()->json($response);
     }
 
+    public function apottiFinalStatusUpdate(Request $request, RpuAirReportService $airReportService): \Illuminate\Http\JsonResponse
+    {
+        $updateApottiStatus = $airReportService->apottiFinalStatusUpdate($request);
+        if (isSuccessResponse($updateApottiStatus)) {
+            $response = responseFormat('success', $updateApottiStatus['data']);
+        } else {
+            $response = responseFormat('error', $updateApottiStatus['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function sendMeetingApottiToRpu(Request $request, RpuAirReportService $airReportService){
+        $updateApottiStatus = $airReportService->sendMeetingApottiToRpu($request);
+        if (isSuccessResponse($updateApottiStatus)) {
+            $response = responseFormat('success', $updateApottiStatus['data']);
+        } else {
+            $response = responseFormat('error', $updateApottiStatus['data']);
+        }
+        return response()->json($response);
+    }
 
 }

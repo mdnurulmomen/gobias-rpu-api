@@ -5,6 +5,7 @@ use App\Models\Apotti;
 use App\Models\ApottiItem;
 use App\Models\BroadsheetReplyFromDirectorate;
 use App\Models\Office;
+use App\Models\PacMeetingApotti;
 use App\Models\RAir;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -73,6 +74,10 @@ class RpuAirReportService
                 $apotti->comment = $apottiInfo['comment'];
                 $apotti->apotti_sequence = $apottiInfo['apotti_sequence'];
                 $apotti->is_combined = $apottiInfo['is_combined'];
+                $apotti->directorate_id = $request->directorate_id;
+                $apotti->directorate_en = $request->directorate_en;
+                $apotti->directorate_bn = $request->directorate_bn;
+                $apotti->fiscal_year = $request->fiscal_year;
                 $apotti->save();
 
                 foreach ($apottiInfo['apotti_items'] as $item){
@@ -167,6 +172,7 @@ class RpuAirReportService
         \DB::beginTransaction();
         try {
 
+            $reply_info = $request->reply_info;
 
             foreach ($request->item_info as $apoitti_item){
 
@@ -176,13 +182,44 @@ class RpuAirReportService
                 $apotti_item->adjustment_ortho_poriman = $apoitti_item['adjustment_ortho_poriman'];
                 $apotti_item->collected_amount = $apoitti_item['collected_amount'];
                 $apotti_item->is_response_amms = 1;
+                $apotti_item->directorate_response = $apoitti_item['directorate_response'];
+
+                if($apoitti_item['memo_status'] == 1){
+                    $apotti_item->unit_response = '';
+                    $apotti_item->entity_response = '';
+                    $apotti_item->ministry_response = '';
+                    $apotti_item->is_response_unit = 0;
+                    $apotti_item->is_response_entity = 0;
+                    $apotti_item->ministry_response = 0;
+                }
+
                 $apotti_item->save();
 
+                $apottiCommunication = new ApottiCommunication();
+                $apottiCommunication->memorandum_no = $reply_info['memorandum_no'];
+                $apottiCommunication->memorandum_date = $reply_info['memorandum_date'];
+                $apottiCommunication->directorate_id = $apoitti_item['directorate_id'];
+                $apottiCommunication->directorate_en = $apoitti_item['directorate_en'];
+                $apottiCommunication->directorate_bn = $apoitti_item['directorate_bn'];
+                $apottiCommunication->apotti_item_id = $apoitti_item['apotti_item_id'];
+                $apottiCommunication->apotti_id = $apoitti_item['apotti_id'];
+                $apottiCommunication->apotti_type = '';
+                $apottiCommunication->status = $apoitti_item['status'];
+                $apottiCommunication->message = $apoitti_item['comment'];
+                $apottiCommunication->sender_office_id = $reply_info['sender_id'];
+                $apottiCommunication->sender_office_en = $reply_info['sender_en'];
+                $apottiCommunication->sender_office_bn = $reply_info['sender_bn'];
+                $apottiCommunication->sender_user_id = 0;
+                $apottiCommunication->sender_designation_id = $reply_info['sender_designation_id'];
+                $apottiCommunication->sender_designation_en = $reply_info['sender_designation_en'];
+                $apottiCommunication->sender_designation_bn = $reply_info['sender_designation_bn'];
+                $apottiCommunication->sender_type = 'directorate';
+                $apottiCommunication->receiver_office_id = 0;
+                $apottiCommunication->receiver_user_id = 0;
+                $apottiCommunication->receiver_type = '';
+                $apottiCommunication->save();
+
             }
-
-            $reply_info = $request->reply_info;
-
-//            return ['status' => 'success', 'data' => $reply_info];
 
             $broadsheetReplyFromDirectorate = new BroadsheetReplyFromDirectorate;
             $broadsheetReplyFromDirectorate->id = $reply_info['id'];
@@ -206,11 +243,65 @@ class RpuAirReportService
             $broadsheetReplyFromDirectorate->sender_unit_en = $reply_info['sender_unit_en'];
             $broadsheetReplyFromDirectorate->save();
 
-
-
             \DB::commit();
 
             return ['status' => 'success', 'data' => 'সফলভাবে রেসপন্সিবল পার্টিতে প্রেরণ করা হয়নি'];
+
+        } catch (\Error $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        } catch (\Exception $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
+    }
+
+    public function apottiFinalStatusUpdate(Request $request): array
+    {
+        \DB::beginTransaction();
+        try {
+
+            Apotti::where('directorate_id',$request->directorate_id)
+                ->whereIn('apotti_id',$request->approved_apottis)
+                ->update(['apotti_type' => 'approved']);
+
+            ApottiItem::where('directorate_id',$request->directorate_id)
+                ->whereIn('apotti_id',$request->approved_apottis)
+                ->update(['memo_type' => 'approved']);
+
+            \DB::commit();
+
+            return ['status' => 'success', 'data' => 'Update Successfully'];
+
+        } catch (\Error $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        } catch (\Exception $exception) {
+            \DB::rollback();
+            return ['status' => 'error', 'data' => $exception->getMessage()];
+        }
+    }
+
+    public function sendMeetingApottiToRpu(Request $request): array
+    {
+        \DB::beginTransaction();
+        try {
+
+
+            foreach ($request->meeting_apottis as $meeting_apottis){
+                $pac_meeting_apotti = new PacMeetingApotti;
+                $pac_meeting_apotti->meeting_id = $request->meeting_id;
+                $pac_meeting_apotti->directorate_id = $request->directorate_id;
+                $pac_meeting_apotti->directorate_en = $request->directorate_en;
+                $pac_meeting_apotti->directorate_bn = $request->directorate_bn;
+                $pac_meeting_apotti->apotti_id = $meeting_apottis;
+                $pac_meeting_apotti->created_at = date('Y-m-d');
+                $pac_meeting_apotti->save();
+            }
+
+            \DB::commit();
+
+            return ['status' => 'success', 'data' => $request->all()];
 
         } catch (\Error $exception) {
             \DB::rollback();
