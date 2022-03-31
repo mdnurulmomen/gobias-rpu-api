@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use App\Models\Apotti;
+use App\Models\ApottiCommunication;
 use App\Models\ApottiItem;
 use App\Models\BroadsheetReplyFromDirectorate;
 use App\Models\Office;
@@ -183,14 +184,16 @@ class RpuAirReportService
                 $apotti_item->collected_amount = $apoitti_item['collected_amount'];
                 $apotti_item->is_response_amms = 1;
                 $apotti_item->directorate_response = $apoitti_item['directorate_response'];
+                $apotti_item->current_location = 'unit';
 
-                if($apoitti_item['memo_status'] == 1){
-                    $apotti_item->unit_response = '';
-                    $apotti_item->entity_response = '';
-                    $apotti_item->ministry_response = '';
+                if($apoitti_item['memo_status'] != 1){
+                    $apotti_item->unit_response = null;
+                    $apotti_item->entity_response = null;
+                    $apotti_item->ministry_response = null;
                     $apotti_item->is_response_unit = 0;
                     $apotti_item->is_response_entity = 0;
-                    $apotti_item->ministry_response = 0;
+                    $apotti_item->is_response_ministry = 0;
+                    $apotti_item->is_sent_amms = 0;
                 }
 
                 $apotti_item->save();
@@ -203,7 +206,7 @@ class RpuAirReportService
                 $apottiCommunication->directorate_bn = $apoitti_item['directorate_bn'];
                 $apottiCommunication->apotti_item_id = $apoitti_item['apotti_item_id'];
                 $apottiCommunication->apotti_id = $apoitti_item['apotti_id'];
-                $apottiCommunication->apotti_type = '';
+                $apottiCommunication->apotti_type = $apotti_item['memo_type'];
                 $apottiCommunication->status = $apoitti_item['status'];
                 $apottiCommunication->message = $apoitti_item['comment'];
                 $apottiCommunication->sender_office_id = $reply_info['sender_id'];
@@ -216,9 +219,15 @@ class RpuAirReportService
                 $apottiCommunication->sender_type = 'directorate';
                 $apottiCommunication->receiver_office_id = 0;
                 $apottiCommunication->receiver_user_id = 0;
-                $apottiCommunication->receiver_type = '';
-                $apottiCommunication->save();
 
+                if($apotti_item['memo_type'] == 'sfi'){
+                    $receiver_type = 'ministry';
+                }elseif ($apotti_item['memo_type'] == 'non-sfi'){
+                    $receiver_type = 'entity';
+                }
+
+                $apottiCommunication->receiver_type = $receiver_type;
+                $apottiCommunication->save();
             }
 
             $broadsheetReplyFromDirectorate = new BroadsheetReplyFromDirectorate;
