@@ -207,7 +207,7 @@ class RpuAirReportService
                 $apottiCommunication->apotti_item_id = $apoitti_item['apotti_item_id'];
                 $apottiCommunication->apotti_id = $apoitti_item['apotti_id'];
                 $apottiCommunication->apotti_type = $apotti_item['memo_type'];
-                $apottiCommunication->status = $apoitti_item['status'];
+                $apottiCommunication->status = $apoitti_item['memo_status'];
                 $apottiCommunication->message = $apoitti_item['comment'];
                 $apottiCommunication->sender_office_id = $reply_info['sender_id'];
                 $apottiCommunication->sender_office_en = $reply_info['sender_en'];
