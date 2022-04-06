@@ -208,7 +208,7 @@ class RpuAirReportService
                 $apottiCommunication->apotti_id = $apoitti_item['apotti_id'];
                 $apottiCommunication->apotti_type = $apotti_item['memo_type'];
                 $apottiCommunication->status = $apoitti_item['memo_status'];
-                $apottiCommunication->message = $apoitti_item['comment'];
+                $apottiCommunication->message = $apoitti_item['directorate_response'];
                 $apottiCommunication->sender_office_id = $reply_info['sender_id'];
                 $apottiCommunication->sender_office_en = $reply_info['sender_en'];
                 $apottiCommunication->sender_office_bn = $reply_info['sender_bn'];
