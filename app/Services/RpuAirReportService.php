@@ -244,6 +244,7 @@ class RpuAirReportService
             $broadsheetReplyFromDirectorate->sender_id = $reply_info['sender_id'];
             $broadsheetReplyFromDirectorate->sender_name_bn = $reply_info['sender_name_bn'];
             $broadsheetReplyFromDirectorate->sender_name_en = $reply_info['sender_name_en'];
+            $broadsheetReplyFromDirectorate->sender_office_address = $reply_info['sender_office_address'];
             $broadsheetReplyFromDirectorate->sender_designation_id = $reply_info['sender_designation_id'];
             $broadsheetReplyFromDirectorate->sender_designation_bn = $reply_info['sender_designation_bn'];
             $broadsheetReplyFromDirectorate->sender_designation_en = $reply_info['sender_designation_en'];
