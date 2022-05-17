@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login-in-rpu-amms', [App\Http\Controllers\LoginController::class, 'loginInRpuAmms']);
@@ -114,7 +115,6 @@ Route::post('/store-lookup-type', [App\Http\Controllers\LookupController::class,
 Route::post('/get-lookup-type-info', [App\Http\Controllers\LookupController::class, 'show']);
 Route::post('/update-lookup-type', [App\Http\Controllers\LookupController::class, 'update']);
 
-
 //Mis Dashboard
 Route::post('/get-rpu-list-mis', [App\Http\Controllers\MisAndDashboardController::class, 'rpuList']);
 //responsible party
@@ -158,5 +158,17 @@ Route::post('/office-category', [\App\Http\Controllers\OfficeCategoryTypeControl
 Route::post('/send-air-to-rpu', [\App\Http\Controllers\RpuAirReportController::class, 'store']);
 Route::post('/broad-sheet-apotti-update', [\App\Http\Controllers\RpuAirReportController::class, 'updateApottiItem']);
 Route::post('/broad-sheet-reply-from-directorate', [\App\Http\Controllers\RpuAirReportController::class, 'broadSheetReplyFromDirectorate']);
+
 Route::post('/apotti-final-status-update-to-rpu', [\App\Http\Controllers\RpuAirReportController::class, 'apottiFinalStatusUpdate']);
 Route::post('/send-meeting-apotti-to-rpu', [\App\Http\Controllers\RpuAirReportController::class, 'sendMeetingApottiToRpu']);
+
+//doner agency
+Route::post('/doner-agency/store', [\App\Http\Controllers\DonerAgencyController::class, 'store']);
+Route::post('/doner-agency/list', [\App\Http\Controllers\DonerAgencyController::class, 'list']);
+Route::POST('/doner-agency/show', [\App\Http\Controllers\DonerAgencyController::class, 'show']);
+Route::POST('/doner-agency/update', [\App\Http\Controllers\DonerAgencyController::class, 'update']);
+//project
+Route::post('/project/store', [ProjectController::class, 'store']);
+Route::post('/project/list', [ProjectController::class, 'list']);
+Route::POST('/project/show', [ProjectController::class, 'show']);
+Route::POST('/project/update', [ProjectController::class, 'update']);
