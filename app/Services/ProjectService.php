@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Models\ProjectsDonarAgencies;
 use Illuminate\Http\Request;
 
 class ProjectService
@@ -15,6 +16,13 @@ class ProjectService
             $project->name_en = $request->name_en;
             $project->directorate_id = $request->directorate_id;
             $project->save();
+            $donar_agency_ids = $request->donar_agency_id;
+            foreach ($donar_agency_ids as $donar_agency_id) {
+                $projects_donar_agencies = new ProjectsDonarAgencies();
+                $projects_donar_agencies->donar_agency_id = $donar_agency_id;
+                $projects_donar_agencies->project_id = $project->id;
+                $projects_donar_agencies->save();
+            }
 
             return ['status' => 'success', 'data' => 'Send Successfully'];
         } catch (\Exception $exception) {
@@ -25,7 +33,7 @@ class ProjectService
     public function list(Request $request)
     {
         try {
-            $project = Project::all()->sortDesc();
+            $project = Project::get()->sortDesc();
 
             return ['status' => 'success', 'data' => $project];
         } catch (\Exception $e) {
@@ -36,19 +44,26 @@ class ProjectService
     public function show(Request $request)
     {
         try {
-            $project = Project::where('id',$request->id)->first()->toArray();
+            $project = Project::with('project_doner')->where('id', $request->id)->first()->toArray();
+
             return ['status' => 'success', 'data' => $project];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
         }
     }
+
     public function update(Request $request): array
     {
         try {
-            $project =Project::find($request->id);
-            if(!$project){
-                throw new \Exception('Donor Agency Not Found!');
+            ProjectsDonarAgencies::where('project_id', $request->id)->delete();
+            $donar_agency_ids = $request->donar_agency_id;
+            foreach ($donar_agency_ids as $donar_agency_id) {
+                $projects_donar_agencies = new ProjectsDonarAgencies();
+                $projects_donar_agencies->donar_agency_id = $donar_agency_id;
+                $projects_donar_agencies->project_id = $request->id;
+                $projects_donar_agencies->save();
             }
+            $project = Project::find($request->id);
             $project->name_bn = $request->name_bn;
             $project->name_en = $request->name_en;
             $project->directorate_id = $request->directorate_id;
