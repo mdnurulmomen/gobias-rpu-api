@@ -685,4 +685,80 @@ class OfficeRepository implements BaseRepositoryInterface
         return Office::select('id','office_type','office_name_bng', 'office_name_eng')->where('office_ministry_id', $request->office_ministry_id)->where('office_structure_type','!=','unit')->get();
     }
 
+    //entity wise unit group office
+    public function getEntityWiseUnitGroupOffice(Request $request)
+    {
+        $office_data = CostCenter::with('office')
+            ->withCount('child')
+            ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_structure_type', 'unit_group')
+            ->get()
+            ->toArray();
+
+        $offices = [];
+
+        foreach ($office_data as $office) {
+            $offices[] = [
+                'id' => $office['office']['id'],
+                'office_layer_id' => $office['office']['office_layer_id'],
+                'controlling_office_layer_id' => $office['office']['controlling_office_layer_id'],
+                'controlling_office_id' => $office['office']['controlling_office_id'],
+                'custom_layer_id' => $office['office']['custom_layer_id'],
+                'office_name_bng' => $office['office']['office_name_bng'],
+                'office_name_eng' => $office['office']['office_name_eng'],
+                'office_name_bn' => $office['office']['office_name_bng'],
+                'office_name_en' => $office['office']['office_name_eng'],
+                'office_structure_type' => $office['office']['office_structure_type'],
+                'office_address' => $office['office']['office_address'],
+                'office_phone' => $office['office']['office_phone'],
+                'office_mobile' => $office['office']['office_mobile'],
+                'parent_office_id' => $office['office']['parent_office_id'],
+                'last_audit_year_start' => $office['office']['last_audit_year_start'],
+                'last_audit_year_end' => $office['office']['last_audit_year_end'],
+                'risk_category' => $office['office']['risk_category'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+        }
+
+        return $offices;
+    }
+
+    //entity or unit group wise cost center
+    public function getEntityOrUnitGroupWiseCostCenter(Request $request)
+    {
+        $office_data = CostCenter::with('office')
+            ->withCount('child')
+            ->where('parent_office_id', $request->parent_office_id)
+            ->where('office_structure_type', 'unit')
+            ->get()
+            ->toArray();
+
+        $offices = [];
+
+        foreach ($office_data as $office) {
+            $offices[] = [
+                'id' => $office['office']['id'],
+                'office_layer_id' => $office['office']['office_layer_id'],
+                'controlling_office_layer_id' => $office['office']['controlling_office_layer_id'],
+                'controlling_office_id' => $office['office']['controlling_office_id'],
+                'custom_layer_id' => $office['office']['custom_layer_id'],
+                'office_name_bng' => $office['office']['office_name_bng'],
+                'office_name_eng' => $office['office']['office_name_eng'],
+                'office_name_bn' => $office['office']['office_name_bng'],
+                'office_name_en' => $office['office']['office_name_eng'],
+                'office_structure_type' => $office['office']['office_structure_type'],
+                'office_address' => $office['office']['office_address'],
+                'office_phone' => $office['office']['office_phone'],
+                'office_mobile' => $office['office']['office_mobile'],
+                'parent_office_id' => $office['office']['parent_office_id'],
+                'last_audit_year_start' => $office['office']['last_audit_year_start'],
+                'last_audit_year_end' => $office['office']['last_audit_year_end'],
+                'risk_category' => $office['office']['risk_category'],
+                'has_child' => $office['child_count'] > 0,
+            ];
+        }
+
+        return $offices;
+    }
+
 }

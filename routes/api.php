@@ -46,8 +46,13 @@ Route::post('/office-parents', [App\Http\Controllers\OfficeController::class, 'p
 Route::post('/office-ministry-wise-entity', [App\Http\Controllers\OfficeController::class, 'ministryWiseEntity']);
 Route::post('/ministry-wise-office', [App\Http\Controllers\OfficeController::class, 'ministryWiseOffice']);
 
+//office group
+Route::post('/get-entity-wise-unit-group-office', [App\Http\Controllers\OfficeController::class, 'getEntityWiseUnitGroupOffice']);
+Route::post('/get-entity-or-unit-group-wise-cost-center', [App\Http\Controllers\OfficeController::class, 'getEntityOrUnitGroupWiseCostCenter']);
+
 Route::post('/get-master-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_master_office_ministry_and_layer_wise']);
 Route::post('/get-parent-wise-child-master-office', [App\Http\Controllers\OfficeController::class, 'get_parent_wise_child_master_office']);
+
 //office unit
 Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);
 Route::post('/update-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'update']);

@@ -190,6 +190,31 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    //office group
+    public function getEntityWiseUnitGroupOffice(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeList = $officeServices->getEntityWiseUnitGroupOffice($request);
+
+        if (isSuccessResponse($officeList)) {
+            $response = responseFormat('success', $officeList['data']);
+        } else {
+            $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
+    public function getEntityOrUnitGroupWiseCostCenter(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeList = $officeServices->getEntityOrUnitGroupWiseCostCenter($request);
+
+        if (isSuccessResponse($officeList)) {
+            $response = responseFormat('success', $officeList['data']);
+        } else {
+            $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
     public function delete(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $delete = $officeServices->delete($request);

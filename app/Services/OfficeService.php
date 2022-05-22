@@ -289,6 +289,27 @@ class OfficeService
         }
     }
 
+    //office group
+    public function getEntityWiseUnitGroupOffice(Request $request)
+    {
+        try {
+            $officeList = $this->officeRepository->getEntityWiseUnitGroupOffice($request);
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
+    public function getEntityOrUnitGroupWiseCostCenter(Request $request)
+    {
+        try {
+            $officeList = $this->officeRepository->getEntityOrUnitGroupWiseCostCenter($request);
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
 
     public function delete(Request $request)
     {
