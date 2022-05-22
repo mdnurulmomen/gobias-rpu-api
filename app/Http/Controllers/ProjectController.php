@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
@@ -43,15 +42,17 @@ class ProjectController extends Controller
 
         return response()->json($response);
     }
+
     public function update(Request $request, ProjectService $projectService): \Illuminate\Http\JsonResponse
     {
         $projectdata = $projectService->update($request);
-//
+
         if (isSuccessResponse($projectdata)) {
             $response = responseFormat('success', $projectdata['data']);
         } else {
             $response = responseFormat('error', $projectdata['data']);
         }
+
         return response()->json($response);
     }
 }
