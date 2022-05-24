@@ -577,53 +577,90 @@ class OfficeRepository implements BaseRepositoryInterface
     //for office datatable
     public function officeDatatable(Request $request)
     {
-//        return $request->entity_id;
         $cdesk = json_decode($request->cdesk, false);
 
         $limit = $request->length;
         $start = $request->start;
         $order = $request->order;
         $dir = $request->dir;
+        $entity_id =  $request->entity_id;
+        $ministry_id =  $request->office_ministry_id;
+        $office_type =  $request->office_type;
+        $search =  $request->search;
 
-        $ministries = DirectorateMinistryMap::where('directorate_id',$cdesk->office_id)->pluck('office_ministry_id');
+        $ministries = $ministry_id ? '' :  DirectorateMinistryMap::where('directorate_id',$cdesk->office_id)->pluck('office_ministry_id');
 
-        if (!empty($request->search)) {
-            $search = $request->search;
-            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-                ->whereIn('office_ministry_id',$ministries)
-                ->where('office_status', 1)
-                ->where('office_name_eng', 'like', '%' . $search . '%')
-                ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
-                ->orWhere('office_email', 'LIKE', "%{$search}%")
-                ->orWhere('office_web', 'LIKE', "%{$search}%");
+        $query =  Office::query();
+        $query->with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office']);
 
-            $totalData = $commonSql->count();
-            $offices = $commonSql->offset($start)
-                ->limit($limit)
-                ->orderBy($order, $dir)
-                ->get();
+        $query->when($ministries, function ($q, $ministries) {
+            return $q->whereIn('office_ministry_id', $ministries);
+        });
 
-        } else if(!empty($request->entity_id)) {
-            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+        $query->when($ministry_id, function ($q, $ministry_id) {
+            return $q->where('office_ministry_id', $ministry_id);
+        });
+
+        $query->when($office_type, function ($q, $office_type) {
+            return $q->where('office_type', $office_type);
+        });
+
+        $query->when($entity_id, function ($q, $entity_id) {
+            return $q->where('parent_office_id', $entity_id);
+        });
+
+        $query->when($search, function ($q, $search) {
+            $q->where('office_name_eng', 'LIKE', '%' . $search . '%');
+            $q->orWhere('office_name_bng', 'LIKE', "%{$search}%");
+            $q->orWhere('office_email', 'LIKE', "%{$search}%");
+            $q->orWhere('office_web', 'LIKE', "%{$search}%");
+        });
+
+        $totalData = $query->count();
+        $offices = $query->offset($start)
+            ->limit($limit)
+            ->orderBy($order, $dir)
+            ->get();
+
+
+//        if (!empty($request->search)) {
+//            $search = $request->search;
+//            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
 //                ->whereIn('office_ministry_id',$ministries)
-                ->where('office_status', 1)
-                ->where('office_ministry_id', $request->office_ministry_id)
-                ->where('parent_office_id', $request->entity_id);
-            $totalData = $commonSql->count();
-            $offices = $commonSql->offset($start)
-                ->limit($limit)
-                ->orderBy($order, $dir)
-                ->get();
-
-        }else{
-            $totalData = Office::whereIn('office_ministry_id',$ministries)->count();
-            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-                ->whereIn('office_ministry_id',$ministries)
-                ->offset($start)
-                ->limit($limit)
-                ->orderBy($order, $dir)
-                ->get();
-        }
+//                ->where('office_status', 1)
+//                ->where('office_name_eng', 'like', '%' . $search . '%')
+//                ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
+//                ->orWhere('office_email', 'LIKE', "%{$search}%")
+//                ->orWhere('office_web', 'LIKE', "%{$search}%");
+//
+//            $totalData = $commonSql->count();
+//            $offices = $commonSql->offset($start)
+//                ->limit($limit)
+//                ->orderBy($order, $dir)
+//                ->get();
+//
+//        } else if(!empty($request->entity_id)) {
+//            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+////                ->whereIn('office_ministry_id',$ministries)
+//                ->where('office_status', 1)
+//                ->where('office_ministry_id', $request->office_ministry_id)
+//                ->where('parent_office_id', $request->entity_id);
+//
+//            $totalData = $commonSql->count();
+//            $offices = $commonSql->offset($start)
+//                ->limit($limit)
+//                ->orderBy($order, $dir)
+//                ->get();
+//
+//        }else{
+//            $totalData = Office::whereIn('office_ministry_id',$ministries)->count();
+//            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
+//                ->whereIn('office_ministry_id',$ministries)
+//                ->offset($start)
+//                ->limit($limit)
+//                ->orderBy($order, $dir)
+//                ->get();
+//        }
 
         $response = array(
             "offices" => $offices,

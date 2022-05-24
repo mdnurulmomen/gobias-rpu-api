@@ -144,7 +144,7 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
-    public function employeeDatatable(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    public function officeDatatable(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $officeList = $officeServices->officeDatatable($request);
         if (isSuccessResponse($officeList)) {
