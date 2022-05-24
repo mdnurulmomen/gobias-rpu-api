@@ -9,7 +9,6 @@ class AcMemoController extends Controller
     public function store(Request $request, AcMemoService $acMemoService): \Illuminate\Http\JsonResponse
     {
         $storeAuditMemo = $acMemoService->store($request);
-//        dd($storeAuditQuery);
         if (isSuccessResponse($storeAuditMemo)) {
             $response = responseFormat('success', $storeAuditMemo['data']);
         } else {
@@ -21,18 +20,12 @@ class AcMemoController extends Controller
     public function update(Request $request, AcMemoService $acMemoService): \Illuminate\Http\JsonResponse
     {
         $updateAuditMemo = $acMemoService->update($request);
-//        dd($storeAuditQuery);
         if (isSuccessResponse($updateAuditMemo)) {
             $response = responseFormat('success', $updateAuditMemo['data']);
         } else {
             $response = responseFormat('error', $updateAuditMemo['data']);
         }
         return response()->json($response);
-    }
-
-    public function show(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
-    {
-        //
     }
 
 }
