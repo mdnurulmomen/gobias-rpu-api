@@ -155,6 +155,17 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    public function officeExport(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeList = $officeServices->officeExport($request);
+        if (isSuccessResponse($officeList)) {
+            $response = responseFormat('success', $officeList['data']);
+        } else {
+            $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
     public function parents(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
     {
         $officeParentsList = $officeServices->parents($request);

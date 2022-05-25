@@ -2,11 +2,13 @@
 
 namespace App\Repository\Eloquent;
 
+use App\Exports\OfficesExport;
 use App\Models\CostCenter;
 use App\Models\DirectorateMinistryMap;
 use App\Models\Office;
 use App\Models\OfficeMinistry;
 use App\Repository\Contracts\BaseRepositoryInterface;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -588,7 +590,7 @@ class OfficeRepository implements BaseRepositoryInterface
         $office_type =  $request->office_type;
         $search =  $request->search;
 
-        $ministries = $ministry_id ? '' :  DirectorateMinistryMap::where('directorate_id',$cdesk->office_id)->pluck('office_ministry_id');
+        $ministries = $ministry_id ? '' :  DirectorateMinistryMap::where('directorate_id',$request->directorate_id)->pluck('office_ministry_id');
 
         $query =  Office::query();
         $query->with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office']);
@@ -622,52 +624,48 @@ class OfficeRepository implements BaseRepositoryInterface
             ->orderBy($order, $dir)
             ->get();
 
-
-//        if (!empty($request->search)) {
-//            $search = $request->search;
-//            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-//                ->whereIn('office_ministry_id',$ministries)
-//                ->where('office_status', 1)
-//                ->where('office_name_eng', 'like', '%' . $search . '%')
-//                ->orWhere('office_name_bng', 'LIKE', "%{$search}%")
-//                ->orWhere('office_email', 'LIKE', "%{$search}%")
-//                ->orWhere('office_web', 'LIKE', "%{$search}%");
-//
-//            $totalData = $commonSql->count();
-//            $offices = $commonSql->offset($start)
-//                ->limit($limit)
-//                ->orderBy($order, $dir)
-//                ->get();
-//
-//        } else if(!empty($request->entity_id)) {
-//            $commonSql = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-////                ->whereIn('office_ministry_id',$ministries)
-//                ->where('office_status', 1)
-//                ->where('office_ministry_id', $request->office_ministry_id)
-//                ->where('parent_office_id', $request->entity_id);
-//
-//            $totalData = $commonSql->count();
-//            $offices = $commonSql->offset($start)
-//                ->limit($limit)
-//                ->orderBy($order, $dir)
-//                ->get();
-//
-//        }else{
-//            $totalData = Office::whereIn('office_ministry_id',$ministries)->count();
-//            $offices = Office::with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office'])
-//                ->whereIn('office_ministry_id',$ministries)
-//                ->offset($start)
-//                ->limit($limit)
-//                ->orderBy($order, $dir)
-//                ->get();
-//        }
-
         $response = array(
             "offices" => $offices,
             "totalData" => $totalData,
             "totalFiltered" => $totalData,
         );
         return $response;
+    }
+
+    public function officeExport(Request $request)
+    {
+
+        $entity_id =  $request->entity_id;
+        $ministry_id =  $request->office_ministry_id;
+        $office_type =  $request->office_type;
+
+        $ministries = $ministry_id ? '' :  DirectorateMinistryMap::where('directorate_id',$request->directorate_id)->pluck('office_ministry_id');
+
+        $query =  Office::query();
+//        $query->with(['parent_office', 'office_ministry', 'office_layer', 'controlling_office_layer', 'controlling_office']);
+
+        $query->when($ministries, function ($q, $ministries) {
+            return $q->whereIn('office_ministry_id', $ministries);
+        });
+
+        $query->when($ministry_id, function ($q, $ministry_id) {
+            return $q->where('office_ministry_id', $ministry_id);
+        });
+
+        $query->when($office_type, function ($q, $office_type) {
+            return $q->where('office_type', $office_type);
+        });
+
+        $query->when($entity_id, function ($q, $entity_id) {
+            return $q->where('parent_office_id', $entity_id);
+        });
+
+        $offices = $query->select('office_name_eng','office_name_bng')->get()->toArray();
+
+        $export = new OfficesExport($offices);
+
+        return Excel::download($export,'demo.xlsx');
+
     }
 
     public function getRupListMis(Request $request)

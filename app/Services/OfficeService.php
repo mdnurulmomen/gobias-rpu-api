@@ -259,6 +259,16 @@ class OfficeService
         }
     }
 
+    public function officeExport(Request $request)
+    {
+        try {
+            $officeList = $this->officeRepository->officeExport($request);
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
     public function parents(Request $request)
     {
         try {

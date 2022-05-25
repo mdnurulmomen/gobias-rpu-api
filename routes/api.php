@@ -39,6 +39,7 @@ Route::post('/get-parent-with-child-office', [App\Http\Controllers\OfficeControl
 Route::post('/get-ministry-parent-wise-child-office', [App\Http\Controllers\OfficeController::class, 'get_ministry_parent_wise_child_office']);
 Route::post('/search-office', [App\Http\Controllers\OfficeController::class, 'searchOffice']);
 Route::post('/get-office-list-datatable', [App\Http\Controllers\OfficeController::class, 'officeDatatable']);
+Route::post('/office-list-export', [App\Http\Controllers\OfficeController::class, 'officeExport']);
 Route::post('/get-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'show']);
 Route::post('/store-office-other-info', [App\Http\Controllers\OfficeOtherInfoController::class, 'store']);
 Route::post('/get-office-other-info-list', [App\Http\Controllers\OfficeOtherInfoController::class, 'getOfficeOtherInfoList']);
