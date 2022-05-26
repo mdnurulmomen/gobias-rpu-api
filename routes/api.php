@@ -178,4 +178,6 @@ Route::post('/project/store', [ProjectController::class, 'store']);
 Route::post('/project/list', [ProjectController::class, 'list']);
 Route::POST('/project/show', [ProjectController::class, 'show']);
 Route::POST('/project/update', [ProjectController::class, 'update']);
-Route::post('/archive/migrate-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);
+
+Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);
+Route::post('/archive/migrate-report-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveReportToRPU']);
