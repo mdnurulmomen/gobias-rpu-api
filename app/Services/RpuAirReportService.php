@@ -176,7 +176,6 @@ class RpuAirReportService
             $reply_info = $request->reply_info;
 
             foreach ($request->item_info as $apoitti_item){
-
                 $apotti_item = ApottiItem::where('directorate_id',$apoitti_item['directorate_id'])->where('apotti_item_id',$apoitti_item['apotti_item_id'])->first();
                 $apotti_item->memo_status = $apoitti_item['memo_status'];
                 $apotti_item->onishponno_jorito_ortho_poriman = $apoitti_item['onishponno_jorito_ortho_poriman'];
@@ -195,9 +194,17 @@ class RpuAirReportService
                     $apotti_item->is_response_ministry = 0;
                     $apotti_item->is_sent_amms = 0;
                 }
-
                 $apotti_item->save();
 
+                //broadsheet reply item
+                $broadSheetReplyItem = BroadSheetReplyItem::where('broad_sheet_reply_id',$apoitti_item['broad_sheet_reply_id'])
+                    ->where('apotti_id',$apoitti_item['apotti_id'])
+                    ->where('apotti_item_id',$apoitti_item['apotti_item_id'])
+                    ->get();
+                $broadSheetReplyItem->status_reason = $apoitti_item['status_reason'];
+                $broadSheetReplyItem->save();
+
+                //communication
                 $apottiCommunication = new ApottiCommunication();
                 $apottiCommunication->memorandum_no = $reply_info['memorandum_no'];
                 $apottiCommunication->memorandum_date = $reply_info['memorandum_date'];
