@@ -181,3 +181,10 @@ Route::POST('/project/update', [ProjectController::class, 'update']);
 
 Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);
 Route::post('/archive/migrate-report-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveReportToRPU']);
+
+//cost center project map
+Route::post('/cost_center_project_map/store', [\App\Http\Controllers\CostCenterProjectController::class, 'store']);
+Route::post('/cost_center_project_map/list', [\App\Http\Controllers\CostCenterProjectController::class, 'list']);
+Route::post('/cost_center_project_map/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
+Route::post('/cost_center_project_map/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
+Route::post('/cost_center_project_map/project-map-nominated-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_nominated_cos_center_list']);

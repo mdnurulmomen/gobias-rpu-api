@@ -34,7 +34,6 @@ class ProjectService
     {
         try {
             $project = Project::get()->sortDesc();
-
             return ['status' => 'success', 'data' => $project];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
