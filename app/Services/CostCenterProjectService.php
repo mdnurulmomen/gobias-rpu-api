@@ -12,7 +12,7 @@ class CostCenterProjectService
     {
         try {
             CostCenterProjectMap::insert($request->project_map);
-            return ['status' => 'success', 'data' => $request->all()];
+            return ['status' => 'success', 'data' => 'Project Map Successfully'];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
@@ -33,7 +33,7 @@ class CostCenterProjectService
         try {
 
             $offices = CostCenterProjectMap::with(['ministry:id,name_eng,name_bng','entity:id,office_name_eng,office_name_bng,office_type','project:id,name_en,name_bn'])
-                ->where('directorate_id',14)
+                ->where('directorate_id',$request->directorate_id)
                 ->where('ministry_id',$request->office_ministry_id)
                 ->where('project_id',$request->project_id)
                 ->get()
