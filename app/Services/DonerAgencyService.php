@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DonerAgencyService
 {
-    public function store(Request $request): array
+    public function store(Request $request)
     {
         try {
             $doner_egency = new DonerAgency();
@@ -16,7 +16,7 @@ class DonerAgencyService
             $doner_egency->directorate_id = $request->directorate_id;
             $doner_egency->save();
 
-            return ['status' => 'success', 'data' => 'Send Successfully'];
+            return ['status' => 'success', 'data' => 'Store Successfully'];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
@@ -54,7 +54,7 @@ class DonerAgencyService
             $doner_egency->directorate_id = $request->directorate_id;
             $doner_egency->save();
 
-            return ['status' => 'success', 'data' => 'Send Successfully'];
+            return ['status' => 'success', 'data' => 'Update Successfully'];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
         }
