@@ -65,4 +65,9 @@ class ApottiItem extends Model
         'is_response_entity',
         'is_response_ministry',
     ];
+
+    public function apotti_attachements(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AcMemoAttachment::class,'ac_memo_id','memo_id');
+    }
 }

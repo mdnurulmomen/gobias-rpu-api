@@ -188,3 +188,12 @@ Route::post('/cost_center_project_map/list', [\App\Http\Controllers\CostCenterPr
 Route::post('/cost_center_project_map/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
 Route::post('/cost_center_project_map/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
 Route::post('/cost_center_project_map/project-map-nominated-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_nominated_cos_center_list']);
+
+//apotti
+
+Route::group(['prefix' => 'apotti/'], function () {
+    Route::post('get-apotti-item', [\App\Http\Controllers\ApottiController::class, 'getApottiItem']);
+    Route::post('apotti-response-submit', [\App\Http\Controllers\ApottiController::class, 'apottiResponseSubmit']);
+    Route::post('store-rpu-broad-sheet', [\App\Http\Controllers\ApottiController::class, 'storeRpuBroadSheet']);
+    Route::post('get-ministry-wise-apotti-entity', [\App\Http\Controllers\ApottiController::class, 'getMinistryWiseApottiEntity']);
+});
