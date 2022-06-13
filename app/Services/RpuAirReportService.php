@@ -5,6 +5,7 @@ use App\Models\Apotti;
 use App\Models\ApottiCommunication;
 use App\Models\ApottiItem;
 use App\Models\BroadsheetReplyFromDirectorate;
+use App\Models\BroadSheetReplyItem;
 use App\Models\Office;
 use App\Models\PacMeetingApotti;
 use App\Models\RAir;
@@ -200,7 +201,7 @@ class RpuAirReportService
                 $broadSheetReplyItem = BroadSheetReplyItem::where('broad_sheet_reply_id',$apoitti_item['broad_sheet_reply_id'])
                     ->where('apotti_id',$apoitti_item['apotti_id'])
                     ->where('apotti_item_id',$apoitti_item['apotti_item_id'])
-                    ->get();
+                    ->first();
                 $broadSheetReplyItem->status_reason = $apoitti_item['status_reason'];
                 $broadSheetReplyItem->save();
 
