@@ -393,4 +393,14 @@ class OfficeService
         }
 
     }
+
+    public function getEntityWiseUnitGroupMasterOffice(Request $request)
+    {
+        try {
+            $officeList = $this->officeRepository->getEntityWiseUnitGroupMasterOffice($request);
+            return ['status' => 'success', 'data' => $officeList];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
 }

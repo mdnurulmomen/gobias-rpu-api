@@ -253,5 +253,18 @@ class OfficeController extends Controller
         return response()->json($response);
     }
 
+    //office group
+    public function getEntityWiseUnitGroupMasterOffice(Request $request, OfficeService $officeServices): \Illuminate\Http\JsonResponse
+    {
+        $officeList = $officeServices->getEntityWiseUnitGroupMasterOffice($request);
+
+        if (isSuccessResponse($officeList)) {
+            $response = responseFormat('success', $officeList['data']);
+        } else {
+            $response = responseFormat('error', $officeList['data']);
+        }
+        return response()->json($response);
+    }
+
 
 }

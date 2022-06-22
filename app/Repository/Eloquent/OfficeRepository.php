@@ -604,6 +604,8 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('parent_office_id', $entity_id);
         });
 
+        $query->where('office_structure_type', '!=','unit_group');
+
         $query->when($search, function ($q, $search) {
             $q->where('office_name_eng', 'LIKE', '%' . $search . '%');
             $q->orWhere('office_name_bng', 'LIKE', "%{$search}%");
@@ -781,6 +783,17 @@ class OfficeRepository implements BaseRepositoryInterface
             ];
         }
 
+        return $offices;
+    }
+
+    public function getEntityWiseUnitGroupMasterOffice(Request $request)
+    {
+        $offices = Office::select('id','office_name_eng','office_name_bng')
+            ->where('office_ministry_id',$request->ministry_id)
+            ->where('parent_office_id', $request->entity_id)
+            ->where('office_structure_type', 'unit_group')
+            ->get()
+            ->toArray();
         return $offices;
     }
 }

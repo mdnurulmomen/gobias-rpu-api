@@ -53,6 +53,7 @@ Route::post('/get-entity-or-unit-group-wise-cost-center', [App\Http\Controllers\
 
 Route::post('/get-master-office-ministry-and-layer-wise', [App\Http\Controllers\OfficeController::class, 'get_master_office_ministry_and_layer_wise']);
 Route::post('/get-parent-wise-child-master-office', [App\Http\Controllers\OfficeController::class, 'get_parent_wise_child_master_office']);
+Route::post('/get-entity-wise-unit-group-master-office', [App\Http\Controllers\OfficeController::class, 'getEntityWiseUnitGroupMasterOffice']);
 
 //office unit
 Route::post('/store-office-unit', [App\Http\Controllers\OfficeUnitController::class, 'store']);
