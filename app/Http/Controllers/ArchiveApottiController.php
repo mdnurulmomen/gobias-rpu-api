@@ -117,6 +117,9 @@ class ArchiveApottiController extends Controller
                 'comment' => Arr::has($office_apottis, 'comment') ? $office_apottis['comment'] : '',
                 'apotti_sequence' => Arr::has($office_apottis, 'apotti_sequence') ? $office_apottis['apotti_sequence'] : '',
                 'is_combined' => Arr::has($office_apottis, 'is_combined') ? $office_apottis['is_combined'] : '',
+                'directorate_id' => $directorate['id'],
+                'directorate_bn' => $directorate['office_name_bng'],
+                'directorate_en' => $directorate['office_name_eng'],
             ];
 
             Apotti::create($rp_apotti);
@@ -233,7 +236,7 @@ class ArchiveApottiController extends Controller
                     'air_id' => 0,
                     'audit_plan_id' => Arr::has($office_apotti, 'audit_plan_id') ? $office_apotti['audit_plan_id'] : '',
                     'apotti_title' => Arr::has($office_apotti, 'apotti_title') ? $office_apotti['apotti_title'] : '',
-                    'apotti_description' => Arr::has($office_apotti, 'apotti_description') ? $office_apotti['apotti_description'] : '',
+                    'apotti_description' => Arr::has($office_apotti, 'apotti_description') ? $office_apotti['apotti_description'] : null,
                     'apotti_type' => Arr::has($office_apotti, 'apotti_type') ? $office_apotti['apotti_type'] : '',
                     'onucched_no' => Arr::has($office_apotti, 'onucched_no') ? $office_apotti['onucched_no'] : '',
                     'ministry_id' => Arr::has($office_apotti, 'ministry_id') ? $office_apotti['ministry_id'] : '',
@@ -243,6 +246,7 @@ class ArchiveApottiController extends Controller
                     'parent_office_name_en' => Arr::has($office_apotti, 'parent_office_name_en') ? $office_apotti['parent_office_name_en'] : '',
                     'parent_office_name_bn' => Arr::has($office_apotti, 'parent_office_name_bn') ? $office_apotti['parent_office_name_bn'] : '',
                     'fiscal_year_id' => Arr::has($office_apotti, 'fiscal_year_id') ? $office_apotti['fiscal_year_id'] : '',
+                    'fiscal_year' => empty($request->fiscal_year)?null:$request->fiscal_year,
                     'total_jorito_ortho_poriman' => Arr::has($office_apotti, 'total_jorito_ortho_poriman') ? $office_apotti['total_jorito_ortho_poriman'] : '',
                     'total_onishponno_jorito_ortho_poriman' => Arr::has($office_apotti, 'total_onishponno_jorito_ortho_poriman') ? $office_apotti['total_onishponno_jorito_ortho_poriman'] : '',
                     'response_of_rpu' => Arr::has($office_apotti, 'response_of_rpu') ? $office_apotti['response_of_rpu'] : '',
@@ -250,11 +254,15 @@ class ArchiveApottiController extends Controller
                     'audit_conclusion' => Arr::has($office_apotti, 'audit_conclusion') ? $office_apotti['audit_conclusion'] : '',
                     'audit_recommendation' => Arr::has($office_apotti, 'audit_recommendation') ? $office_apotti['audit_recommendation'] : '',
                     'created_by' => 0,
+                    'file_token_no' => Arr::has($office_apotti, 'file_token_no') ? $office_apotti['file_token_no'] : null,
                     'approve_status' => Arr::has($office_apotti, 'approve_status') ? $office_apotti['approve_status'] : '',
                     'status' => Arr::has($office_apotti, 'status') ? $office_apotti['status'] : '',
                     'comment' => Arr::has($office_apotti, 'comment') ? $office_apotti['comment'] : '',
                     'apotti_sequence' => Arr::has($office_apotti, 'apotti_sequence') ? $office_apotti['apotti_sequence'] : '',
                     'is_combined' => Arr::has($office_apotti, 'is_combined') ? $office_apotti['is_combined'] : '',
+                    'directorate_id' => $directorate['id'],
+                    'directorate_bn' => $directorate['office_name_bng'],
+                    'directorate_en' => $directorate['office_name_eng'],
                 ];
 
                 $rp_apotti_arr = $rp_apotti;
