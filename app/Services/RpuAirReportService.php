@@ -115,7 +115,7 @@ class RpuAirReportService
                     $apottiItem->memo_title_bn = $item['memo_title_bn'];
                     $apottiItem->memo_description_bn = $item['memo_description_bn'];
                     $apottiItem->memo_type = $item['memo_type'];
-                    $apottiItem->memo_status = $item['memo_status'];
+                    $apottiItem->memo_status = 2; //$item['memo_status']
                     $apottiItem->jorito_ortho_poriman = $item['jorito_ortho_poriman'];
                     $apottiItem->onishponno_jorito_ortho_poriman = $item['onishponno_jorito_ortho_poriman'];
                     $apottiItem->response_of_rpu = $item['response_of_rpu'];
