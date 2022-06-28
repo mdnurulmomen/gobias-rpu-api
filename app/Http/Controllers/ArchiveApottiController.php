@@ -62,7 +62,7 @@ class ArchiveApottiController extends Controller
                 'is_archived' => 1,
             ];
 
-            $rp_ac_memo_create = AcMemo::create($rp_ac_memo_data);
+            AcMemo::create($rp_ac_memo_data);
 
             $rp_ac_memo_attachment_data = [];
             $sequence = 0;
