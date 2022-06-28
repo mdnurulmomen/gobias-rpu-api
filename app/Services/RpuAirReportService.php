@@ -105,6 +105,7 @@ class RpuAirReportService
                     $apottiItem->cost_center_name_en = $item['cost_center_name_en'];
                     $apottiItem->cost_center_name_bn = $item['cost_center_name_bn'];
                     $apottiItem->fiscal_year_id = $item['fiscal_year_id'];
+                    $apottiItem->fiscal_year = $request->fiscal_year;
                     $apottiItem->audit_year_start = $item['audit_year_start'];
                     $apottiItem->audit_year_end = $item['audit_year_end'];
                     $apottiItem->ac_query_potro_no = $item['ac_query_potro_no'];
