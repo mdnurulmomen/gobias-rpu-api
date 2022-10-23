@@ -281,28 +281,24 @@ class OfficeRepository implements BaseRepositoryInterface
 
     public function get_entity_office_ministry_wise(Request $request)
     {
-        $offices = CostCenter::with('office', 'office.controlling_office')
-            ->withCount('child')
-            ->where('office_ministry_id', $request->office_ministry_id)
-            ->where('office_structure_type', 'entity');
-        if ($request->office_category_type > 0) {
-            $offices->where('office_type', $request->office_category_type);
-        }
+        $offices = Office::withCount('child')
+            ->where('office_ministry_id', $request->office_ministry_id);
+//            ->where('office_structure_type', 'entity');
+//        if ($request->office_category_type > 0) {
+//            $offices->where('office_type', $request->office_category_type);
+//        }
         $offices = $offices->get()->toArray();
-        ////            ->where('office_status', 1)
-        //            ->get()
 
         $ministry = OfficeMinistry::find($request->office_ministry_id, ['name_eng', 'name_bng', 'id'])->toArray();
         $office_data = [];
         foreach ($offices as $office) {
-            //            return $office;
             $office_data[] = [
-                'id' => $office['office']['id'],
-                'office_type' => $office['office']['office_type'],
-                'office_ministry_id' => $office['office']['office_ministry_id'],
-                'office_layer_id' => $office['office']['office_layer_id'],
-                'office_name_bn' => $office['office']['office_name_bn'],
-                'office_name_en' => $office['office']['office_name_en'],
+                'id' => $office['id'],
+                'office_type' => $office['office_type'],
+                'office_ministry_id' => $office['office_ministry_id'],
+                'office_layer_id' => $office['office_layer_id'],
+                'office_name_bn' => $office['office_name_bn'],
+                'office_name_en' => $office['office_name_en'],
                 'child_count' => $office['child_count'],
                 'has_child' => $office['child_count'] > 0,
             ];
@@ -702,7 +698,9 @@ class OfficeRepository implements BaseRepositoryInterface
             return $q->where('office_type', $office_type);
         });
 
-        return $query->select('id', 'office_name_bng', 'office_name_eng', 'office_type', 'last_audit_year_start', 'last_audit_year_end')->where('office_structure_type', 'entity')->where('office_ministry_id', $request->office_ministry_id)->get();
+        return $query->select('id', 'office_name_bng', 'office_name_eng', 'office_type')
+//            ->where('office_structure_type', 'entity')
+            ->where('office_ministry_id', $request->office_ministry_id)->get();
     }
 
     public function ministryWiseOffice(Request $request)

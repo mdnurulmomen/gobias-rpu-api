@@ -174,21 +174,41 @@ Route::post('/doner-agency/store', [\App\Http\Controllers\DonerAgencyController:
 Route::post('/doner-agency/list', [\App\Http\Controllers\DonerAgencyController::class, 'list']);
 Route::POST('/doner-agency/show', [\App\Http\Controllers\DonerAgencyController::class, 'show']);
 Route::POST('/doner-agency/update', [\App\Http\Controllers\DonerAgencyController::class, 'update']);
+
 //project
-Route::post('/project/store', [ProjectController::class, 'store']);
-Route::post('/project/list', [ProjectController::class, 'list']);
-Route::POST('/project/show', [ProjectController::class, 'show']);
-Route::POST('/project/update', [ProjectController::class, 'update']);
+Route::group(['prefix' => 'project/'], function () {
+    Route::post('store', [ProjectController::class, 'store']);
+    Route::post('list', [ProjectController::class, 'list']);
+    Route::POST('show', [ProjectController::class, 'show']);
+    Route::POST('update', [ProjectController::class, 'update']);
+});
+
+//function
+Route::group(['prefix' => 'function/'], function () {
+    Route::post('store', [\App\Http\Controllers\FunctionController::class, 'store']);
+    Route::post('list', [\App\Http\Controllers\FunctionController::class, 'list']);
+    Route::POST('show', [\App\Http\Controllers\FunctionController::class, 'show']);
+    Route::POST('update', [\App\Http\Controllers\FunctionController::class, 'update']);
+});
+//unit master
+Route::group(['prefix' => 'unit-master/'], function () {
+    Route::post('store', [\App\Http\Controllers\UnitMasterInfoController::class, 'store']);
+    Route::post('list', [\App\Http\Controllers\UnitMasterInfoController::class, 'list']);
+    Route::POST('show', [\App\Http\Controllers\UnitMasterInfoController::class, 'show']);
+    Route::POST('update', [\App\Http\Controllers\UnitMasterInfoController::class, 'update']);
+});
 
 Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);
 Route::post('/archive/migrate-report-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveReportToRPU']);
 
 //cost center project map
-Route::post('/cost_center_project_map/store', [\App\Http\Controllers\CostCenterProjectController::class, 'store']);
-Route::post('/cost_center_project_map/list', [\App\Http\Controllers\CostCenterProjectController::class, 'list']);
-Route::post('/cost_center_project_map/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
-Route::post('/cost_center_project_map/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
-Route::post('/cost_center_project_map/project-map-nominated-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_nominated_cos_center_list']);
+Route::group(['prefix' => 'cost-center-project-map/'], function () {
+    Route::post('/store', [\App\Http\Controllers\CostCenterProjectController::class, 'store']);
+    Route::post('/list', [\App\Http\Controllers\CostCenterProjectController::class, 'list']);
+    Route::post('/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
+    Route::post('/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
+    Route::post('/get-cost-center-project-map', [\App\Http\Controllers\CostCenterProjectController::class, 'get_cost_center_project_map_list']);
+});
 
 //apotti
 

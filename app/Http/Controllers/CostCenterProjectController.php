@@ -50,9 +50,9 @@ class CostCenterProjectController extends Controller
         return response()->json($response);
     }
 
-    public function get_project_map_nominated_cos_center_list(Request $request, CostCenterProjectService $centerProjectService): \Illuminate\Http\JsonResponse
+    public function get_cost_center_project_map_list(Request $request, CostCenterProjectService $centerProjectService): \Illuminate\Http\JsonResponse
     {
-        $cost_center_list = $centerProjectService->get_project_map_nominated_cos_center_list($request);
+        $cost_center_list = $centerProjectService->get_cost_center_project_map_list($request);
         if (isSuccessResponse($cost_center_list)) {
             $response = responseFormat('success', $cost_center_list['data']);
         } else {

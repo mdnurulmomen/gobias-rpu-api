@@ -36,4 +36,8 @@ class CostCenterProjectMap extends Model
     public function office(){
         return $this->belongsTo(Office::class, 'office_id', 'id');
     }
+
+    public function parent_office(){
+        return $this->belongsTo(Office::class, 'parent_office_id', 'id');
+    }
 }

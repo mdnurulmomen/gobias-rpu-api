@@ -108,48 +108,15 @@ class CostCenterProjectService
         }
     }
 
-    public function get_project_map_nominated_cos_center_list(Request $request)
+    public function get_cost_center_project_map_list(Request $request)
     {
-        $ownOffice = Office::find($request->parent_office_id)
-            ->toArray();
-
-        $office_data = CostCenterProjectMap::with('office.child')->where('ministry_id',$request->ministry_id)
-            ->where('entity_id', $request->parent_office_id)
+        $office_data = CostCenterProjectMap::with('office:id,office_name_eng,office_name_bng')
+            ->with('parent_office:id,office_name_eng,office_name_bng')
+            ->where('project_id', $request->project_id)
             ->get()
             ->toArray();
 
-        $offices = [];
-
-        foreach ($office_data as $office) {
-            $offices[] = [
-                'id' => $office['office']['id'],
-                'office_layer_id' => $office['office']['office_layer_id'],
-                'controlling_office_layer_id' => $office['office']['controlling_office_layer_id'],
-                'controlling_office_id' => $office['office']['controlling_office_id'],
-                'custom_layer_id' => $office['office']['custom_layer_id'],
-                'office_name_bng' => $office['office']['office_name_bng'],
-                'office_name_eng' => $office['office']['office_name_eng'],
-                'office_name_bn' => $office['office']['office_name_bng'],
-                'office_name_en' => $office['office']['office_name_eng'],
-                'office_structure_type' => $office['office']['office_structure_type'],
-                'office_address' => $office['office']['office_address'],
-                'office_phone' => $office['office']['office_phone'],
-                'office_mobile' => $office['office']['office_mobile'],
-                'parent_office_id' => $office['office']['parent_office_id'],
-                'last_audit_year_start' => $office['office']['last_audit_year_start'],
-                'last_audit_year_end' => $office['office']['last_audit_year_end'],
-                'risk_category' => $office['office']['risk_category'],
-                'child' => $office['office']['child'],
-                'has_child' => 0,
-            ];
-        }
-
-        $response = [
-            'parent_office' => $ownOffice,
-            'child_offices' => $offices,
-        ];
-
-        return ['status' => 'success', 'data' => $response];
+        return ['status' => 'success', 'data' => $office_data];
 
     }
 }
