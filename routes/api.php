@@ -66,6 +66,7 @@ Route::post('/get-office-unit-ministry-layer-and-office-wise', [App\Http\Control
 //cost center
 Route::post('/store-cost-center', [App\Http\Controllers\CostCenterController::class, 'store']);
 Route::post('/cost-center-list', [App\Http\Controllers\CostCenterController::class, 'list']);
+
 //directorate ministry map
 Route::post('/store-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'store']);
 Route::post('/update-directorate-ministry-map', [App\Http\Controllers\DirectorateMinistryMapController::class, 'update']);
@@ -176,7 +177,7 @@ Route::POST('/doner-agency/show', [\App\Http\Controllers\DonerAgencyController::
 Route::POST('/doner-agency/update', [\App\Http\Controllers\DonerAgencyController::class, 'update']);
 
 //project
-Route::group(['prefix' => 'project/'], function () {
+Route::group(['prefix' => 'projects/'], function () {
     Route::post('store', [ProjectController::class, 'store']);
     Route::post('list', [ProjectController::class, 'list']);
     Route::POST('show', [ProjectController::class, 'show']);
@@ -184,14 +185,15 @@ Route::group(['prefix' => 'project/'], function () {
 });
 
 //function
-Route::group(['prefix' => 'function/'], function () {
+Route::group(['prefix' => 'functions/'], function () {
     Route::post('store', [\App\Http\Controllers\FunctionController::class, 'store']);
     Route::post('list', [\App\Http\Controllers\FunctionController::class, 'list']);
     Route::POST('show', [\App\Http\Controllers\FunctionController::class, 'show']);
     Route::POST('update', [\App\Http\Controllers\FunctionController::class, 'update']);
 });
+
 //unit master
-Route::group(['prefix' => 'unit-master/'], function () {
+Route::group(['prefix' => 'master-units/'], function () {
     Route::post('store', [\App\Http\Controllers\UnitMasterInfoController::class, 'store']);
     Route::post('list', [\App\Http\Controllers\UnitMasterInfoController::class, 'list']);
     Route::POST('show', [\App\Http\Controllers\UnitMasterInfoController::class, 'show']);
