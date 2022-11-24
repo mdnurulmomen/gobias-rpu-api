@@ -19,4 +19,17 @@ class UnitMasterInfoController extends Controller
 
         return response()->json($response);
     }
+
+    public function update(Request $request, UnitMasterInfoService $projectService): \Illuminate\Http\JsonResponse
+    {
+        $response = $projectService->update($request);
+
+        if (isSuccessResponse($response)) {
+            $response = responseFormat('success', $response['data']);
+        } else {
+            $response = responseFormat('error', $response['data']);
+        }
+
+        return response()->json($response);
+    }
 }

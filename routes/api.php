@@ -189,7 +189,7 @@ Route::group(['prefix' => 'functions/'], function () {
     Route::post('store', [\App\Http\Controllers\FunctionController::class, 'store']);
     Route::post('list', [\App\Http\Controllers\FunctionController::class, 'list']);
     Route::POST('show', [\App\Http\Controllers\FunctionController::class, 'show']);
-    Route::POST('update', [\App\Http\Controllers\FunctionController::class, 'update']);
+    Route::put('update', [\App\Http\Controllers\FunctionController::class, 'update']);
 });
 
 //unit master
@@ -197,7 +197,7 @@ Route::group(['prefix' => 'master-units/'], function () {
     Route::post('store', [\App\Http\Controllers\UnitMasterInfoController::class, 'store']);
     Route::post('list', [\App\Http\Controllers\UnitMasterInfoController::class, 'list']);
     Route::POST('show', [\App\Http\Controllers\UnitMasterInfoController::class, 'show']);
-    Route::POST('update', [\App\Http\Controllers\UnitMasterInfoController::class, 'update']);
+    Route::put('update', [\App\Http\Controllers\UnitMasterInfoController::class, 'update']);
 });
 
 Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);

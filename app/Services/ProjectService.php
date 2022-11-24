@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class ProjectService
 {
+    public function list(Request $request)
+    {
+        try {
+            $project = Project::orderBy('total_risk_score', 'DESC')->get()->sortDesc();
+            return ['status' => 'success', 'data' => $project];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'data' => $e];
+        }
+    }
+
     public function store(Request $request): array
     {
         try {
@@ -17,6 +27,7 @@ class ProjectService
             $project->directorate_id = $request->directorate_id;
             $project->save();
             $donar_agency_ids = $request->donar_agency_id;
+
             foreach ($donar_agency_ids as $donar_agency_id) {
                 $projects_donar_agencies = new ProjectsDonarAgencies();
                 $projects_donar_agencies->donar_agency_id = $donar_agency_id;
@@ -27,16 +38,6 @@ class ProjectService
             return ['status' => 'success', 'data' => 'Send Successfully'];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
-        }
-    }
-
-    public function list(Request $request)
-    {
-        try {
-            $project = Project::get()->sortDesc();
-            return ['status' => 'success', 'data' => $project];
-        } catch (\Exception $e) {
-            return ['status' => 'error', 'data' => $e];
         }
     }
 

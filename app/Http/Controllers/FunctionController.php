@@ -44,7 +44,7 @@ class FunctionController extends Controller
         return response()->json($response);
     }
 
-    public function update(Request $request, ProjectService $projectService): \Illuminate\Http\JsonResponse
+    public function update(Request $request, AuditFunctionService $projectService): \Illuminate\Http\JsonResponse
     {
         $projectdata = $projectService->update($request);
 
