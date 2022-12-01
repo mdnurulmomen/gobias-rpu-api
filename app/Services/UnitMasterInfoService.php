@@ -10,7 +10,7 @@ class UnitMasterInfoService
     public function list(Request $request): array
     {
         try {
-            $list = UnitMasterInfo::orderBy('total_risk_score', 'DESC')->get();
+            $list = UnitMasterInfo::with('auditAreas')->orderBy('total_risk_score', 'DESC')->get();
             return ['status' => 'success', 'data' => $list];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];

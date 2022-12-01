@@ -20,7 +20,7 @@ class AuditFunctionService
     public function list(Request $request)
     {
         try {
-            $functions = AuditFunction::orderBy('total_risk_score', 'DESC')->get()->sortDesc();
+            $functions = AuditFunction::with('auditAreas')->orderBy('total_risk_score', 'DESC')->get()->sortDesc();
             return ['status' => 'success', 'data' => $functions];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];

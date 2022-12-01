@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\AuditAreaController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login-in-rpu-amms', [App\Http\Controllers\LoginController::class, 'loginInRpuAmms']);
@@ -198,6 +199,14 @@ Route::group(['prefix' => 'master-units/'], function () {
     Route::post('list', [\App\Http\Controllers\UnitMasterInfoController::class, 'list']);
     Route::POST('show', [\App\Http\Controllers\UnitMasterInfoController::class, 'show']);
     Route::put('update', [\App\Http\Controllers\UnitMasterInfoController::class, 'update']);
+});
+
+// Area
+Route::group(['prefix' => 'audit-areas'], function () {
+    Route::get('/', [AuditAreaController::class, 'index']);
+    Route::post('/', [AuditAreaController::class, 'store']);
+    Route::put('/{id}', [AuditAreaController::class, 'update']);
+    Route::delete('/{id}', [AuditAreaController::class, 'delete']);
 });
 
 Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveApottiToRPU']);
