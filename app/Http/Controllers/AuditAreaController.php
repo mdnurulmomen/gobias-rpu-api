@@ -9,12 +9,12 @@ class AuditAreaController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->assessment_sector_id && $request->assessment_sector_type) {
+        if ($request->sector_id && $request->sector_type) {
 
             try {
 
-                $list = AuditArea::where('sector_id', $request->assessment_sector_id)
-                ->where('sector_type', $request->assessment_sector_type)
+                $list = AuditArea::where('sector_id', $request->sector_id)
+                ->where('sector_type', $request->sector_type)
                 ->with(['sector'])
                 ->get();
 
