@@ -213,12 +213,12 @@ Route::post('/archive/migrate-apotti-to-rpu', [\App\Http\Controllers\ArchiveApot
 Route::post('/archive/migrate-report-to-rpu', [\App\Http\Controllers\ArchiveApottiController::class, 'migrateArchiveReportToRPU']);
 
 //cost center project map
-Route::group(['prefix' => 'cost-center-project-map/'], function () {
+Route::group(['prefix' => 'cost-center-sector-map/'], function () {
     Route::post('/store', [\App\Http\Controllers\CostCenterProjectController::class, 'store']);
     Route::post('/list', [\App\Http\Controllers\CostCenterProjectController::class, 'list']);
     Route::post('/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
     Route::post('/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
-    Route::post('/get-cost-center-project-map', [\App\Http\Controllers\CostCenterProjectController::class, 'get_cost_center_project_map_list']);
+    Route::post('/cost-centers', [\App\Http\Controllers\CostCenterProjectController::class, 'sectorCostCenters']);
 });
 
 //apotti

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services;
-use App\Models\CostCenterProjectMap;
+use App\Models\SectorCostCenter;
 use App\Models\Office;
 use App\Models\OfficeMinistry;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ class CostCenterProjectService
     public function store(Request $request)
     {
         try {
-            CostCenterProjectMap::insert($request->project_map);
+            SectorCostCenter::insert($request->project_map);
             return ['status' => 'success', 'data' => 'Project Map Successfully'];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
@@ -21,7 +21,7 @@ class CostCenterProjectService
     public function list(Request $request)
     {
         try {
-            $project_map_list = CostCenterProjectMap::with(['ministry:id,name_eng,name_bng','entity:id,office_name_eng,office_name_bng','project:id,name_en,name_bn'])->where('directorate_id',$request->directorate_id)->get();
+            $project_map_list = SectorCostCenter::with(['ministry:id,name_eng,name_bng','entity:id,office_name_eng,office_name_bng','project:id,name_en,name_bn'])->where('directorate_id',$request->directorate_id)->get();
             return ['status' => 'success', 'data' => $project_map_list];
         } catch (\Exception $exception) {
             return ['status' => 'error', 'data' => $exception->getMessage()];
@@ -32,7 +32,7 @@ class CostCenterProjectService
     {
         try {
 
-            $offices = CostCenterProjectMap::with(['ministry:id,name_eng,name_bng','entity:id,office_name_eng,office_name_bng,office_type','project:id,name_en,name_bn'])
+            $offices = SectorCostCenter::with(['ministry:id,name_eng,name_bng','entity:id,office_name_eng,office_name_bng,office_type','project:id,name_en,name_bn'])
                 ->where('directorate_id',$request->directorate_id)
                 ->where('ministry_id',$request->office_ministry_id)
                 ->where('project_id',$request->project_id)
@@ -69,7 +69,7 @@ class CostCenterProjectService
     {
         try {
 
-            $office_data = CostCenterProjectMap::with('office')
+            $office_data = SectorCostCenter::with('office')
                 ->where('entity_id', $request->parent_office_id)
                 ->where('ministry_id', $request->parent_ministry_id)
                 ->get()
@@ -108,11 +108,12 @@ class CostCenterProjectService
         }
     }
 
-    public function get_cost_center_project_map_list(Request $request)
+    public function sectorCostCenters(Request $request)
     {
-        $office_data = CostCenterProjectMap::with('office:id,office_name_eng,office_name_bng')
+        $office_data = SectorCostCenter::with('office:id,office_name_eng,office_name_bng')
             ->with('parent_office:id,office_name_eng,office_name_bng')
-            ->where('project_id', $request->project_id)
+            ->where('sector_id', $request->sector_id)
+            ->where('sector_type', $request->sector_type)
             ->get()
             ->toArray();
 

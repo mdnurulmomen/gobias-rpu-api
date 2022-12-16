@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CostCenterProjectMap extends Model
+class SectorCostCenter extends Model
 {
     use HasFactory;
+
     public $timestamps = true;
+
     protected $fillable = [
         'office_id',
         'office_name_bn',
