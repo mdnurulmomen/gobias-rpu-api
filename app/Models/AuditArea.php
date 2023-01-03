@@ -20,4 +20,14 @@ class AuditArea extends Model
     {
         return $this->morphTo();
     }
+
+    public function childs()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
 }

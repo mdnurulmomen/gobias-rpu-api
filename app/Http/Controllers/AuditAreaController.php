@@ -15,7 +15,7 @@ class AuditAreaController extends Controller
 
                 $list = AuditArea::where('sector_id', $request->sector_id)
                 ->where('sector_type', $request->sector_type)
-                ->with(['sector'])
+                ->with(['sector', 'childs', 'parent'])
                 ->get();
 
                 $response = responseFormat('success', $list);
@@ -31,7 +31,7 @@ class AuditAreaController extends Controller
 
             try {
 
-                $list =  AuditArea::with(['sector'])->get();
+                $list =  AuditArea::with(['sector', 'childs', 'parent'])->get();
 
                 $response = responseFormat('success', $list);
 
@@ -51,6 +51,7 @@ class AuditAreaController extends Controller
             $xRiskFactorImpact = new AuditArea();
             $xRiskFactorImpact->name_bn = strtolower($request->name_bn);
             $xRiskFactorImpact->name_en = strtolower($request->name_en);
+            $xRiskFactorImpact->parent_id = $request->parent_id;
             $xRiskFactorImpact->sector_id = $request->sector_id;
             $xRiskFactorImpact->sector_type = $request->sector_type;
             $xRiskFactorImpact->created_by = $request->created_by;
@@ -89,6 +90,7 @@ class AuditAreaController extends Controller
             $xRiskFactorImpact = AuditArea::find($id);
             $xRiskFactorImpact->name_bn = strtolower($request->name_bn);
             $xRiskFactorImpact->name_en = strtolower($request->name_en);
+            $xRiskFactorImpact->parent_id = $request->parent_id;
             $xRiskFactorImpact->sector_id = $request->sector_id;
             $xRiskFactorImpact->sector_type = $request->sector_type;
             $xRiskFactorImpact->updated_by = $request->updated_by;
