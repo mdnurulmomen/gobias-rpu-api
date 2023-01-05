@@ -49,8 +49,8 @@ class AuditAreaController extends Controller
         try {
 
             $xRiskFactorImpact = new AuditArea();
-            $xRiskFactorImpact->name_bn = strtolower($request->name_bn);
-            $xRiskFactorImpact->name_en = strtolower($request->name_en);
+            $xRiskFactorImpact->name_bn = $request->name_bn;
+            $xRiskFactorImpact->name_en = $request->name_en;
             $xRiskFactorImpact->parent_id = $request->parent_id;
             $xRiskFactorImpact->sector_id = $request->sector_id;
             $xRiskFactorImpact->sector_type = $request->sector_type;
@@ -88,8 +88,8 @@ class AuditAreaController extends Controller
         try {
 
             $xRiskFactorImpact = AuditArea::find($id);
-            $xRiskFactorImpact->name_bn = strtolower($request->name_bn);
-            $xRiskFactorImpact->name_en = strtolower($request->name_en);
+            $xRiskFactorImpact->name_bn = $request->name_bn;
+            $xRiskFactorImpact->name_en = $request->name_en;
             $xRiskFactorImpact->parent_id = $request->parent_id;
             $xRiskFactorImpact->sector_id = $request->sector_id;
             $xRiskFactorImpact->sector_type = $request->sector_type;
