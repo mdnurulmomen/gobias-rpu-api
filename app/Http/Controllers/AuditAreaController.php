@@ -16,6 +16,7 @@ class AuditAreaController extends Controller
                 $list = AuditArea::where('sector_id', $request->sector_id)
                 ->where('sector_type', $request->sector_type)
                 ->with(['sector', 'childs', 'parent'])
+                    ->whereNull('parent_id')
                 ->get();
 
                 $response = responseFormat('success', $list);
