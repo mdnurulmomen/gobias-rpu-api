@@ -11,7 +11,7 @@ class ProjectService
     public function list(Request $request)
     {
         try {
-            $project = Project::with('auditAreas')->orderBy('total_risk_score', 'DESC')->get()->sortDesc();
+            $project = Project::with('auditAreas')->orderBy('total_risk_score', 'DESC')->get();
             return ['status' => 'success', 'data' => $project];
         } catch (\Exception $e) {
             return ['status' => 'error', 'data' => $e];
