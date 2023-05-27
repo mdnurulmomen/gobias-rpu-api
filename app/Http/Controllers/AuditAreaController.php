@@ -12,13 +12,15 @@ class AuditAreaController extends Controller
         if ($request->sector_id && $request->sector_type) {
 
             try {
-
-                $list = AuditArea::where('sector_id', $request->sector_id)
+                $query = AuditArea::query();
+                $query = $query->where('sector_id', $request->sector_id)
                 ->where('sector_type', $request->sector_type)
-                ->with(['sector', 'childs', 'parent'])
-                    ->whereNull('parent_id')
-                ->get();
-
+                ->with(['sector', 'childs', 'parent']);
+                
+                if(!$request->with_parent){
+                   $query = $query->whereNull('parent_id');
+                }
+                $list = $query->get();
                 $response = responseFormat('success', $list);
 
             } catch (\Exception $exception) {
