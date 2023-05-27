@@ -219,6 +219,7 @@ Route::group(['prefix' => 'cost-center-sector-map/'], function () {
     Route::post('/project-wise-entity-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_entity_list']);
     Route::post('/project-wise-cost-center-list', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cost_center_list']);
     Route::post('/cost-centers', [\App\Http\Controllers\CostCenterProjectController::class, 'sectorCostCenters']);
+    Route::post('/get-project-map-cos-center-autoselect', [\App\Http\Controllers\CostCenterProjectController::class, 'get_project_map_cos_center_autoselect']);
 });
 
 //apotti

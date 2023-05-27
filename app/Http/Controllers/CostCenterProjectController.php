@@ -60,4 +60,15 @@ class CostCenterProjectController extends Controller
         }
         return response()->json($response);
     }
+
+    public function get_project_map_cos_center_autoselect(Request $request, CostCenterProjectService $centerProjectService): \Illuminate\Http\JsonResponse
+    {
+        $cost_center_list = $centerProjectService->get_project_map_cos_center_autoselect($request);
+        if (isSuccessResponse($cost_center_list)) {
+            $response = responseFormat('success', $cost_center_list['data']);
+        } else {
+            $response = responseFormat('error', $cost_center_list['data']);
+        }
+        return response()->json($response);
+    }
 }

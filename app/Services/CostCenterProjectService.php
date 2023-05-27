@@ -120,4 +120,35 @@ class CostCenterProjectService
         return ['status' => 'success', 'data' => $office_data];
 
     }
+
+    public function get_project_map_cos_center_autoselect(Request $request)
+    {
+        $office_name_bn =  $request->cost_center_name_bn;
+
+        $office_list = SectorCostCenter::select('office_id')
+            ->where('sector_id', $request->sector_id)
+            ->where('sector_type', $request->sector_type)
+            ->with('office',function ($q) use ($office_name_bn){
+                $q->where('office_name_eng','like','%'.$office_name_bn.'%');
+            })->get();
+
+        $search_office_list = [];
+        foreach ($office_list as $office){
+            $temp_list['id'] = $office['office_id'];
+            $temp_list['office_name_bn'] = $office['office']['office_name_bng'];
+            $temp_list['office_name_en'] = $office['office']['office_name_eng'];
+            $search_office_list[] = $temp_list;
+        }
+
+        $office_count = !empty($search_office_list) ? count($search_office_list) : 0;
+
+        $data['results'] = $search_office_list;
+        $data['data_count'] = $office_count;
+        $data['pagination']['more']  = true;
+
+        return ['status' => 'success', 'data' => json_encode($data)];
+
+//        return json_encode($data);
+    }
+
 }
