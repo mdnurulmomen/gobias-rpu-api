@@ -6,12 +6,12 @@ Please check the official laravel installation guide for server requirements bef
 
 Clone the repository
 ```
-    git clone https://github.com/mdnurulmomen/network-connector.git
+    git clone https://github.com/mdnurulmomen/gobias-rpu-api.git
 ```
 
 Switch to the repo folder
 ```
-    cd network-connector
+    cd gobias-rpu-api
 ```
 
 Install all the dependencies using composer
